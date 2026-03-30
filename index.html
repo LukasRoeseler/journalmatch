@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Journal Match: Road to Acceptance</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #e74c3c;
+            --bg: #ecf0f1;
+            --card-bg: #fff;
+            --text: #333;
+            --gold: #f1c40f;
+            --diamond: #9b59b6;
+            --success: #27ae60;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; user-select: none; }
+        body { background-color: var(--bg); color: var(--text); overflow: hidden; display: flex; justify-content: center; align-items: center; height: 100vh; touch-action: none; }
+        #app { width: 100%; max-width: 450px; height: 100vh; position: relative; background: var(--bg); box-shadow: 0 0 20px rgba(0,0,0,0.1); display: flex; flex-direction: column; overflow: hidden; }
+        
+        /* Screens */
+        .screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); display: none; flex-direction: column; padding: 20px; z-index: 10; overflow-y: auto;}
+        .screen.active { display: flex; }
+        
+        /* Global Mute Button */
+        #btn-mute { position: absolute; top: 15px; right: 15px; width: 40px; height: 40px; border-radius: 50%; background: var(--primary); color: white; border: none; font-size: 20px; z-index: 999; cursor: pointer; display: flex; justify-content: center; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); transition: transform 0.1s; }
+        #btn-mute:active { transform: scale(0.9); }
+
+        /* Typography & Buttons */
+        h1 { text-align: center; color: var(--primary); margin-bottom: 20px; font-size: 28px; }
+        h2 { color: var(--primary); margin-bottom: 10px; }
+        p { margin-bottom: 15px; line-height: 1.5; font-size: 15px; }
+        button.action-btn { background: var(--primary); color: white; border: none; padding: 15px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin-bottom: 10px; transition: transform 0.1s; width: 100%; display: block; }
+        button.action-btn:active { transform: scale(0.95); background: #1a252f; }
+        .btn-outline { background: transparent !important; border: 2px solid var(--primary) !important; color: var(--primary) !important; }
+        .btn-outline:active { background: rgba(0,0,0,0.05) !important; }
+        
+        /* Game UI */
+        #game-header { padding: 20px 15px 15px 15px; background: white; border-bottom: 2px solid #ddd; z-index: 5; }
+        .stats-row { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 5px; font-size: 16px; }
+        .progress-label { text-align: center; font-size: 14px; font-weight: bold; margin-bottom: 5px; color: var(--primary); }
+        .progress-bar { width: 100%; height: 15px; background: #ecf0f1; border-radius: 10px; overflow: hidden; position: relative; border: 1px solid #bdc3c7; }
+        .progress-fill { height: 100%; background: var(--success); width: 0%; transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .warning-flash { animation: flashRed 1s infinite alternate; }
+        @keyframes flashRed { from { background: var(--bg); } to { background: #fadbd8; } }
+
+        /* Swipe Area */
+        #swipe-container { flex: 1; position: relative; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .card { width: 100%; max-width: 320px; height: 420px; background: var(--card-bg); border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); position: absolute; display: flex; flex-direction: column; align-items: center; padding: 20px; transition: transform 0.2s ease; cursor: grab; }
+        .card.dragging { transition: none; cursor: grabbing; }
+        
+        .journal-logo { width: 80px; height: 80px; image-rendering: pixelated; margin-bottom: 15px; }
+        .journal-title { font-size: 22px; font-weight: bold; text-align: center; margin-bottom: 5px; }
+        .journal-oa { font-size: 13px; font-weight: bold; padding: 4px 10px; border-radius: 5px; margin-bottom: 15px; text-transform: uppercase; }
+        .oa-closed { background: #eee; color: #555; }
+        .oa-gold { background: var(--gold); color: #000; }
+        .oa-diamond { background: var(--diamond); color: #fff; }
+        .oa-predatory { background: var(--accent); color: #fff; }
+        
+        .stat-grid { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; text-align: center; }
+        .stat-box { background: #f8f9fa; padding: 10px; border-radius: 8px; border: 1px solid #eee; }
+        .stat-val { font-size: 18px; font-weight: bold; color: var(--primary); }
+        .stat-label { font-size: 12px; color: #7f8c8d; }
+
+        #controls-hint { text-align: center; color: #aaa; font-size: 13px; position: absolute; bottom: 20px; width: 100%; left: 0; }
+
+        /* Overlays & Popups */
+        #review-overlay { position: absolute; top:0;left:0;width:100%;height:100%; background:rgba(255,255,255,0.95); z-index: 20; display: none; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; }
+        .spinner { width: 60px; height: 60px; border: 6px solid #ddd; border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .popup-modal { position: absolute; top:0;left:0;width:100%;height:100%; background:rgba(0,0,0,0.6); z-index: 30; display: none; justify-content: center; align-items: center; padding: 20px; }
+        .popup-content { background: white; padding: 25px; border-radius: 10px; width: 100%; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        .popup-content h3 { color: var(--accent); margin-bottom: 15px; }
+
+        /* Toast Notifications */
+        #toast-container { position: absolute; top: 120px; left: 0; width: 100%; display: flex; flex-direction: column; align-items: center; z-index: 40; pointer-events: none; }
+        .toast { background: rgba(0,0,0,0.8); color: white; padding: 10px 20px; border-radius: 20px; font-size: 14px; margin-bottom: 10px; opacity: 0; transform: translateY(-20px); transition: all 0.3s; font-weight: bold; }
+        .toast.show { opacity: 1; transform: translateY(0); }
+
+        /* Socials */
+        .social-btn { display: inline-block; padding: 10px 15px; margin: 5px; border-radius: 5px; color: white; text-decoration: none; font-size: 14px; font-weight: bold; }
+        .bg-bsky { background: #0085ff; }
+        .bg-x { background: #000; }
+        .bg-masto { background: #2b90d9; }
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <!-- GLOBAL MUTE BUTTON -->
+    <button id="btn-mute" aria-label="Toggle Mute">🔊</button>
+
+    <!-- MAIN MENU -->
+    <div id="screen-menu" class="screen active" style="justify-content: center;">
+        <!-- Logo: Romantic Journals -->
+        <svg viewBox="0 0 100 100" width="140" height="140" style="margin: 0 auto 10px; display: block;">
+            <!-- Document 1 (Left swipe) -->
+            <rect x="20" y="25" width="40" height="50" fill="#ecf0f1" stroke="#2c3e50" stroke-width="4" transform="rotate(-15 40 50)" />
+            <line x1="30" y1="35" x2="50" y2="35" stroke="#bdc3c7" stroke-width="3" transform="rotate(-15 40 50)" />
+            <line x1="30" y1="45" x2="45" y2="45" stroke="#bdc3c7" stroke-width="3" transform="rotate(-15 40 50)" />
+            <!-- Document 2 (Right swipe) -->
+            <rect x="40" y="25" width="40" height="50" fill="#ecf0f1" stroke="#2c3e50" stroke-width="4" transform="rotate(15 60 50)" />
+            <line x1="50" y1="35" x2="70" y2="35" stroke="#bdc3c7" stroke-width="3" transform="rotate(15 60 50)" />
+            <line x1="50" y1="45" x2="65" y2="45" stroke="#bdc3c7" stroke-width="3" transform="rotate(15 60 50)" />
+            <!-- Glowing Heart Overlay -->
+            <path d="M50 48 C50 48 38 35 25 48 C12 61 50 88 50 88 C50 88 88 61 75 48 C62 35 50 48 50 48 Z" fill="#e74c3c" stroke="#fff" stroke-width="2" />
+        </svg>
+
+        <h1>Journal Match:<br>Road to Acceptance</h1>
+        <p style="text-align: center; color: #7f8c8d; font-style: italic; margin-bottom: 25px;">Swipe right on the journal of your dreams.</p>
+        
+        <button id="btn-play" class="action-btn">Start Research (Play)</button>
+        <button id="btn-tutorial" class="action-btn btn-outline">How to Play</button>
+        <button id="btn-about" class="action-btn btn-outline">About / Context</button>
+    </div>
+
+    <!-- TUTORIAL -->
+    <div id="screen-tutorial" class="screen">
+        <h2>How to Play</h2>
+        <p>You need <b>3 published papers</b> to graduate.</p>
+        <p>👉 <b>Swipe Right (or Right Arrow)</b> to submit to a journal.<br>
+           👈 <b>Swipe Left (or Left Arrow)</b> to reject a journal.</p>
+        <p>⏰ <b>Time is ticking:</b> 20 seconds = 1 PhD Year. You have a max of 6 years. Taking longer than 3 years hurts your score and triggers stress music!</p>
+        <p>💰 <b>APCs (Article Processing Charges):</b> High impact factors cost lots of money. Minimize your costs for a high score.</p>
+        <p>⚠️ <b>Predatory Journals:</b> They accept instantly and are cheap, but yield <b>0 citations</b>!</p>
+        <p>👻 <b>Ghosted:</b> Sometimes (10% chance) you wait 5 months and they just reject you because they "couldn't find reviewers".</p>
+        <button id="btn-tut-back" class="action-btn" style="margin-top: auto;">Back to Menu</button>
+    </div>
+
+    <!-- ABOUT -->
+    <div id="screen-about" class="screen">
+        <h2>The Reality of Publishing</h2>
+        <p>This game is a satirical but grimly accurate reflection of academic publishing.</p>
+        <p>Early career researchers face immense pressure to "Publish or Perish". They navigate exorbitant Article Processing Charges (APCs) dictated by a multi-billion dollar oligopoly of publishers.</p>
+        <p>Meanwhile, review processes rely on free, uncompensated labor from peers, causing massive delays.</p>
+        <p>Initiatives like the German <b>#ichbinhanna</b> movement highlight the precarious working conditions and short-term contracts forced upon academics while they wait in this publication purgatory.</p>
+        <button id="btn-about-back" class="action-btn" style="margin-top: auto;">Back to Menu</button>
+    </div>
+
+    <!-- GAME UI -->
+    <div id="screen-game" class="screen" style="padding: 0;">
+        <div id="game-header">
+            <div class="progress-label" id="ui-papers-text">Published Manuscripts: 0 / 3</div>
+            <div class="progress-bar" style="margin-bottom: 10px;">
+                <div id="ui-progress" class="progress-fill"></div>
+            </div>
+            <div class="stats-row">
+                <span id="ui-year" style="color:var(--primary);">Year: 0.0</span>
+                <span id="ui-apc" style="color:#7f8c8d; font-size:14px;">APCs: $0</span>
+            </div>
+            <div id="ui-warning" style="color:var(--accent); font-weight:bold; font-size:12px; text-align:center; display:none; margin-top:5px;">⚠️ FUNDING WARNING: OVER 3 YEARS!</div>
+        </div>
+
+        <div id="toast-container"></div>
+
+        <div id="swipe-container">
+            <!-- Cards injected here -->
+            <div id="controls-hint">Swipe or use Keyboard Arrows &larr; &rarr;</div>
+        </div>
+
+        <!-- Review Overlay -->
+        <div id="review-overlay">
+            <div class="spinner"></div>
+            <h2 id="review-text">Under Review...</h2>
+            <p style="margin-top: 10px; color: #555; font-weight: bold;">(Time continues passing!)</p>
+            <p id="review-subtext" style="margin-top: 5px; color: #888; font-size:13px;">Waiting for Reviewer #2...</p>
+        </div>
+
+        <!-- Popup Modal (Review Invites) -->
+        <div id="popup-invite" class="popup-modal">
+            <div class="popup-content">
+                <h3>Review Invitation!</h3>
+                <p>You have been invited to review a paper:</p>
+                <p id="invite-title" style="font-style: italic; font-weight: bold; margin: 15px 0; color:var(--primary);"></p>
+                <p style="font-size: 12px; color: #777; margin-bottom: 15px;">You must decline to focus on your own survival.</p>
+                <button id="btn-decline-review" class="action-btn">Decline & Continue</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOADING SCREEN -->
+    <div id="screen-loading" class="screen" style="justify-content: center; align-items: center; background: var(--primary); color: white;">
+        <div class="spinner" style="border-top-color: white;"></div>
+        <h2 style="color:white;">Post-Doc Purgatory...</h2>
+        <p style="margin-top: 15px; text-align:center;">Waiting for Citations to accumulate...<br><span style="font-size:12px; opacity:0.7;">(This takes exactly 5 seconds)</span></p>
+    </div>
+
+    <!-- END SCREEN -->
+    <div id="screen-end" class="screen">
+        <h1 id="end-title" style="font-size: 26px;">Defense Complete!</h1>
+        <div class="stat-grid" style="margin-bottom: 20px;">
+            <div class="stat-box"><div class="stat-val" id="end-years">0</div><div class="stat-label">Years Taken</div></div>
+            <div class="stat-box"><div class="stat-val" id="end-apc">$0</div><div class="stat-label">Total APCs</div></div>
+            <div class="stat-box"><div class="stat-val" id="end-citations">0</div><div class="stat-label">Total Citations</div></div>
+            <div class="stat-box"><div class="stat-val" id="end-score">0</div><div class="stat-label">Final Score</div></div>
+        </div>
+        
+        <p id="end-msg" style="text-align: center; font-weight: bold; margin-bottom: 15px;"></p>
+
+        <button id="btn-cert" class="action-btn" style="background:var(--success);">Download PhD Certificate</button>
+        
+        <div style="text-align: center; margin-top: 15px; padding-top: 15px; border-top: 1px solid #ddd;">
+            <p style="font-size: 14px; margin-bottom: 10px; font-weight:bold;">Share your academic trauma:</p>
+            <a href="#" id="share-bsky" class="social-btn bg-bsky" target="_blank">Bluesky</a>
+            <a href="#" id="share-x" class="social-btn bg-x" target="_blank">X/Twitter</a>
+            <a href="#" id="share-masto" class="social-btn bg-masto" target="_blank">Mastodon</a>
+        </div>
+
+        <button id="btn-replay" class="action-btn btn-outline" style="margin-top: 25px;">Play Again</button>
+    </div>
+</div>
+
+<!-- Hidden Canvas for Certificate Generation -->
+<canvas id="cert-canvas" width="800" height="600" style="display:none;"></canvas>
+
+<script>
+    /* =========================================
+       SUPABASE CONFIGURATION (Edit these!)
+       ========================================= */
+    const SUPABASE_URL = 'YOUR_SUPABASE_URL'; // e.g., 'https://xyz.supabase.co'
+    const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_KEY';
+
+    /* =========================================
+       GAME STATE & VARIABLES
+       ========================================= */
+    let state = 'MENU'; // MENU, PLAYING, REVIEWING, PAUSED, END
+    let sessionId = crypto.randomUUID ? crypto.randomUUID() : 'session-' + Date.now();
+    let ticks = 0; // 1 tick = 100ms
+    let papers = 0;
+    let totalApc = 0;
+    let paperData = []; 
+    let currentCard = null;
+    let gameTimer = null;
+    let isMuted = false;
+    let isStressPhase = false;
+    
+    const TICKS_PER_YEAR = 200; // 20s = 1 year
+    const MAX_YEARS = 6;
+    const WARNING_YEAR = 3;
+
+    /* =========================================
+       AUDIO ENGINE (Web Audio API)
+       ========================================= */
+    let audioCtx = null;
+    let musicInterval = null;
+    let noteIndex = 0;
+    
+    // Ocarina vibe (Relaxed) vs Ganondorf vibe (Stress)
+    const relaxedNotes = [261.63, 329.63, 392.00, 523.25, 392.00, 329.63]; 
+    const stressNotes = [82.41, 87.31, 82.41, 116.54]; 
+
+    function initAudio() {
+        if (!audioCtx) {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+    }
+
+    function playTone(freq, type, duration, vol) {
+        if (isMuted || !audioCtx) return;
+        try {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+            gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + duration);
+        } catch(e) {}
+    }
+
+    function playSfx(name) {
+        if(isMuted) return;
+        initAudio();
+        if (name === 'btn') { playTone(600, 'sine', 0.1, 0.1); }
+        if (name === 'swipe-left') { playTone(200, 'triangle', 0.15, 0.1); }
+        if (name === 'swipe-right') {
+            playTone(400, 'sine', 0.1, 0.1);
+            setTimeout(()=>playTone(600, 'sine', 0.15, 0.1), 100);
+        }
+        if (name === 'accept') {
+            playTone(523.25, 'sine', 0.1, 0.1); 
+            setTimeout(()=>playTone(659.25, 'sine', 0.1, 0.1), 100); 
+            setTimeout(()=>playTone(783.99, 'sine', 0.3, 0.1), 200); 
+        }
+        if (name === 'reject') {
+            playTone(200, 'sawtooth', 0.2, 0.1);
+            setTimeout(()=>playTone(150, 'sawtooth', 0.4, 0.1), 200);
+        }
+    }
+
+    function startMusic() {
+        initAudio();
+        if (musicInterval) clearInterval(musicInterval);
+        noteIndex = 0;
+        musicInterval = setInterval(() => {
+            if(isMuted || (state !== 'PLAYING' && state !== 'REVIEWING')) return; 
+            if (!isStressPhase) {
+                playTone(relaxedNotes[noteIndex % relaxedNotes.length], 'sine', 0.5, 0.05);
+                noteIndex++;
+            } else {
+                playTone(stressNotes[noteIndex % stressNotes.length], 'sawtooth', 0.2, 0.1);
+                if (noteIndex % 4 === 0) playTone(stressNotes[0]*2, 'square', 0.1, 0.05); 
+                noteIndex++;
+            }
+        }, isStressPhase ? 250 : 500);
+    }
+
+    function stopMusic() {
+        if (musicInterval) clearInterval(musicInterval);
+    }
+
+    /* =========================================
+       UI BINDINGS & BUTTON LOGIC
+       ========================================= */
+    document.addEventListener('DOMContentLoaded', () => {
+        // Main Menu
+        document.getElementById('btn-play').addEventListener('click', () => { playSfx('btn'); startGame(); });
+        document.getElementById('btn-tutorial').addEventListener('click', () => { playSfx('btn'); showScreen('screen-tutorial'); });
+        document.getElementById('btn-about').addEventListener('click', () => { playSfx('btn'); showScreen('screen-about'); });
+        
+        // Back Buttons
+        document.getElementById('btn-tut-back').addEventListener('click', () => { playSfx('btn'); showScreen('screen-menu'); });
+        document.getElementById('btn-about-back').addEventListener('click', () => { playSfx('btn'); showScreen('screen-menu'); });
+        
+        // In-game popups
+        document.getElementById('btn-decline-review').addEventListener('click', () => { 
+            playSfx('btn'); 
+            document.getElementById('popup-invite').style.display = 'none';
+            state = 'PLAYING';
+        });
+
+        // End screen
+        document.getElementById('btn-cert').addEventListener('click', () => { playSfx('btn'); downloadCert(); });
+        document.getElementById('btn-replay').addEventListener('click', () => { playSfx('btn'); location.reload(); });
+
+        // Mute Button
+        document.getElementById('btn-mute').addEventListener('click', () => {
+            isMuted = !isMuted;
+            document.getElementById('btn-mute').innerText = isMuted ? '🔇' : '🔊';
+            initAudio(); // Required to unlock audio context on iOS if they click mute first
+        });
+    });
+
+    function showScreen(id) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+    }
+
+    function showToast(msg, isError = false) {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.innerText = msg;
+        if(isError) toast.style.backgroundColor = 'var(--accent)';
+        else toast.style.backgroundColor = 'var(--success)';
+        
+        container.appendChild(toast);
+        setTimeout(() => toast.classList.add('show'), 10);
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 300);
+        }, 2500);
+    }
+
+    /* =========================================
+       DATA GENERATION
+       ========================================= */
+    const logos = {
+        elsevillain: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23ecf0f1"/><path d="M50 90 L50 40 M30 20 L50 40 L70 10" stroke="%232c3e50" stroke-width="8" fill="none"/></svg>',
+        sprinter: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23ecf0f1"/><circle cx="50" cy="50" r="30" stroke="%23e74c3c" stroke-width="8" fill="none"/><path d="M30 50 L70 50 L50 20 Z" fill="%23e74c3c"/></svg>',
+        wile: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23ecf0f1"/><path d="M20 80 L80 80 L50 20 Z" fill="%23f39c12"/><circle cx="40" cy="50" r="5" fill="%23000"/><circle cx="60" cy="50" r="5" fill="%23000"/></svg>',
+        tailor: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23ecf0f1"/><path d="M20 20 L80 80 M20 80 L80 20" stroke="%2334495e" stroke-width="10"/></svg>',
+        community: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23ecf0f1"/><circle cx="50" cy="30" r="15" fill="%2327ae60"/><path d="M20 90 Q50 40 80 90 Z" fill="%2327ae60"/></svg>',
+        shady: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23000"/><text x="50" y="65" font-size="60" font-family="monospace" fill="%232ecc71" text-anchor="middle">$</text></svg>'
+    };
+
+    const publishers = [
+        { id: 'elsevillain', name: 'Elsevillain', logo: logos.elsevillain, type: 'legit', oa: 'closed' },
+        { id: 'sprinter', name: 'Sprinter', logo: logos.sprinter, type: 'legit', oa: 'gold' },
+        { id: 'wile', name: 'Wile E. Pubs', logo: logos.wile, type: 'legit', oa: 'gold' },
+        { id: 'tailor', name: 'Tailor & Frances', logo: logos.tailor, type: 'legit', oa: 'closed' },
+        { id: 'community', name: 'The Communi-Team', logo: logos.community, type: 'community', oa: 'diamond' },
+        { id: 'shady', name: 'Shady Publishing Inc.', logo: logos.shady, type: 'predatory', oa: 'predatory' }
+    ];
+
+    const topics = ["Machine Learning", "Quantum Computing", "Sociological Behavior", "Climate Change", "Neuroscience", "Blockchain"];
+    const buzz = ["Paradigm Shift", "Meta-Analysis", "Novel Approach", "Empirical Study", "Critical Review"];
+
+    function generateJournal() {
+        const p = publishers[Math.floor(Math.random() * publishers.length)];
+        let IF = (Math.random() * 19.5 + 0.5).toFixed(1);
+        let APC = 0;
+        let reviewTime = 0; // ms
+
+        if (p.type === 'predatory') {
+            IF = (Math.random() * 10 + 15).toFixed(1); // Fake high IF
+            APC = Math.floor(Math.random() * 400 + 100); 
+            reviewTime = 0; // Instant
+        } else if (p.type === 'community') {
+            APC = 0;
+            reviewTime = Math.floor(Math.random() * 4000 + 2000); // 2-6s
+        } else {
+            // Legit: APC correlates with IF
+            if (p.oa === 'gold') {
+                APC = Math.floor(IF * 300 + Math.random() * 1000);
+            }
+            reviewTime = Math.floor(Math.random() * 4000 + 2000); // 2-6s
+        }
+
+        if(APC > 0 && APC < 500 && p.type !== 'predatory') APC = 500;
+        if(APC > 12000) APC = 12000;
+
+        return { publisher: p, IF: parseFloat(IF), APC, reviewTime };
+    }
+
+    /* =========================================
+       CORE GAMEPLAY
+       ========================================= */
+    function startGame() {
+        ticks = 0; papers = 0; totalApc = 0; paperData = [];
+        isStressPhase = false;
+        document.getElementById('app').classList.remove('warning-flash');
+        document.getElementById('ui-warning').style.display = 'none';
+        
+        updateHeader();
+        showScreen('screen-game');
+        state = 'PLAYING';
+        
+        startMusic();
+        gameTimer = setInterval(gameLoop, 100);
+        spawnCard();
+    }
+
+    function updateHeader() {
+        let years = (ticks / TICKS_PER_YEAR).toFixed(1);
+        document.getElementById('ui-year').innerText = `Year: ${years}`;
+        document.getElementById('ui-papers-text').innerText = `Published Manuscripts: ${papers} / 3`;
+        document.getElementById('ui-progress').style.width = `${(papers/3)*100}%`;
+        document.getElementById('ui-apc').innerText = `APCs: $${totalApc}`;
+
+        if (years >= WARNING_YEAR && !isStressPhase) {
+            isStressPhase = true;
+            document.getElementById('app').classList.add('warning-flash');
+            document.getElementById('ui-warning').style.display = 'block';
+        }
+        
+        if (years >= MAX_YEARS) endGame(false);
+    }
+
+    function gameLoop() {
+        if (state !== 'PLAYING' && state !== 'REVIEWING') return;
+        ticks++;
+        updateHeader();
+
+        // Random review invitation (~2 per in-game year)
+        if (state === 'PLAYING' && Math.random() < 0.01) {
+            state = 'PAUSED';
+            playSfx('btn');
+            document.getElementById('invite-title').innerText = `A ${buzz[Math.floor(Math.random()*buzz.length)]} to ${topics[Math.floor(Math.random()*topics.length)]}`;
+            document.getElementById('popup-invite').style.display = 'flex';
+        }
+    }
+
+    /* CARD SWIPING MECHANICS */
+    let startX = 0, currentX = 0, isDragging = false, cardEl = null;
+
+    function spawnCard() {
+        const container = document.getElementById('swipe-container');
+        container.querySelectorAll('.card').forEach(c => c.remove());
+        
+        currentCard = generateJournal();
+        cardEl = document.createElement('div');
+        cardEl.className = 'card';
+        
+        let oaClass = `oa-${currentCard.publisher.oa}`;
+        let oaText = currentCard.publisher.oa.toUpperCase() + (currentCard.publisher.oa==='closed'?' ACCESS':' OA');
+        if(currentCard.publisher.type === 'predatory') { oaClass = 'oa-predatory'; oaText = "GOLD OA (PREDATORY!)"; }
+
+        cardEl.innerHTML = `
+            <img src="${currentCard.publisher.logo}" class="journal-logo">
+            <div class="journal-title">${currentCard.publisher.name}</div>
+            <div class="journal-oa ${oaClass}">${oaText}</div>
+            <div class="stat-grid">
+                <div class="stat-box"><div class="stat-val">${currentCard.IF}</div><div class="stat-label">Impact Factor</div></div>
+                <div class="stat-box"><div class="stat-val">$${currentCard.APC}</div><div class="stat-label">APC</div></div>
+                <div class="stat-box" style="grid-column: span 2;"><div class="stat-val">${currentCard.reviewTime===0 ? 'Instant' : '2-6 Months'}</div><div class="stat-label">Est. Review Time</div></div>
+            </div>
+        `;
+
+        // Touch & Mouse bindings
+        cardEl.addEventListener('mousedown', dragStart);
+        cardEl.addEventListener('touchstart', dragStart, {passive: true});
+        document.addEventListener('mousemove', dragMove);
+        document.addEventListener('touchmove', dragMove, {passive: false});
+        document.addEventListener('mouseup', dragEnd);
+        document.addEventListener('touchend', dragEnd);
+
+        cardEl.timeShown = Date.now();
+        container.appendChild(cardEl);
+    }
+
+    function dragStart(e) {
+        if (state !== 'PLAYING') return;
+        isDragging = true;
+        startX = e.type.includes('mouse') ? e.pageX : e.touches[0].pageX;
+        cardEl.classList.add('dragging');
+    }
+
+    function dragMove(e) {
+        if (!isDragging || state !== 'PLAYING') return;
+        e.preventDefault(); 
+        let x = e.type.includes('mouse') ? e.pageX : e.touches[0].pageX;
+        currentX = x - startX;
+        cardEl.style.transform = `translateX(${currentX}px) rotate(${currentX * 0.05}deg)`;
+    }
+
+    function dragEnd() {
+        if (!isDragging || state !== 'PLAYING') return;
+        isDragging = false;
+        cardEl.classList.remove('dragging');
+        
+        const threshold = 90;
+        if (currentX > threshold) handleDecision('RIGHT');
+        else if (currentX < -threshold) handleDecision('LEFT');
+        else cardEl.style.transform = `translateX(0) rotate(0)`; 
+        currentX = 0;
+    }
+
+    // Keyboard support
+    document.addEventListener('keydown', (e) => {
+        if (state !== 'PLAYING') return;
+        if (e.key === 'ArrowLeft') handleDecision('LEFT');
+        if (e.key === 'ArrowRight') handleDecision('RIGHT');
+    });
+
+    function handleDecision(dir) {
+        const rt = Date.now() - cardEl.timeShown;
+        
+        sendSupabaseTrial({
+            session_id: sessionId,
+            journal_publisher: currentCard.publisher.name,
+            impact_factor: currentCard.IF,
+            apc_cost: currentCard.APC,
+            oa_status: currentCard.publisher.oa,
+            review_time_shown: currentCard.reviewTime,
+            decision_made: dir,
+            reaction_time_ms: rt,
+            current_in_game_year: parseFloat((ticks / TICKS_PER_YEAR).toFixed(2))
+        });
+
+        cardEl.style.transition = 'transform 0.3s ease-out';
+        cardEl.style.transform = `translateX(${dir==='RIGHT'?500:-500}px) rotate(${dir==='RIGHT'?30:-30}deg)`;
+
+        if (dir === 'LEFT') {
+            playSfx('swipe-left');
+            setTimeout(spawnCard, 300); 
+        } else {
+            playSfx('swipe-right');
+            triggerReviewPhase();
+        }
+    }
+
+    function triggerReviewPhase() {
+        state = 'REVIEWING';
+        document.getElementById('review-overlay').style.display = 'flex';
+        
+        // 10% Chance: Could not find reviewers (takes exactly 5s = 5000ms)
+        let isNoReviewer = (Math.random() < 0.10) && currentCard.publisher.type !== 'predatory';
+        let rTime = isNoReviewer ? 5000 : currentCard.reviewTime;
+        
+        if(isNoReviewer) {
+            document.getElementById('review-subtext').innerText = "Struggling to find reviewers...";
+        } else {
+            document.getElementById('review-subtext').innerText = "Waiting for Reviewer #2...";
+        }
+
+        setTimeout(() => {
+            document.getElementById('review-overlay').style.display = 'none';
+            if (isNoReviewer) {
+                playSfx('reject');
+                showToast("Rejected: Could not find reviewers after 5 months!", true);
+                if(papers < 3) { state = 'PLAYING'; spawnCard(); }
+            } else {
+                resolveReview();
+            }
+        }, rTime);
+    }
+
+    function resolveReview() {
+        let isAccepted = currentCard.publisher.type === 'predatory' ? true : Math.random() < 0.7;
+
+        if (isAccepted) {
+            playSfx('accept');
+            papers++;
+            totalApc += currentCard.APC;
+            paperData.push(currentCard);
+            
+            showToast("Paper Accepted!", false);
+            document.getElementById('app').style.backgroundColor = '#d5f5e3';
+            setTimeout(()=> document.getElementById('app').style.backgroundColor = '', 300);
+        } else {
+            playSfx('reject');
+            showToast("Rejected by Reviewer #2!", true);
+            document.getElementById('app').style.backgroundColor = '#fadbd8';
+            setTimeout(()=> document.getElementById('app').style.backgroundColor = '', 300);
+        }
+
+        if (papers >= 3) {
+            updateHeader(); // Ensure progress bar jumps to full immediately
+            setTimeout(() => endGame(true), 500);
+        } else {
+            state = 'PLAYING';
+            spawnCard();
+        }
+    }
+
+    /* =========================================
+       ENDGAME & SCORING
+       ========================================= */
+    function endGame(win) {
+        clearInterval(gameTimer);
+        stopMusic();
+        state = 'END';
+        
+        if (!win) {
+            playSfx('reject');
+            document.getElementById('end-title').innerText = 'Burnout / Failed to Defend';
+            document.getElementById('end-title').style.color = 'var(--accent)';
+            document.getElementById('end-msg').innerText = "You ran out of funding (6 years) before publishing 3 papers.";
+            document.getElementById('btn-cert').style.display = 'none';
+            renderEndStats(0, 0);
+        } else {
+            showScreen('screen-loading');
+            
+            setTimeout(() => {
+                computeFinalScore();
+            }, 5000); // Agonizing wait
+        }
+    }
+
+    function computeFinalScore() {
+        let totalCitations = 0;
+        let predatoryCount = 0;
+
+        paperData.forEach(p => {
+            if (p.publisher.type === 'predatory') {
+                predatoryCount++; // 0 citations
+            } else {
+                totalCitations += Math.floor(Math.random() * 490 + 10); 
+            }
+        });
+
+        const yearsTaken = ticks / TICKS_PER_YEAR;
+        let timePenalty = 0;
+        if (yearsTaken > WARNING_YEAR) {
+            let overTicks = ticks - (WARNING_YEAR * TICKS_PER_YEAR);
+            timePenalty = Math.floor(overTicks / 10) * 50;
+        }
+
+        let finalScore = Math.floor((totalCitations * 100) - (totalApc * 0.1) - timePenalty);
+        if(finalScore < 0) finalScore = 0;
+
+        sendSupabaseHighscore({
+            session_id: sessionId,
+            player_name: "Anonymous_PhD",
+            win_status: true,
+            total_years: parseFloat(yearsTaken.toFixed(2)),
+            total_apc: totalApc,
+            total_citations: totalCitations,
+            predatory_papers_count: predatoryCount,
+            final_score: finalScore
+        });
+
+        renderEndStats(totalCitations, finalScore, yearsTaken, predatoryCount);
+    }
+
+    function renderEndStats(citations, score, years, pred) {
+        showScreen('screen-end');
+        playSfx('accept'); // Win sound
+        
+        document.getElementById('end-years').innerText = (ticks / TICKS_PER_YEAR).toFixed(1);
+        document.getElementById('end-apc').innerText = `$${totalApc}`;
+        document.getElementById('end-citations').innerText = citations;
+        document.getElementById('end-score').innerText = score;
+
+        if (pred > 0) {
+            document.getElementById('end-msg').innerHTML = `Warning:<br>You published in ${pred} predatory journal(s).<br>They yielded 0 citations!`;
+            document.getElementById('end-msg').style.color = 'var(--accent)';
+        } else if (score > 0) {
+            document.getElementById('end-msg').innerText = `Congratulations, Doctor!`;
+            document.getElementById('end-msg').style.color = 'var(--success)';
+        }
+
+        // Setup share links
+        let shareText = `I survived my PhD in ${(ticks/TICKS_PER_YEAR).toFixed(1)} years, spent $${totalApc} in APCs, and scored ${score} on Journal Match: Road to Acceptance! Can you defend faster?`;
+        let encodedText = encodeURIComponent(shareText);
+        let url = encodeURIComponent(window.location.href);
+
+        document.getElementById('share-x').href = `https://twitter.com/intent/tweet?text=${encodedText}&url=${url}`;
+        document.getElementById('share-bsky').href = `https://bsky.app/intent/compose?text=${encodedText} ${url}`;
+        document.getElementById('share-masto').href = `https://mastodonshare.com/?text=${encodedText}&url=${url}`;
+    }
+
+    /* =========================================
+       CERTIFICATE GENERATION (Canvas)
+       ========================================= */
+    function downloadCert() {
+        const canvas = document.getElementById('cert-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        ctx.fillStyle = '#fdfbf7'; 
+        ctx.fillRect(0, 0, 800, 600);
+        
+        ctx.strokeStyle = '#2c3e50';
+        ctx.lineWidth = 15;
+        ctx.strokeRect(20, 20, 760, 560);
+        ctx.lineWidth = 5;
+        ctx.strokeRect(40, 40, 720, 520);
+
+        ctx.fillStyle = '#2c3e50';
+        ctx.textAlign = 'center';
+        
+        ctx.font = 'bold 40px serif';
+        ctx.fillText('CERTIFICATE OF DOCTORAL ENDURANCE', 400, 120);
+        
+        ctx.font = 'italic 25px serif';
+        ctx.fillText('This certifies that the player has survived', 400, 190);
+        
+        ctx.font = 'bold 35px sans-serif';
+        ctx.fillText((ticks / TICKS_PER_YEAR).toFixed(1) + ' Years of Publishing Purgatory', 400, 250);
+
+        ctx.font = '25px serif';
+        ctx.fillText(`Spent: $${totalApc} in APCs`, 400, 330);
+        ctx.fillText(`Earned: ${document.getElementById('end-citations').innerText} Citations`, 400, 380);
+        
+        ctx.font = 'bold 30px sans-serif';
+        ctx.fillStyle = '#e74c3c';
+        ctx.fillText(`Final Defense Score: ${document.getElementById('end-score').innerText}`, 400, 450);
+
+        ctx.fillStyle = '#2c3e50';
+        ctx.font = '20px cursive';
+        ctx.fillText('Reviewer #2', 200, 530);
+        ctx.fillText('Elsevillain CEO', 600, 530);
+        
+        ctx.beginPath(); ctx.moveTo(100, 500); ctx.lineTo(300, 500); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(500, 500); ctx.lineTo(700, 500); ctx.stroke();
+
+        const link = document.createElement('a');
+        link.download = 'PhD_Certificate.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+    }
+
+    /* =========================================
+       SUPABASE INTEGRATION (REST API)
+       ========================================= */
+    function sendSupabaseTrial(data) {
+        if(SUPABASE_URL === 'YOUR_SUPABASE_URL') return;
+        fetch(`${SUPABASE_URL}/rest/v1/trial_data`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` },
+            body: JSON.stringify(data)
+        }).catch(err => console.error("DB Error:", err));
+    }
+
+    function sendSupabaseHighscore(data) {
+        if(SUPABASE_URL === 'YOUR_SUPABASE_URL') return;
+        fetch(`${SUPABASE_URL}/rest/v1/highscore_data`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` },
+            body: JSON.stringify(data)
+        }).catch(err => console.error("DB Error:", err));
+    }
+</script>
+</body>
+</html>
