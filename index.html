@@ -45,7 +45,6 @@
         
         /* Game UI (Header) */
         #game-header { padding: 15px 15px 10px 15px; background: #000; border-bottom: 4px solid var(--neon-pink); z-index: 5; display: flex; flex-direction: column; align-items: center; }
-        
         #current-manuscript { font-size: 18px; color: var(--neon-yellow); text-align: center; margin-bottom: 10px; min-height: 44px; line-height: 1.1; font-style: italic; width: 100%; }
 
         .boxes-container { display: flex; gap: 15px; margin-bottom: 15px; }
@@ -93,12 +92,17 @@
         .toast { background: #000; border: 2px solid; color: white; padding: 15px; font-size: 18px; margin-bottom: 10px; opacity: 0; transform: translateY(-20px); transition: all 0.2s; box-shadow: 4px 4px 0 #000; text-align: center; white-space: pre-line; line-height: 1.2; width: 90%;}
         .toast.show { opacity: 1; transform: translateY(0); }
 
-        /* Receipt Style */
-        .receipt { background: #fff; color: #000; padding: 15px; border: 2px dashed #000; margin-bottom: 15px; font-family: monospace; font-size: 18px; text-shadow: none; width: 100%; box-shadow: 4px 4px 0 #000; }
-        .receipt-row { display: flex; justify-content: space-between; margin-bottom: 5px; }
-        .receipt hr { border: none; border-top: 2px dashed #000; margin: 10px 0; }
+        /* Certificate / End Screen UI */
+        .cert-box { background: #fdfbf7; color: #2c3e50; padding: 20px; border: 4px solid #2c3e50; outline: 2px solid #e94560; outline-offset: -8px; margin-bottom: 15px; width: 100%; box-shadow: 6px 6px 0 #000; text-shadow: none; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; flex-direction: column; align-items: center; }
+        .cert-header { font-size: 24px; font-weight: bold; text-align: center; margin-bottom: 5px; color: #2c3e50; font-family: 'VT323', monospace; text-transform: uppercase; }
+        .cert-sub { font-size: 16px; text-align: center; margin-bottom: 15px; font-style: italic; }
+        .cert-time { font-size: 26px; font-weight: bold; color: #e74c3c; margin-bottom: 15px; text-align: center; background: #fadbd8; padding: 5px 15px; border-radius: 5px; border: 2px solid #e74c3c; }
+        .cert-papers { width: 100%; margin-bottom: 15px; text-align: left; border-top: 2px solid #ccc; padding-top: 10px; }
+        .cert-paper-item { margin-bottom: 8px; font-size: 14px; line-height: 1.2; }
+        .cert-paper-title { font-weight: bold; }
+        .cert-paper-journal { font-style: italic; color: #555; }
+        .cert-footer { width: 100%; font-size: 12px; color: #7f8c8d; text-align: center; border-top: 1px solid #ccc; padding-top: 10px; }
 
-        /* Serious Box */
         .serious-box { background: rgba(255, 0, 127, 0.1); border: 2px solid var(--neon-pink); padding: 15px; margin-bottom: 15px; text-shadow: none; }
         .serious-box a { color: var(--neon-cyan); text-decoration: underline; }
 
@@ -166,6 +170,8 @@
             <p style="font-size:16px; margin-bottom:10px;">Burnout and mental health crises in academia are serious and common (<a href="https://doi.org/10.1177/1745691619898848" target="_blank">see research here</a>).</p>
             <p style="font-size:16px; margin-bottom:0;">If you are affected, please seek help. In Germany, contact <a href="https://www.telefonseelsorge.de/" target="_blank">TelefonSeelsorge (111 0 111)</a> or visit <a href="https://hilfetelefon.de" target="_blank">hilfetelefon.de</a>.</p>
         </div>
+        
+        <p style="font-size: 14px; color: #888;">Disclaimer: Names of articles and journals are procedurally generated. Any resemblance to real-life research or actual publications is purely coincidental.</p>
 
         <button id="btn-about-back" class="action-btn" style="margin-top: auto;">Back</button>
     </div>
@@ -213,28 +219,32 @@
     </div>
 
     <!-- END SCREEN -->
-    <div id="screen-end" class="screen">
-        <h1 id="end-title" style="font-size: 32px; color: var(--neon-green); margin-bottom: 0;">DEFENSE COMPLETE!</h1>
-        <p id="end-subtitle" style="text-align:center; margin-bottom:10px; color: var(--neon-yellow);"></p>
+    <div id="screen-end" class="screen" style="align-items: center;">
         
-        <p style="text-align:center; font-size: 22px; color: var(--neon-cyan); margin-bottom: 10px;">Your Author Profile:<br><b id="end-profile" style="color:var(--white);"></b></p>
-        
-        <!-- Receipt -->
-        <div class="receipt">
-            <div class="receipt-row"><span>Time Taken:</span><span id="end-years">0</span></div>
-            <div class="receipt-row"><span>Total APCs:</span><span id="end-apc">$0</span></div>
-            <hr>
-            <div class="receipt-row" style="font-weight:bold; font-size:20px;"><span>SCORE:</span><span id="end-score">0</span></div>
+        <div class="cert-box">
+            <div class="cert-header" id="cert-status-title">DOCTORAL DEFENSE PASSED</div>
+            <div class="cert-sub">
+                <strong>Dr. <span id="end-name"></span></strong><br>
+                Field: <span id="end-field"></span><br>
+                <span style="font-size: 13px; color: #e74c3c; font-weight:bold;">Profile: <span id="end-profile"></span></span>
+            </div>
+            
+            <div class="cert-time" id="end-time-display">Time: 0 Yrs, 0 Mos</div>
+            
+            <div class="cert-papers" id="end-papers-list">
+                <!-- Papers injected here -->
+            </div>
+            
+            <div class="cert-footer" id="end-footer-notes">
+                <!-- Notes injected here -->
+            </div>
         </div>
-        
-        <p id="end-msg" style="text-align: center; color: var(--neon-pink); font-size: 16px; margin-bottom: 10px;"></p>
 
-        <button id="btn-cert" class="action-btn">Download Certificate</button>
+        <button id="btn-cert" class="action-btn">Download Image</button>
         <button id="btn-replay" class="action-btn btn-cyan">Play Again</button>
-        <button id="btn-end-about" class="action-btn btn-pink">About This Reality</button>
+        <button id="btn-end-about" class="action-btn btn-pink" style="margin-bottom: 5px;">About This Reality</button>
         
-        <div style="text-align: center; margin-bottom: 20px; margin-top: 10px;" id="share-container">
-            <p style="font-size: 16px; margin-bottom: 5px; color:var(--neon-cyan);">Share your result:</p>
+        <div style="text-align: center; margin-top: 10px;" id="share-container">
             <a href="#" id="share-bsky" class="social-btn bg-bsky" target="_blank">Bluesky</a>
             <a href="#" id="share-x" class="social-btn bg-x" target="_blank">X</a>
             <a href="#" id="share-masto" class="social-btn bg-masto" target="_blank">Mastodon</a>
@@ -244,7 +254,7 @@
 
 <!-- Hidden Canvases -->
 <canvas id="logo-canvas" width="8" height="8" style="display:none;"></canvas>
-<canvas id="cert-canvas" width="800" height="600" style="display:none;"></canvas>
+<canvas id="cert-canvas" width="800" height="800" style="display:none;"></canvas>
 
 <script>
     /* =========================================
@@ -272,7 +282,7 @@
     let playerStatus = "";
     let playerAPCExp = "";
     
-    const TICKS_PER_YEAR = 200; // 20s = 1 Year
+    const TICKS_PER_YEAR = 200; 
     const MAX_YEARS = 6;
     const WARNING_YEAR = 3;
 
@@ -283,36 +293,16 @@
        MANUSCRIPT & COMMENT GENERATORS
        ========================================= */
     const msTemplates = [
-        "Towards a unified theory of {field}",
-        "Why everything we know about {field} is wrong",
-        "A meta-analysis of meta-analyses in {field}",
-        "The impact of {field} on modern society",
-        "Re-evaluating the fundamental paradigms of {field}",
-        "A novel approach to {field} methodologies",
-        "The hidden crisis within {field}",
-        "Machine learning applications in {field}",
-        "Historical perspectives on {field}",
-        "Future directions for {field} research",
-        "A critical review of {field} literature",
-        "Bridging the gap between {field} and reality",
-        "The paradox of choice in {field}",
-        "Empirical evidence supporting new {field} theories",
-        "Deconstructing the myths of {field}",
-        "A longitudinal study of {field} dynamics",
-        "The role of artificial intelligence in {field}",
-        "Ethical considerations in {field}",
-        "A qualitative analysis of {field} practitioners",
-        "Quantitative bounds of {field} theorems",
-        "The intersection of {field} and public policy",
-        "Disruptive innovations in {field}",
-        "A comprehensive framework for {field}",
-        "The evolution of {field} over the last decade",
-        "Challenges and opportunities in {field}",
-        "An exploratory study into {field}",
-        "Demystifying complex systems in {field}",
-        "The socio-economic impacts of {field}",
-        "A multi-disciplinary approach to {field}",
-        "Rethinking foundational models in {field}"
+        "Towards a unified theory of {field}", "Why everything we know about {field} is wrong", "A meta-analysis of meta-analyses in {field}",
+        "The impact of {field} on modern society", "Re-evaluating the fundamental paradigms of {field}", "A novel approach to {field} methodologies",
+        "The hidden crisis within {field}", "Machine learning applications in {field}", "Historical perspectives on {field}",
+        "Future directions for {field} research", "A critical review of {field} literature", "Bridging the gap between {field} and reality",
+        "The paradox of choice in {field}", "Empirical evidence supporting new {field} theories", "Deconstructing the myths of {field}",
+        "A longitudinal study of {field} dynamics", "The role of artificial intelligence in {field}", "Ethical considerations in {field}",
+        "A qualitative analysis of {field} practitioners", "Quantitative bounds of {field} theorems", "The intersection of {field} and public policy",
+        "Disruptive innovations in {field}", "A comprehensive framework for {field}", "The evolution of {field} over the last decade",
+        "Challenges and opportunities in {field}", "An exploratory study into {field}", "Demystifying complex systems in {field}",
+        "The socio-economic impacts of {field}", "A multi-disciplinary approach to {field}", "Rethinking foundational models in {field}"
     ];
 
     let availableMs = [];
@@ -369,47 +359,40 @@
     }
 
     /* =========================================
-       CHILL LO-FI AUDIO ENGINE
+       CHILL LO-FI AUDIO ENGINE (A -> B -> A')
        ========================================= */
     let audioCtx = null;
     let noiseBuffer = null;
     let musicTimeout = null;
     let seqStep = 0;
     
-    // Song Parts: Verse, Chorus, Bridge
-    // Let's use jazzy/lofi chords
+    // Lo-Fi Chords
     const Cmaj9 = [130.81, 261.63, 329.63, 392.00, 493.88, 587.33];
     const Am9   = [110.00, 220.00, 261.63, 329.63, 392.00, 493.88];
     const Dm9   = [146.83, 293.66, 349.23, 440.00, 523.25, 659.25];
     const G13   = [98.00,  196.00, 246.94, 349.23, 440.00, 659.25];
-    const Fmaj9 = [87.31,  174.61, 261.63, 329.63, 392.00, 493.88];
-    const E7aug = [82.41,  164.81, 207.65, 293.66, 392.00, 523.25];
     
-    // Progression: Verse(x2) -> Chorus(x2) -> Bridge(x1) -> Chorus(x1)
-    const songStructure = [
-        Cmaj9, Am9, Dm9, G13, Cmaj9, Am9, Dm9, G13, // Verse
-        Fmaj9, Cmaj9, Fmaj9, Cmaj9, Fmaj9, Cmaj9, Dm9, G13, // Chorus
-        E7aug, Am9, E7aug, Am9, Dm9, G13, Cmaj9, G13 // Bridge
-    ];
+    const Fmaj9 = [87.31,  174.61, 261.63, 329.63, 392.00, 493.88];
+    const Em7   = [164.81, 196.00, 246.94, 293.66, 392.00, 493.88];
+    const Cmaj7 = [130.81, 261.63, 329.63, 392.00, 493.88, 523.25];
+
+    const chordsA = [Cmaj9, Am9, Dm9, G13];
+    const chordsB = [Fmaj9, Em7, Dm9, Cmaj7];
 
     function initAudio() {
         if (!audioCtx) {
             audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            
-            // Generate Vinyl Crackle Buffer
             const bufferSize = audioCtx.sampleRate * 2; 
             noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
             const output = noiseBuffer.getChannelData(0);
             for (let i = 0; i < bufferSize; i++) output[i] = Math.random() * 2 - 1;
             
-            // Play continuous very low vinyl noise
             const noiseSrc = audioCtx.createBufferSource();
-            noiseSrc.buffer = noiseBuffer;
-            noiseSrc.loop = true;
+            noiseSrc.buffer = noiseBuffer; noiseSrc.loop = true;
             const filter = audioCtx.createBiquadFilter();
             filter.type = 'lowpass'; filter.frequency.value = 800;
             const gain = audioCtx.createGain();
-            gain.gain.value = 0.005; // Very subtle
+            gain.gain.value = 0.005; // Subtle crackle
             noiseSrc.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination);
             noiseSrc.start();
         }
@@ -421,7 +404,7 @@
         try {
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
-            osc.type = type; osc.frequency.value = freq; osc.detune.value = detune; // Add lo-fi detune
+            osc.type = type; osc.frequency.value = freq; osc.detune.value = detune; 
             osc.connect(gain); gain.connect(audioCtx.destination);
             gain.gain.setValueAtTime(vol, audioCtx.currentTime);
             gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
@@ -434,9 +417,9 @@
         chord.forEach((freq, i) => {
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
-            osc.type = i < 2 ? 'triangle' : 'sine'; // Bass notes triangle, upper notes sine
+            osc.type = i < 2 ? 'triangle' : 'sine'; 
             osc.frequency.value = freq;
-            osc.detune.value = (Math.random() - 0.5) * 10; // Lo-fi pitch wobble
+            osc.detune.value = (Math.random() - 0.5) * 10; 
             osc.connect(gain); gain.connect(audioCtx.destination);
             gain.gain.setValueAtTime(0, audioCtx.currentTime);
             gain.gain.linearRampToValueAtTime(i < 2 ? 0.06 : 0.03, audioCtx.currentTime + 0.1);
@@ -465,7 +448,7 @@
         source.buffer = noiseBuffer;
         filter.type = 'highpass'; filter.frequency.value = 6000;
         source.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination);
-        gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
         source.start();
     }
@@ -478,7 +461,7 @@
         if (name === 'swipe-right') { playTone(400, 'sine', 0.1, 0.1); setTimeout(()=>playTone(600, 'sine', 0.15, 0.1), 100); }
         if (name === 'accept') { playTone(440, 'square', 0.1, 0.1); setTimeout(()=>playTone(554.37, 'square', 0.1, 0.1), 100); setTimeout(()=>playTone(659.25, 'square', 0.3, 0.1), 200); }
         if (name === 'reject') { playTone(200, 'sawtooth', 0.2, 0.1); setTimeout(()=>playTone(150, 'sawtooth', 0.4, 0.1), 150); }
-        if (name === 'warning') { // Trap indicator
+        if (name === 'warning') { 
             playTone(800, 'square', 0.1, 0.1); setTimeout(()=>playTone(1000, 'square', 0.1, 0.1), 100);
             setTimeout(()=>playTone(800, 'square', 0.1, 0.1), 200); setTimeout(()=>playTone(1000, 'square', 0.1, 0.1), 300);
         }
@@ -487,29 +470,35 @@
     function musicLoop() {
         if(isMuted) { musicTimeout = setTimeout(musicLoop, 200); return; }
 
-        let stepDuration = 350; // Base tempo (chill)
+        let stepDuration = 350; 
         if (state === 'PLAYING' || state === 'REVIEWING') {
-            if (ticks > 400) { stepDuration = Math.max(150, 350 - (ticks - 400) * 0.2); } // Speed up past Yr 2
+            if (ticks > 400) { stepDuration = Math.max(150, 350 - (ticks - 400) * 0.2); } 
         }
         
-        // 16-step sequencer (1 measure)
         let subStep = seqStep % 16;
-        let chordIndex = Math.floor(seqStep / 16) % songStructure.length;
+        let measure = Math.floor(seqStep / 16) % 12; 
+        
+        let section = measure < 4 ? 'A' : (measure < 8 ? 'B' : 'A_prime');
+        let chordSet = section === 'B' ? chordsB : chordsA;
+        let currentChord = chordSet[measure % 4];
 
         // Drums
         if (subStep === 0 || subStep === 10) playKick();
         if (subStep % 2 === 0) playHat();
         
         // Chords
-        if (subStep === 0) playSoftChord(songStructure[chordIndex]);
-        if (subStep === 8) playSoftChord(songStructure[chordIndex]); // Soft hit on beat 3
+        if (subStep === 0) playSoftChord(currentChord);
+        if (subStep === 8) playSoftChord(currentChord);
         
-        // Lo-fi Melody noodle (pentatonic based on chord root)
-        if (subStep % 4 === 0 && Math.random() > 0.3) {
-            let root = songStructure[chordIndex][0] * 4; // Shift up 2 octaves
-            let pentatonic = [1, 1.122, 1.25, 1.5, 1.666]; // R, M2, M3, P5, M6
-            let note = root * pentatonic[Math.floor(Math.random()*pentatonic.length)];
-            playTone(note, 'sine', 0.4, 0.05, (Math.random()-0.5)*15);
+        // Bass
+        if (subStep % 4 === 0) playTone(currentChord[0] / 2, 'triangle', 0.4, 0.15);
+
+        // Melody (only in A_prime section)
+        if (section === 'A_prime' && subStep % 2 === 0) {
+            let noteIdx = (subStep / 2) % 4; // 0, 1, 2, 3
+            if (measure % 2 === 1) noteIdx = 3 - noteIdx; // Descending on odd measures
+            let note = currentChord[noteIdx + 2] * 2; // Nice harmonic notes an octave up
+            playTone(note, 'sine', 0.3, 0.05, (Math.random()-0.5)*10);
         }
 
         seqStep++;
@@ -537,7 +526,6 @@
        UI BINDINGS & LOGIC
        ========================================= */
     document.addEventListener('DOMContentLoaded', () => {
-        // Try starting music, browsers may block until interaction
         document.body.addEventListener('click', () => { if(!audioCtx) startMusic(); }, {once:true});
 
         document.getElementById('btn-play').addEventListener('click', () => {
@@ -588,18 +576,6 @@
     /* =========================================
        DATA GENERATION
        ========================================= */
-    const journalTemplates = [
-        "Journal of {field}", "Advances in {field}", "Perspectives on {field}", "{field} Research", "Proceedings in {field}", 
-        "The {field} Review", "International Journal of {field}", "Frontiers in {field}", "Applied {field}", "Theoretical {field}", 
-        "Annual Review of {field}", "Trends in {field}", "Current Opinions in {field}", "Archives of {field}", "The {field} Bulletin", 
-        "{field} Letters", "Quarterly Journal of {field}", "Global {field} Science", "Journal of Applied {field}"
-    ];
-
-    function getJournalName() {
-        if(activeTemplates.length === 0) activeTemplates = [...journalTemplates].sort(() => Math.random() - 0.5);
-        return activeTemplates.pop().replace(/{field}/g, playerField);
-    }
-
     const publisherArchetypes = [
         { type: 'Elsevillain', oa: 'closed', color: '#555555', grid: [0,0,1,1,1,1,0,0, 0,1,1,1,1,1,1,0, 1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1, 0,1,1,1,1,1,1,0, 0,0,0,1,1,0,0,0, 0,0,0,1,1,0,0,0, 0,0,1,1,1,1,0,0]}, 
         { type: 'Sprinter', oa: 'gold', color: '#ff007f', grid: [0,0,0,1,1,1,0,0, 0,0,1,1,1,1,1,0, 0,1,1,1,0,0,0,0, 1,1,1,1,1,1,0,0, 0,1,1,1,1,1,1,0, 0,0,1,1,0,1,1,0, 0,1,1,0,0,0,1,1, 1,1,0,0,0,0,0,1]}, 
@@ -621,7 +597,7 @@
     function getRealisticAPC(IF, isPredatory, isDiamond) {
         if (isDiamond) return 0;
         if (isPredatory) {
-            const predTiers = [800, 950, 1000, 1250]; // Always around 1K
+            const predTiers = [800, 950, 1000, 1250]; 
             return predTiers[Math.floor(Math.random() * predTiers.length)];
         }
         let possibleTiers = [];
@@ -645,12 +621,11 @@
             IF = parseFloat((Math.random() * 10 + 15).toFixed(1)); 
             APC = getRealisticAPC(IF, true, false);
             reviewMonths = 0.5; displayTime = "0.5 Months";
-            accRate = 100; displayAccRate = "100%"; // Trick players
+            accRate = 100; displayAccRate = "100%"; 
         } else {
             APC = arch.oa === 'closed' ? 0 : getRealisticAPC(IF, false, arch.oa === 'diamond');
             reviewMonths = Math.floor(Math.random() * 4) + 1; 
             displayTime = `${reviewMonths} Month${reviewMonths>1?'s':''}`;
-            // Convert rej rate to Acc rate
             let rejRate = Math.min(95, Math.floor(IF * 4 + 10 + Math.random() * 15));
             accRate = 100 - rejRate;
             if(accRate > 60) displayAccRate = "High";
@@ -675,7 +650,7 @@
         document.getElementById('pb-2').className = "paper-box";
         document.getElementById('pb-3').className = "paper-box";
         
-        getNextManuscript(); // generate first title
+        getNextManuscript(); 
         
         updateHeader();
         showScreen('screen-game');
@@ -687,10 +662,8 @@
     }
 
     function updateHeader() {
-        // Timeline Bar
         let pct = (ticks / (MAX_YEARS * TICKS_PER_YEAR)) * 100;
         document.getElementById('time-bar').style.width = `${pct}%`;
-        
         document.getElementById('current-manuscript').innerText = `"${currentMsTitle}"`;
 
         let years = (ticks / TICKS_PER_YEAR).toFixed(1);
@@ -721,7 +694,7 @@
         if(currentCard.archetype.oa === 'closed') oaColor = '#aaa';
         if(currentCard.archetype.oa === 'gold') oaColor = 'var(--neon-yellow)';
         if(currentCard.archetype.oa === 'diamond') oaColor = 'var(--neon-cyan)';
-        if(currentCard.archetype.type === 'Predatory') { oaColor = 'var(--neon-yellow)'; oaText = "GOLD OA"; } // Trap
+        if(currentCard.archetype.type === 'Predatory') { oaColor = 'var(--neon-yellow)'; oaText = "GOLD OA"; }
 
         cardEl.innerHTML = `
             <div class="stamp stamp-reject" id="stamp-rej">SKIP</div>
@@ -734,7 +707,7 @@
             <div class="journal-oa" style="color:${oaColor}; border-color:${oaColor};">${oaText}</div>
             <div class="stat-grid">
                 <div class="stat-box"><div class="stat-val">${currentCard.IF}</div><div class="stat-label">Impact Factor</div></div>
-                <div class="stat-box"><div class="stat-val" style="color:${currentCard.displayAccRate==='100%'?'var(--neon-pink)':'var(--neon-cyan)'}">${currentCard.displayAccRate}</div><div class="stat-label">Acceptance Rate</div></div>
+                <div class="stat-box"><div class="stat-val" style="color:${currentCard.displayAccRate==='100%'?'var(--neon-pink)':'var(--neon-cyan)'}">${currentCard.displayAccRate}</div><div class="stat-label">Accept. Rate</div></div>
                 <div class="stat-box"><div class="stat-val">$${currentCard.APC}</div><div class="stat-label">APC</div></div>
                 <div class="stat-box"><div class="stat-val">${currentCard.displayTime}</div><div class="stat-label">Review Time</div></div>
             </div>
@@ -823,10 +796,8 @@
         let timeLeft = rTime;
         let isDeskReject = false;
 
-        // 10% Desk Reject chance (legit journals only)
         if (currentCard.archetype.type !== 'Predatory' && Math.random() < 0.10) {
-            isDeskReject = true;
-            timeLeft = 500; // instant
+            isDeskReject = true; timeLeft = 500; 
         }
 
         let cdInterval = setInterval(() => {
@@ -839,7 +810,7 @@
                 if (isDeskReject) {
                     showToast(`DESK REJECTED!<br><span style="font-size:16px; color:#aaa;">"${getComment('desk')}"</span>`, true);
                     playSfx('reject');
-                    if (papers < 3) { state = 'PLAYING'; spawnCard(); } // Keep same MsTitle
+                    if (papers < 3) { state = 'PLAYING'; spawnCard(); } 
                 } else {
                     resolveReview();
                 }
@@ -850,32 +821,31 @@
     }
 
     function resolveReview() {
-        // Acceptance probability based on actual numeric rate
         let isAccepted = (Math.random() * 100) < currentCard.accRate;
 
         if (isAccepted) {
-            paperData.push(currentCard); 
             totalApc += currentCard.APC;
+            currentCard.msTitle = currentMsTitle;
+            paperData.push(currentCard); 
             
             if (currentCard.archetype.type === 'Predatory') {
                 showToast(`ACCEPTED!<br><span style="font-size:16px; color:#aaa;">But it's Predatory... DOES NOT COUNT!</span>`, true);
                 playSfx('reject'); 
-                getNextManuscript(); // Generates new title even though scammed
+                getNextManuscript(); 
             } else {
                 papers++;
                 document.getElementById(`pb-${papers}`).classList.add('filled');
                 showToast(`PAPER ACCEPTED!<br><span style="font-size:16px; color:#fff;">"${getComment('accept')}"</span>`, false);
                 playSfx('accept');
-                getNextManuscript(); // Generate new title for next submission
+                getNextManuscript(); 
             }
         } else {
             showToast(`REJECTED BY REVIEWER #2!<br><span style="font-size:16px; color:#aaa;">"${getComment('reject')}"</span>`, true);
             playSfx('reject');
-            // Do NOT generate new title, keep trying to publish currentMsTitle
         }
 
         if (papers >= 3) {
-            state = 'END'; // Stop interactions
+            state = 'END'; 
             setTimeout(() => endGame(true), 500);
         } else {
             state = 'PLAYING';
@@ -887,17 +857,18 @@
        ENDGAME & SCORING
        ========================================= */
     function getAuthorProfile(predatoryCount) {
+        let validPapers = paperData.filter(p => p.archetype.type !== 'Predatory');
         if (predatoryCount > 0) return "The Gullible Scammed";
         if (papers === 0) return "The Burnout";
         if (totalApc === 0) return "The Zero-Budget Scholar";
         
-        let totalIF = paperData.reduce((sum, p) => sum + p.IF, 0);
+        let totalIF = validPapers.reduce((sum, p) => sum + p.IF, 0);
         let avgIF = papers > 0 ? totalIF / papers : 0;
         
         if (avgIF > 10) return "The Prestige Hound";
         if (totalApc >= 10000) return "The Grant Waster";
         
-        let oaCount = paperData.filter(p => p.archetype.oa !== 'closed' && p.archetype.type !== 'Predatory').length;
+        let oaCount = validPapers.filter(p => p.archetype.oa !== 'closed').length;
         if (oaCount === papers && papers > 0) return "The Open Access Crusader";
         
         return "The Pragmatic Survivor";
@@ -907,7 +878,7 @@
         let totalYears = Math.floor(totalTicks / TICKS_PER_YEAR);
         let remainingTicks = totalTicks % TICKS_PER_YEAR;
         let totalMonths = Math.floor((remainingTicks / TICKS_PER_YEAR) * 12);
-        return `${totalYears} Years, ${totalMonths} Months`;
+        return `${totalYears} Yrs, ${totalMonths} Mos`;
     }
 
     function endGame(win) {
@@ -916,11 +887,10 @@
         
         if (!win) {
             playLoseFanfare();
-            document.getElementById('end-title').innerText = 'BURN OUT!';
-            document.getElementById('end-title').style.color = 'var(--neon-pink)';
-            document.getElementById('end-subtitle').innerText = "Funding ran out (6 Years).";
+            document.getElementById('cert-status-title').innerText = 'DEFENSE FAILED';
+            document.getElementById('cert-status-title').style.color = '#e74c3c';
             document.getElementById('btn-cert').style.display = 'none';
-            renderEndStats(0, formatTime(ticks));
+            renderEndStats(formatTime(ticks));
         } else {
             showScreen('screen-loading');
             let dots = 0;
@@ -936,41 +906,45 @@
         let predatoryCount = 0;
         paperData.forEach(p => { if (p.archetype.type === 'Predatory') predatoryCount++; });
 
-        // Simple score based on time and money (since citations are removed)
-        let timePenalty = ticks * 2; 
-        let apcPenalty = Math.floor(totalApc / 10);
-        let finalScore = Math.max(0, 10000 - timePenalty - apcPenalty);
-
         sendSupabaseHighscore({
             session_id: sessionId, player_name: playerName, player_field: playerField,
             academic_status: playerStatus, paid_apc_before: playerAPCExp,
             win_status: true, total_time_ticks: ticks, total_apc: totalApc,
-            predatory_papers_count: predatoryCount, final_score: finalScore
+            predatory_papers_count: predatoryCount
         });
 
-        renderEndStats(finalScore, formatTime(ticks), predatoryCount);
+        renderEndStats(formatTime(ticks), predatoryCount);
     }
 
-    function renderEndStats(score, timeStr, pred = 0) {
+    function renderEndStats(timeStr, pred = 0) {
         showScreen('screen-end');
-        if(score > 0) {
+        if(papers >= 3) {
             playWinFanfare(); 
-            document.getElementById('end-subtitle').innerText = `Dr. ${playerName} | Field: ${playerField}`;
+            document.getElementById('cert-status-title').innerText = 'DOCTORAL DEFENSE PASSED';
+            document.getElementById('cert-status-title').style.color = '#2c3e50';
             document.getElementById('btn-cert').style.display = 'block';
         }
         
+        document.getElementById('end-name').innerText = playerName;
+        document.getElementById('end-field').innerText = playerField;
         document.getElementById('end-profile').innerText = getAuthorProfile(pred);
-        document.getElementById('end-years').innerText = timeStr;
-        document.getElementById('end-apc').innerText = `$${totalApc}`;
-        document.getElementById('end-score').innerText = score;
+        document.getElementById('end-time-display').innerText = `Time Taken: ${timeStr}`;
 
-        if (pred > 0) {
-            document.getElementById('end-msg').innerHTML = `WARNING: You submitted to ${pred} predatory journal(s). They drained your funds.`;
-        } else {
-            document.getElementById('end-msg').innerHTML = "";
-        }
+        // Populate valid papers list
+        let papersListHTML = "";
+        let validPapers = paperData.filter(p => p.archetype.type !== 'Predatory');
+        validPapers.forEach((p, index) => {
+            papersListHTML += `<div class="cert-paper-item"><span class="cert-paper-title">${index+1}. "${p.msTitle}"</span><br><span class="cert-paper-journal">Published in: ${p.name} (IF: ${p.IF})</span></div>`;
+        });
+        document.getElementById('end-papers-list').innerHTML = papersListHTML;
 
-        let shareText = `I got my PhD in ${timeStr} as '${getAuthorProfile(pred)}', spent $${totalApc} in APCs, and scored ${score} on Journal Match! Can you graduate faster?`;
+        // Footer info
+        let footerHTML = `*Total APCs paid: $${totalApc}`;
+        if(pred > 0) footerHTML += `<br><span style="color:#e74c3c;">*Plus ${pred} predatory publication(s) yielding 0 value.</span>`;
+        document.getElementById('end-footer-notes').innerHTML = footerHTML;
+
+        // Social sharing
+        let shareText = `I got my PhD in ${timeStr} as '${getAuthorProfile(pred)}', spent $${totalApc} in APCs on Journal Match! Can you graduate faster?`;
         let encodedText = encodeURIComponent(shareText);
         let url = encodeURIComponent(window.location.href);
 
@@ -986,34 +960,45 @@
         const canvas = document.getElementById('cert-canvas');
         const ctx = canvas.getContext('2d');
         
-        ctx.fillStyle = '#1a1a2e'; ctx.fillRect(0, 0, 800, 600);
-        ctx.strokeStyle = '#00ffff'; ctx.lineWidth = 10; ctx.strokeRect(20, 20, 760, 560);
-        ctx.strokeStyle = '#ff007f'; ctx.lineWidth = 4; ctx.strokeRect(35, 35, 730, 530);
+        ctx.fillStyle = '#fdfbf7'; ctx.fillRect(0, 0, 800, 800);
+        ctx.strokeStyle = '#2c3e50'; ctx.lineWidth = 10; ctx.strokeRect(20, 20, 760, 760);
+        ctx.strokeStyle = '#e74c3c'; ctx.lineWidth = 2; ctx.strokeRect(30, 30, 740, 740);
 
-        ctx.fillStyle = '#39ff14'; ctx.textAlign = 'center'; ctx.font = 'bold 36px monospace';
-        ctx.fillText('CERTIFICATE OF DOCTORAL ENDURANCE', 400, 100);
+        ctx.fillStyle = '#2c3e50'; ctx.textAlign = 'center'; ctx.font = 'bold 36px monospace';
+        ctx.fillText('DOCTORAL DEFENSE PASSED', 400, 100);
         
-        ctx.fillStyle = '#fff'; ctx.font = '24px monospace'; ctx.fillText('This certifies that', 400, 160);
-        ctx.fillStyle = '#00ffff'; ctx.font = 'bold 40px monospace'; ctx.fillText(playerName.toUpperCase(), 400, 210);
+        ctx.font = 'bold 30px sans-serif'; ctx.fillText(`Dr. ${playerName}`, 400, 160);
+        ctx.font = 'italic 20px sans-serif'; ctx.fillText(`Field: ${playerField}`, 400, 190);
         
-        ctx.fillStyle = '#fff'; ctx.font = '20px monospace';
-        ctx.fillText('has survived ' + document.getElementById('end-years').innerText + ' of publishing purgatory in', 400, 260);
-        ctx.fillStyle = '#ff007f'; ctx.font = 'bold 28px monospace'; ctx.fillText(playerField.toUpperCase(), 400, 300);
+        ctx.fillStyle = '#e74c3c'; ctx.font = 'bold 24px monospace';
+        ctx.fillText(`AUTHOR PROFILE: ${document.getElementById('end-profile').innerText}`, 400, 240);
 
-        ctx.fillStyle = '#ffff00'; ctx.font = '24px monospace';
-        ctx.fillText(`AUTHOR PROFILE: ${document.getElementById('end-profile').innerText}`, 400, 360);
+        ctx.fillStyle = '#fadbd8'; ctx.fillRect(200, 270, 400, 50);
+        ctx.fillStyle = '#e74c3c'; ctx.font = 'bold 28px monospace';
+        ctx.fillText(`TIME TAKEN: ${document.getElementById('end-time-display').innerText.replace('Time Taken: ', '')}`, 400, 305);
 
-        ctx.fillStyle = '#aaa'; ctx.font = '20px monospace';
-        ctx.fillText(`Spent: $${totalApc} APCs`, 400, 420);
-        
-        ctx.fillStyle = '#00ffff'; ctx.font = 'bold 30px monospace';
-        ctx.fillText(`FINAL SCORE: ${document.getElementById('end-score').innerText}`, 400, 480);
+        ctx.fillStyle = '#2c3e50'; ctx.textAlign = 'left'; ctx.font = 'bold 20px sans-serif';
+        ctx.fillText('Published Manuscripts:', 100, 380);
 
-        ctx.fillStyle = '#fff'; ctx.font = '20px monospace';
-        ctx.fillText('Reviewer #2', 200, 550); ctx.fillText('University Admin', 600, 550);
+        let yPos = 420;
+        let validPapers = paperData.filter(p => p.archetype.type !== 'Predatory');
+        validPapers.forEach((p, i) => {
+            ctx.font = 'bold 16px sans-serif';
+            ctx.fillText(`${i+1}. "${p.msTitle}"`, 100, yPos);
+            ctx.font = 'italic 14px sans-serif'; ctx.fillStyle = '#555';
+            ctx.fillText(`Published in: ${p.name} (IF: ${p.IF})`, 120, yPos + 20);
+            ctx.fillStyle = '#2c3e50';
+            yPos += 50;
+        });
+
+        ctx.textAlign = 'center'; ctx.font = 'italic 14px sans-serif'; ctx.fillStyle = '#7f8c8d';
+        ctx.fillText(`*Total APCs paid: $${totalApc}`, 400, yPos + 40);
+
+        ctx.fillStyle = '#2c3e50'; ctx.font = 'bold 20px cursive';
+        ctx.fillText('Reviewer #2', 200, 720); ctx.fillText('University Admin', 600, 720);
         
-        ctx.beginPath(); ctx.moveTo(100, 520); ctx.lineTo(300, 520); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(500, 520); ctx.lineTo(700, 520); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(100, 690); ctx.lineTo(300, 690); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(500, 690); ctx.lineTo(700, 690); ctx.stroke();
 
         const link = document.createElement('a');
         link.download = `PhD_Certificate_${playerName.replace(/\s+/g, '_')}.png`;
