@@ -22,88 +22,91 @@
         
         #app { width: 100%; max-width: 480px; height: 100vh; position: relative; background: var(--bg); border-left: 4px solid var(--neon-cyan); border-right: 4px solid var(--neon-cyan); display: flex; flex-direction: column; overflow: hidden; }
         
-        .screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); display: none; flex-direction: column; padding: 20px; z-index: 10; overflow-y: auto;}
+        .screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); display: none; flex-direction: column; padding: 15px; z-index: 10; overflow-y: auto; overflow-x: hidden; }
         .screen.active { display: flex; }
         
-        #btn-mute { position: absolute; top: 15px; right: 15px; width: 45px; height: 45px; background: var(--bg); color: var(--neon-cyan); border: 2px solid var(--neon-cyan); font-size: 22px; z-index: 999; cursor: pointer; box-shadow: 4px 4px 0 #000; display: flex; justify-content: center; align-items: center; }
-        #btn-mute:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 #000; }
+        #btn-mute { position: absolute; top: 10px; right: 10px; width: 35px; height: 35px; background: var(--bg); color: var(--neon-cyan); border: 2px solid var(--neon-cyan); font-size: 18px; z-index: 999; cursor: pointer; box-shadow: 3px 3px 0 #000; display: flex; justify-content: center; align-items: center; }
+        #btn-mute:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 #000; }
 
-        h1 { text-align: center; color: var(--neon-pink); margin-bottom: 10px; font-size: 38px; text-transform: uppercase; letter-spacing: 2px; text-shadow: 2px 2px 0 #000; }
-        h2 { color: var(--neon-cyan); margin-bottom: 10px; font-size: 28px; }
-        p { margin-bottom: 15px; line-height: 1.4; font-size: 20px; }
+        h1 { text-align: center; color: var(--neon-pink); margin-bottom: 5px; font-size: 32px; text-transform: uppercase; letter-spacing: 2px; text-shadow: 2px 2px 0 #000; }
+        h2 { color: var(--neon-cyan); margin-bottom: 8px; font-size: 24px; }
+        p { margin-bottom: 10px; line-height: 1.3; font-size: 16px; }
         
-        input, select { width: 100%; background: #000; border: 2px solid var(--neon-cyan); color: var(--neon-green); padding: 10px; font-size: 20px; margin-bottom: 10px; outline: none; appearance: none; border-radius: 0; }
+        input, select { width: 100%; background: #000; border: 2px solid var(--neon-cyan); color: var(--neon-green); padding: 8px; font-size: 16px; margin-bottom: 8px; outline: none; appearance: none; border-radius: 0; }
         input::placeholder, select:invalid { color: #555; }
         option { color: var(--neon-green); background: #000; }
 
-        button.action-btn { background: var(--bg); color: var(--neon-green); border: 2px solid var(--neon-green); padding: 15px; font-size: 22px; cursor: pointer; margin-bottom: 15px; width: 100%; box-shadow: 4px 4px 0 #000; text-transform: uppercase; transition: all 0.1s; display: block; }
+        button.action-btn { background: var(--bg); color: var(--neon-green); border: 2px solid var(--neon-green); padding: 12px; font-size: 18px; cursor: pointer; margin-bottom: 10px; width: 100%; box-shadow: 4px 4px 0 #000; text-transform: uppercase; transition: all 0.1s; display: block; }
         button.action-btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 #000; background: var(--neon-green); color: #000; }
         
         .btn-pink { color: var(--neon-pink) !important; border-color: var(--neon-pink) !important; }
         .btn-cyan { color: var(--neon-cyan) !important; border-color: var(--neon-cyan) !important; }
         
-        /* Game Header */
-        #game-header { padding: 15px; background: #000; border-bottom: 4px solid var(--neon-pink); z-index: 5; display: flex; flex-direction: column; align-items: center; }
-        .boxes-container { display: flex; gap: 15px; margin-bottom: 10px; }
-        .paper-box { width: 35px; height: 35px; border: 3px solid var(--neon-cyan); background: #000; transition: background 0.3s; }
-        .paper-box.filled { background: var(--neon-green); border-color: var(--neon-green); box-shadow: 0 0 10px var(--neon-green); }
+        /* Game Header (Ultra Compact) */
+        #game-header { padding: 10px 10px 5px 10px; background: #000; border-bottom: 2px solid var(--neon-pink); z-index: 5; display: flex; flex-direction: column; align-items: center; }
+        .boxes-container { display: flex; gap: 10px; margin-bottom: 5px; }
+        .paper-box { width: 22px; height: 22px; border: 2px solid var(--neon-cyan); background: #000; transition: background 0.3s; }
+        .paper-box.filled { background: var(--neon-green); border-color: var(--neon-green); box-shadow: 0 0 8px var(--neon-green); }
 
-        .time-bar-container { width: 100%; height: 24px; background: #222; border: 2px solid #555; position: relative; overflow: hidden; margin-bottom: 5px;}
+        .time-bar-container { width: 100%; height: 12px; background: #222; border: 1px solid #555; position: relative; overflow: hidden; margin-bottom: 2px;}
         .time-bar-fill { height: 100%; background: var(--neon-pink); width: 0%; transition: width 0.1s linear; }
-        .time-marker-3yr { position: absolute; left: 50%; top: 0; bottom: 0; width: 3px; background: #fff; z-index: 2; }
+        .time-marker-3yr { position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; background: #fff; z-index: 2; }
         .time-warning { animation: flashTime 0.5s infinite alternate; }
-        @keyframes flashTime { from { border-color: #555; } to { border-color: #ff0000; box-shadow: 0 0 15px #ff0000; } }
+        @keyframes flashTime { from { border-color: #555; } to { border-color: #ff0000; box-shadow: 0 0 10px #ff0000; } }
 
-        /* Desk / Journals Area */
-        #desk-area { flex: 1; display: flex; flex-direction: column; padding: 10px; gap: 12px; overflow-y: auto; background: #111; position: relative; z-index: 1;}
+        /* Desk / Journals Area (Fills space, compact) */
+        #desk-area { flex: 1; display: flex; flex-direction: column; padding: 8px; gap: 8px; overflow-y: hidden; background: #111; position: relative; z-index: 1;}
         
-        .journal-slot { width: 100%; background: var(--card-bg); border: 3px solid #555; border-radius: 8px; padding: 12px; display: flex; align-items: center; gap: 12px; transition: all 0.2s; position: relative; font-family: var(--sans); }
-        .journal-slot.drag-over { border-color: var(--neon-green); background: #1a3320; box-shadow: 0 0 15px var(--neon-green); transform: scale(1.02); z-index: 10;}
+        .journal-slot { width: 100%; background: var(--card-bg); border: 2px solid #555; border-radius: 6px; padding: 8px; display: flex; align-items: center; gap: 8px; transition: all 0.2s; font-family: var(--sans); }
+        .journal-slot.drag-over { border-color: var(--neon-green); background: #1a3320; box-shadow: 0 0 10px var(--neon-green); transform: scale(1.01); z-index: 10;}
         
-        .j-logo { width: 50px; height: 50px; border-radius: 8px; flex-shrink: 0; display: flex; justify-content: center; align-items: center; }
-        .j-logo img { width: 40px; height: 40px; }
+        .j-logo { width: 36px; height: 36px; border-radius: 6px; flex-shrink: 0; display: flex; justify-content: center; align-items: center; }
+        .j-logo svg { width: 26px; height: 26px; fill: none; stroke: var(--bg); stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
         
-        .j-info { flex: 1; display: flex; flex-direction: column; font-family: var(--sans); }
-        .j-pub { font-size: 13px; color: #aaa; text-transform: uppercase; margin-bottom: 2px; font-weight: bold; font-family: var(--sans);}
-        .j-title { font-size: 19px; color: var(--neon-yellow); font-weight: bold; line-height: 1.1; margin-bottom: 6px; text-shadow: none; font-family: var(--sans);}
+        .j-info { flex: 1; display: flex; flex-direction: column; font-family: var(--sans); overflow: hidden; }
+        .j-pub { font-size: 11px; color: #aaa; text-transform: uppercase; margin-bottom: 1px; font-weight: bold; font-family: var(--sans);}
+        .j-title { font-size: 15px; color: var(--neon-yellow); font-weight: bold; line-height: 1.1; margin-bottom: 4px; text-shadow: none; font-family: var(--sans); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
         
-        .j-stats { display: flex; gap: 6px; flex-wrap: wrap; font-size: 14px; font-weight: bold; color: #fff; font-family: var(--sans); text-shadow: none;}
-        .j-stat-item { background: #000; padding: 3px 6px; border: 1px solid #555; border-radius: 4px; font-family: var(--sans);}
+        .j-stats { display: flex; gap: 4px; flex-wrap: wrap; font-size: 11px; font-weight: bold; color: #fff; font-family: var(--sans); text-shadow: none;}
+        .j-stat-item { background: #000; padding: 2px 4px; border: 1px solid #555; border-radius: 4px; font-family: var(--sans); white-space: nowrap;}
 
-        /* Lower Action Panel */
-        #action-panel { background: var(--bg); border-top: 4px solid var(--neon-cyan); padding: 10px 15px 15px 15px; display: flex; flex-direction: column; align-items: center; z-index: 20; }
+        /* Lower Action Panel (Locked to Bottom) */
+        #action-panel { background: var(--bg); border-top: 3px solid var(--neon-cyan); padding: 8px 10px 15px 10px; display: flex; flex-direction: column; align-items: center; z-index: 20; flex-shrink: 0; }
         
-        #btn-refresh-journals { font-family: var(--sans); font-weight: bold; background: #000; border: 2px solid var(--neon-pink); color: var(--neon-pink); padding: 8px 15px; border-radius: 6px; cursor: pointer; font-size: 16px; align-self: flex-end; margin-bottom: 10px; box-shadow: 2px 2px 0 var(--neon-pink); transition: transform 0.1s; }
+        #btn-refresh-journals { font-family: var(--sans); font-weight: bold; background: #000; border: 2px solid var(--neon-pink); color: var(--neon-pink); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 14px; align-self: flex-end; margin-bottom: 8px; box-shadow: 2px 2px 0 var(--neon-pink); transition: transform 0.1s; }
         #btn-refresh-journals:active { transform: translate(2px, 2px); box-shadow: none; }
         
-        #ms-container { width: 100%; display: flex; justify-content: center; position: relative; }
-        #ms-draggable { width: 100%; max-width: 360px; background: #fff; color: #000; border: 3px solid #000; padding: 15px; text-align: center; font-size: 19px; font-weight: bold; box-shadow: 4px 4px 0 var(--neon-pink); cursor: grab; display: flex; align-items: center; justify-content: center; line-height: 1.2; text-shadow: none; font-family: var(--sans); border-radius: 4px; position: relative; z-index: 100; }
-        #ms-draggable.dragging { cursor: grabbing; box-shadow: 10px 10px 0 rgba(255,0,127,0.5); transform: scale(1.05) rotate(-2deg); }
+        #ms-container { width: 100%; display: flex; justify-content: center; position: relative; min-height: 60px; }
+        #ms-draggable { width: 100%; max-width: 380px; background: #fff; color: #000; border: 3px solid #000; padding: 10px; text-align: center; font-size: 15px; font-weight: bold; box-shadow: 3px 3px 0 var(--neon-pink); cursor: grab; display: flex; align-items: center; justify-content: center; line-height: 1.2; text-shadow: none; font-family: var(--sans); border-radius: 4px; position: absolute; z-index: 100; }
+        #ms-draggable.dragging { cursor: grabbing; box-shadow: 6px 6px 0 rgba(255,0,127,0.5); transform: scale(1.05) rotate(-2deg); }
 
         /* Overlays */
         .overlay-modal { position: absolute; top:0;left:0;width:100%;height:100%; background:rgba(0,0,0,0.9); z-index: 50; display: none; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; }
         .pixel-spinner { width: 40px; height: 40px; background: var(--neon-cyan); animation: spin 1s step-end infinite; margin-bottom: 20px; }
         @keyframes spin { 0% { transform: rotate(0deg); } 25% { transform: rotate(90deg); } 50% { transform: rotate(180deg); } 75% { transform: rotate(270deg); } }
 
-        /* Modified Toast container - Above manuscript */
-        #toast-container { position: absolute; bottom: 180px; left: 50%; transform: translateX(-50%); width: 95%; max-width: 400px; display: flex; flex-direction: column; align-items: center; z-index: 60; pointer-events: none; }
-        .toast { background: #000; border: 3px solid; color: white; padding: 15px; font-size: 18px; margin-bottom: 10px; opacity: 0; transform: translateY(20px); transition: all 0.2s; box-shadow: 4px 4px 0 #000; text-align: center; white-space: pre-line; line-height: 1.2; width: 100%; pointer-events: auto; cursor: pointer; font-family: var(--sans); text-shadow: none; border-radius: 8px;}
+        /* Toast container - Above manuscript */
+        #toast-container { position: absolute; bottom: 120px; left: 50%; transform: translateX(-50%); width: 95%; max-width: 400px; display: flex; flex-direction: column; align-items: center; z-index: 60; pointer-events: none; }
+        .toast { background: #000; border: 2px solid; color: white; padding: 10px; font-size: 15px; margin-bottom: 5px; opacity: 0; transform: translateY(10px); transition: all 0.2s; box-shadow: 3px 3px 0 #000; text-align: center; white-space: pre-line; line-height: 1.2; width: 100%; pointer-events: auto; cursor: pointer; font-family: var(--sans); text-shadow: none; border-radius: 6px;}
         .toast.show { opacity: 1; transform: translateY(0); }
 
-        .cascade-box { background: #111; border: 3px dashed var(--neon-yellow); padding: 15px; margin: 15px 0; color: var(--white); text-align: left; font-size: 18px; width: 100%; max-width: 350px; font-family: var(--sans); text-shadow: none;}
+        .cascade-box { background: #111; border: 2px dashed var(--neon-yellow); padding: 10px; margin: 10px 0; color: var(--white); text-align: left; font-size: 15px; width: 100%; max-width: 350px; font-family: var(--sans); text-shadow: none;}
         
         /* Certificate */
-        .cert-box { background: #fdfbf7; color: #2c3e50; padding: 15px; border: 4px solid #2c3e50; outline: 2px solid #e94560; outline-offset: -8px; margin-bottom: 10px; width: 100%; box-shadow: 6px 6px 0 #000; text-shadow: none; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; flex-direction: column; align-items: center; max-height: 65vh; overflow-y: auto;}
-        .cert-header { font-size: 26px; font-weight: bold; text-align: center; margin-bottom: 5px; color: #2c3e50; font-family: 'VT323', monospace; text-transform: uppercase; }
-        .cert-sub { font-size: 18px; text-align: center; margin-bottom: 15px; font-style: italic; }
-        .cert-time { font-size: 24px; font-weight: bold; color: #e74c3c; margin-bottom: 15px; text-align: center; background: #fadbd8; padding: 5px 15px; border-radius: 5px; border: 2px solid #e74c3c; }
-        .cert-papers { width: 100%; margin-bottom: 10px; text-align: left; border-top: 2px solid #ccc; padding-top: 10px; }
-        .cert-paper-item { margin-bottom: 12px; font-size: 15px; line-height: 1.3; }
-        .cert-paper-title { font-weight: bold; font-size: 16px; }
+        .cert-box { background: #fdfbf7; color: #2c3e50; padding: 10px; border: 3px solid #2c3e50; outline: 2px solid #e94560; outline-offset: -6px; margin-bottom: 10px; width: 100%; box-shadow: 4px 4px 0 #000; text-shadow: none; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; flex-direction: column; align-items: center; max-height: 65vh; overflow-y: auto;}
+        .cert-header { font-size: 22px; font-weight: bold; text-align: center; margin-bottom: 5px; color: #2c3e50; font-family: 'VT323', monospace; text-transform: uppercase; }
+        .cert-sub { font-size: 15px; text-align: center; margin-bottom: 10px; font-style: italic; }
+        .cert-time { font-size: 18px; font-weight: bold; color: #e74c3c; margin-bottom: 10px; text-align: center; background: #fadbd8; padding: 4px 10px; border-radius: 4px; border: 2px solid #e74c3c; }
+        .cert-papers { width: 100%; margin-bottom: 8px; text-align: left; border-top: 2px solid #ccc; padding-top: 8px; }
+        .cert-paper-item { margin-bottom: 8px; font-size: 13px; line-height: 1.2; }
+        .cert-paper-title { font-weight: bold; font-size: 14px; }
         .cert-paper-journal { font-style: italic; color: #555; }
-        .cert-footer { width: 100%; font-size: 14px; color: #7f8c8d; text-align: center; border-top: 1px solid #ccc; padding-top: 10px; }
+        .cert-footer { width: 100%; font-size: 12px; color: #7f8c8d; text-align: center; border-top: 1px solid #ccc; padding-top: 8px; }
 
-        .social-btn { display: inline-block; padding: 8px 12px; margin: 3px; border-radius: 5px; color: white; text-decoration: none; font-size: 18px; text-shadow: none; box-shadow: 2px 2px 0 #000; border: 2px solid #000; }
+        .serious-box { background: rgba(255, 0, 127, 0.1); border: 2px solid var(--neon-pink); padding: 10px; margin-bottom: 10px; text-shadow: none; }
+        .serious-box a { color: var(--neon-cyan); text-decoration: underline; }
+
+        .social-btn { display: inline-block; padding: 8px 12px; margin: 3px; border-radius: 5px; color: white; text-decoration: none; font-size: 15px; text-shadow: none; box-shadow: 2px 2px 0 #000; border: 2px solid #000; }
         .bg-bsky { background: #0085ff; } .bg-x { background: #333; } .bg-masto { background: #2b90d9; }
     </style>
 </head>
@@ -142,10 +145,10 @@
     <!-- TUTORIAL -->
     <div id="screen-tutorial" class="screen">
         <h2 id="tut-greeting" style="color: var(--neon-yellow); line-height: 1.2;"></h2>
-        <p style="margin-top: 10px;">Goal: Publish 3 papers to graduate.</p>
+        <p style="margin-top: 5px;">Goal: Publish 3 papers to graduate.</p>
         <p>👉 <b>Drag & Drop:</b> Drag your manuscript onto one of the 3 journal options.</p>
-        <p>⏰ <b>Time limits:</b> 40 real seconds = 1 PhD Year. Max 6 years. Over 3 years = Stress!</p>
-        <p>🔄 <b>Cascades:</b> If rejected by a big publisher, they might offer a fast transfer to a lower-tier journal.</p>
+        <p>⏰ <b>Time limits:</b> 40 real seconds = 1 PhD Year. Max 6 years.</p>
+        <p>🔄 <b>Cascades:</b> If rejected by a big publisher, they might offer a fast transfer.</p>
         <p style="color: var(--neon-pink);">⚠️ <b>Predatory Journals:</b> Fast review & 100% acceptance, but they <b>DO NOT COUNT</b> towards your papers!</p>
         <button id="btn-tut-start" class="action-btn btn-cyan" style="margin-top: auto;">Start Publishing</button>
     </div>
@@ -155,13 +158,13 @@
         <h2>The Reality of Publishing</h2>
         <p>This game is a satirical but grimly accurate reflection of academic publishing, exposing APC oligopolies and free peer-review labor delays.</p>
         
-        <div style="background: rgba(255, 0, 127, 0.1); border: 2px solid var(--neon-pink); padding: 10px; margin-bottom: 15px; text-shadow: none;">
-            <h3 style="color:var(--neon-pink); margin-bottom:5px; font-size: 20px;">⚠️ Mental Health Warning</h3>
-            <p style="font-size:16px; margin-bottom:5px;">Burnout in academia is serious (<a href="https://doi.org/10.1177/1745691619898848" target="_blank" style="color:var(--neon-cyan);">see research</a>).</p>
-            <p style="font-size:16px; margin-bottom:0;">Please seek help if affected. In Germany: <a href="https://hilfetelefon.de" target="_blank" style="color:var(--neon-cyan);">hilfetelefon.de</a>.</p>
+        <div class="serious-box">
+            <h3 style="color:var(--neon-pink); margin-bottom:5px; font-size: 18px;">⚠️ Mental Health Warning</h3>
+            <p style="font-size:14px; margin-bottom:5px;">Burnout in academia is serious (<a href="https://doi.org/10.1177/1745691619898848" target="_blank" style="color:var(--neon-cyan);">see research</a>).</p>
+            <p style="font-size:14px; margin-bottom:0;">Please seek help if affected. In Germany: <a href="https://hilfetelefon.de" target="_blank" style="color:var(--neon-cyan);">hilfetelefon.de</a>.</p>
         </div>
         
-        <p style="font-size: 14px; color: #888;">Disclaimer: Names of articles and journals are procedurally generated. Any resemblance to real-life research is coincidental.</p>
+        <p style="font-size: 13px; color: #888;">Disclaimer: Names of articles and journals are procedurally generated. Any resemblance to real-life research is coincidental.</p>
 
         <button id="btn-about-back" class="action-btn" style="margin-top: auto;">Back</button>
     </div>
@@ -178,7 +181,7 @@
                 <div class="time-bar-fill" id="time-bar"></div>
                 <div class="time-marker-3yr"></div>
             </div>
-            <div style="font-size: 18px; color: #aaa; margin-top: 5px;" id="ui-year-text">Year 0.0</div>
+            <div style="font-size: 16px; color: #aaa;" id="ui-year-text">Year 0.0</div>
         </div>
 
         <!-- Desk Area (Journals) -->
@@ -206,7 +209,7 @@
         <!-- Cascade Modal -->
         <div id="cascade-overlay" class="overlay-modal">
             <h2 style="color: var(--neon-yellow);">TRANSFER OFFER</h2>
-            <p>Your paper was rejected, but the publisher offers to transfer it to their Megajournal.</p>
+            <p style="font-size: 16px;">Rejected. Transfer to Megajournal?</p>
             <div class="cascade-box" id="cascade-details"></div>
             <button id="btn-cascade-accept" class="action-btn btn-cyan">Accept Transfer</button>
             <button id="btn-cascade-decline" class="action-btn btn-pink">Decline & Start Over</button>
@@ -228,7 +231,7 @@
             <div class="cert-sub">
                 <strong>Dr. <span id="end-name"></span></strong><br>
                 Field: <span id="end-field"></span><br>
-                <span style="font-size: 15px; color: #e74c3c; font-weight:bold;">Profile: <span id="end-profile"></span></span>
+                <span style="font-size: 14px; color: #e74c3c; font-weight:bold;">Profile: <span id="end-profile"></span></span>
             </div>
             <div class="cert-time" id="end-time-display">Time: 0 Yrs, 0 Mos</div>
             <div class="cert-papers" id="end-papers-list"></div>
@@ -239,7 +242,7 @@
         <button id="btn-replay" class="action-btn btn-cyan" style="margin-bottom: 10px;">Play Again</button>
         <button id="btn-end-about" class="action-btn btn-pink" style="margin-bottom: 5px;">About This Reality</button>
         
-        <div style="text-align: center; margin-top: 10px;" id="share-container">
+        <div style="text-align: center; margin-top: 5px;" id="share-container">
             <a href="#" id="share-bsky" class="social-btn bg-bsky" target="_blank">Bluesky</a>
             <a href="#" id="share-x" class="social-btn bg-x" target="_blank">X</a>
             <a href="#" id="share-masto" class="social-btn bg-masto" target="_blank">Mastodon</a>
@@ -247,7 +250,6 @@
     </div>
 </div>
 
-<!-- Hidden Canvas for Certificate Generation -->
 <canvas id="cert-canvas" width="800" height="800" style="display:none;"></canvas>
 
 <script>
@@ -278,7 +280,7 @@
     let playerStatus = "";
     let playerAPCExp = "";
     
-    const TICKS_PER_YEAR = 400; // 40s = 1 Year
+    const TICKS_PER_YEAR = 400; // 40s = 1 Year (Expanded time)
     const MAX_YEARS = 6;
     const WARNING_YEAR = 3;
 
@@ -339,12 +341,10 @@
     let musicTimeout = null;
     let seqStep = 0;
     
-    // Lo-Fi Chords
     const Cmaj9 = [130.81, 261.63, 329.63, 392.00, 493.88, 587.33];
     const Am9   = [110.00, 220.00, 261.63, 329.63, 392.00, 493.88];
     const Dm9   = [146.83, 293.66, 349.23, 440.00, 523.25, 659.25];
     const G13   = [98.00,  196.00, 246.94, 349.23, 440.00, 659.25];
-    
     const Fmaj9 = [87.31,  174.61, 261.63, 329.63, 392.00, 493.88];
     const Em7   = [164.81, 196.00, 246.94, 293.66, 392.00, 493.88];
     const Cmaj7 = [130.81, 261.63, 329.63, 392.00, 493.88, 523.25];
@@ -365,7 +365,7 @@
             const filter = audioCtx.createBiquadFilter();
             filter.type = 'lowpass'; filter.frequency.value = 800;
             const gain = audioCtx.createGain();
-            gain.gain.value = 0.005; // Subtle crackle
+            gain.gain.value = 0.005; 
             noiseSrc.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination);
             noiseSrc.start();
         }
@@ -440,7 +440,7 @@
     }
 
     function musicLoop() {
-        if(isMuted || state === 'MENU') { musicTimeout = setTimeout(musicLoop, 200); return; }
+        if(isMuted || state === 'MENU' || state === 'END') { musicTimeout = setTimeout(musicLoop, 200); return; }
 
         let stepDuration = 350; 
         if (state === 'PLAYING' || state === 'REVIEWING') {
@@ -574,7 +574,7 @@
     }
 
     /* =========================================
-       DATA GENERATION (Journals & SVG Logos)
+       DATA GENERATION (Journals & Creative SVGs)
        ========================================= */
     const journalTemplates = [
         "Journal of {field}", "Advances in {field}", "Perspectives on {field}", "{field} Research", "Proceedings in {field}", 
@@ -587,7 +587,6 @@
         return activeTemplates.pop().replace(/{field}/g, playerField);
     }
 
-    // Creative SVG Vector Icons
     const svgLogos = {
         elsevillain: encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50,90 Q45,50 20,20 M50,90 Q55,50 80,20 M50,90 L50,40" stroke="#555" stroke-width="8" stroke-linecap="round" fill="none"/></svg>`),
         sprinter: encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M15,20 L85,50 L15,80 Z" fill="#ff007f"/></svg>`),
@@ -670,7 +669,7 @@
             div.className = 'journal-slot';
             div.id = `j-${j.id}`;
             div.innerHTML = `
-                <div class="j-logo" style="border-color:${j.archetype.color}"><img src="${j.logo}"></div>
+                <div class="j-logo" style="border-color:${j.archetype.color}"><img src="${j.logo}" style="width:100%; height:100%;"></div>
                 <div class="j-info">
                     <div class="j-pub" style="color:${j.archetype.color}">${j.archetype.type} <span style="color:${oaColor}; border:2px solid ${oaColor}; padding:2px 6px; border-radius:4px; font-size:11px; font-weight:900; background:rgba(0,0,0,0.5); vertical-align:middle; display:inline-block; margin-left:5px;">${oaText}</span></div>
                     <div class="j-title">${j.name}</div>
@@ -766,7 +765,7 @@
                 }
             });
 
-            ms.style.position = 'relative';
+            ms.style.position = 'absolute';
             ms.style.left = '';
             ms.style.top = '';
             ms.style.width = '100%'; 
@@ -791,7 +790,7 @@
        CORE GAMEPLAY LOGIC
        ========================================= */
     function startGame() {
-        if(!audioCtx) startMusic(); // Fallback if browser blocked previous auto-starts
+        if(!audioCtx) startMusic(); 
         
         ticks = 0; papers = 0; totalApc = 0; paperData = []; activeTemplates = []; availableMs = [];
         
