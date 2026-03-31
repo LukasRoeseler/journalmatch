@@ -34,9 +34,10 @@
         h2 { color: var(--neon-cyan); margin-bottom: 10px; font-size: 28px; }
         p { margin-bottom: 15px; line-height: 1.4; font-size: 20px; }
         
-        input { width: 100%; background: #000; border: 2px solid var(--neon-cyan); color: var(--neon-green); padding: 10px; font-size: 20px; margin-bottom: 15px; outline: none; }
-        input::placeholder { color: #555; }
-        
+        input, select { width: 100%; background: #000; border: 2px solid var(--neon-cyan); color: var(--neon-green); padding: 10px; font-size: 20px; margin-bottom: 10px; outline: none; appearance: none; border-radius: 0; }
+        input::placeholder, select:invalid { color: #555; }
+        option { color: var(--neon-green); background: #000; }
+
         button.action-btn { background: var(--bg); color: var(--neon-green); border: 2px solid var(--neon-green); padding: 15px; font-size: 22px; cursor: pointer; margin-bottom: 15px; width: 100%; box-shadow: 4px 4px 0 #000; text-transform: uppercase; transition: all 0.1s; display: block; }
         button.action-btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 #000; background: var(--neon-green); color: #000; }
         
@@ -59,7 +60,7 @@
         .card { width: 100%; max-width: 320px; height: 440px; background: var(--card-bg); border: 4px solid var(--neon-cyan); box-shadow: 8px 8px 0 #000; position: absolute; display: flex; flex-direction: column; align-items: center; padding: 20px; transition: transform 0.2s ease; cursor: grab; }
         .card.dragging { transition: none; cursor: grabbing; }
         
-        .stamp { position: absolute; top: 30px; font-size: 40px; font-weight: bold; border: 4px solid; padding: 5px 10px; opacity: 0; z-index: 10; text-transform: uppercase; background: rgba(0,0,0,0.8); }
+        .stamp { position: absolute; top: 30px; font-size: 40px; font-weight: bold; border: 4px solid; padding: 5px 10px; opacity: 0; z-index: 10; text-transform: uppercase; background: rgba(0,0,0,0.8); pointer-events: none;}
         .stamp-reject { right: 10px; color: var(--neon-pink); border-color: var(--neon-pink); transform: rotate(15deg); }
         .stamp-submit { left: 10px; color: var(--neon-green); border-color: var(--neon-green); transform: rotate(-15deg); }
 
@@ -72,7 +73,7 @@
         .stat-val { font-size: 22px; color: var(--neon-cyan); }
         .stat-label { font-size: 14px; color: #aaa; }
 
-        .controls-hint { display: flex; justify-content: space-between; width: 100%; padding: 0 20px; position: absolute; bottom: 20px; font-size: 20px; color: #fff; }
+        .controls-hint { display: flex; justify-content: space-between; width: 100%; padding: 0 20px; position: absolute; bottom: 20px; font-size: 20px; color: #fff; pointer-events: none;}
         .hint-left { color: var(--neon-pink); }
         .hint-right { color: var(--neon-green); }
 
@@ -82,13 +83,17 @@
         @keyframes spin { 0% { transform: rotate(0deg); } 25% { transform: rotate(90deg); } 50% { transform: rotate(180deg); } 75% { transform: rotate(270deg); } }
 
         #toast-container { position: absolute; top: 130px; left: 0; width: 100%; display: flex; flex-direction: column; align-items: center; z-index: 40; pointer-events: none; }
-        .toast { background: #000; border: 2px solid; color: white; padding: 10px 20px; font-size: 20px; margin-bottom: 10px; opacity: 0; transform: translateY(-20px); transition: all 0.2s; box-shadow: 4px 4px 0 #000; }
+        .toast { background: #000; border: 2px solid; color: white; padding: 15px 20px; font-size: 20px; margin-bottom: 10px; opacity: 0; transform: translateY(-20px); transition: all 0.2s; box-shadow: 4px 4px 0 #000; text-align: center; white-space: pre-line; line-height: 1.2; width: 90%;}
         .toast.show { opacity: 1; transform: translateY(0); }
 
         /* Receipt Style */
         .receipt { background: #fff; color: #000; padding: 15px; border: 2px dashed #000; margin-bottom: 15px; font-family: monospace; font-size: 18px; text-shadow: none; width: 100%; box-shadow: 4px 4px 0 #000; }
         .receipt-row { display: flex; justify-content: space-between; margin-bottom: 5px; }
         .receipt hr { border: none; border-top: 2px dashed #000; margin: 10px 0; }
+
+        /* Serious Box */
+        .serious-box { background: rgba(255, 0, 127, 0.1); border: 2px solid var(--neon-pink); padding: 15px; margin-bottom: 15px; text-shadow: none; }
+        .serious-box a { color: var(--neon-cyan); text-decoration: underline; }
 
         /* Social Share Buttons */
         .social-btn { display: inline-block; padding: 10px 15px; margin: 5px; border-radius: 5px; color: white; text-decoration: none; font-size: 18px; text-shadow: none; box-shadow: 2px 2px 0 #000; border: 2px solid #000; transition: transform 0.1s; }
@@ -106,13 +111,28 @@
     <!-- MAIN MENU -->
     <div id="screen-menu" class="screen active" style="justify-content: center;">
         <h1>JOURNAL MATCH</h1>
-        <p style="text-align: center; color: var(--neon-cyan); margin-bottom: 25px;">What Author Type Are You?</p>
+        <p style="text-align: center; color: var(--neon-cyan); margin-bottom: 20px;">What Author Type Are You?</p>
         
-        <input type="text" id="input-name" placeholder="Enter Nickname..." autocomplete="off">
-        <input type="text" id="input-field" placeholder="Enter Research Field..." autocomplete="off">
+        <input type="text" id="input-name" placeholder="Enter Nickname (Optional)" autocomplete="off">
+        <input type="text" id="input-field" placeholder="Research Field (Optional)" autocomplete="off">
         
-        <button id="btn-play" class="action-btn">Start Research</button>
-        <button id="btn-about" class="action-btn btn-cyan" style="margin-top: 15px;">About / Context</button>
+        <select id="input-status" required>
+            <option value="" disabled selected>Current Academic Status...</option>
+            <option value="Not in Academia">Not in Academia</option>
+            <option value="Undergraduate">Undergraduate</option>
+            <option value="PhD Student">PhD Student</option>
+            <option value="PostDoc">PostDoc / Early Career</option>
+            <option value="Professor">Professor / Tenured</option>
+        </select>
+
+        <select id="input-apc" required>
+            <option value="" disabled selected>Ever paid an APC as 1st author?</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+        </select>
+        
+        <button id="btn-play" class="action-btn" style="margin-top: 10px;">Start Research</button>
+        <button id="btn-about" class="action-btn btn-cyan">About / Context</button>
     </div>
 
     <!-- TUTORIAL (Shown only once) -->
@@ -133,6 +153,13 @@
         <p>This game is a satirical but grimly accurate reflection of academic publishing.</p>
         <p>Early career researchers face immense pressure to "Publish or Perish". They navigate exorbitant Article Processing Charges (APCs) dictated by a multi-billion dollar oligopoly.</p>
         <p>Meanwhile, review processes rely on free labor from peers, causing massive delays and stress, highlighted by movements like the German <b>#ichbinhanna</b>.</p>
+        
+        <div class="serious-box">
+            <h3 style="color:var(--neon-pink); margin-bottom:5px;">⚠️ Mental Health Warning</h3>
+            <p style="font-size:16px; margin-bottom:10px;">Burnout and mental health crises in academia are serious and common (<a href="https://doi.org/10.1177/1745691619898848" target="_blank">see research here</a>).</p>
+            <p style="font-size:16px; margin-bottom:0;">If you or someone you know is affected, please seek help. In Germany, you can contact the <a href="https://www.telefonseelsorge.de/" target="_blank">TelefonSeelsorge (111 0 111)</a> or visit <a href="https://hilfetelefon.de" target="_blank">hilfetelefon.de</a>.</p>
+        </div>
+
         <button id="btn-about-back" class="action-btn" style="margin-top: auto;">Back</button>
     </div>
 
@@ -235,6 +262,8 @@
     
     let playerName = "";
     let playerField = "";
+    let playerStatus = "";
+    let playerAPCExp = "";
     let activeTemplates = [];
 
     const TICKS_PER_YEAR = 200; 
@@ -242,6 +271,31 @@
     const WARNING_YEAR = 3;
 
     const funnyFields = ["Applied Procrastination", "Quantum Astrology", "Theoretical Memetics", "Advanced Coffee Consumption", "Subatomic Sociology", "Recreational Anxiety", "Crypto-Zoological Finance", "Post-Modern Thermodynamics"];
+
+    // Reviewer Comments
+    const acceptComments = [
+        "The researcher should get an award.",
+        "This will surely move our field forward.",
+        "I love it. So so much!",
+        "Accept as is (a rare honor).",
+        "Groundbreaking work.",
+        "Minor spelling errors on page 42, otherwise brilliant."
+    ];
+    
+    const rejectComments = [
+        "I tried to like it but I couldn't.",
+        "This was obviously written by a first-year PhD student.",
+        "The authors failed to cite my completely unrelated 2012 paper.",
+        "Fundamentally flawed methodology.",
+        "Not novel enough for this prestigious journal.",
+        "Reviewer #2 simply said: 'No.'"
+    ];
+
+    const deskRejectComments = [
+        "Outside the scope of this journal.",
+        "Does not meet our high editorial threshold.",
+        "We receive too many submissions and must reject this without review."
+    ];
 
     /* =========================================
        CHILL NINTENDO WII STYLE AUDIO ENGINE
@@ -260,12 +314,9 @@
     const Em7   = [164.81, 196.00, 246.94, 293.66];
 
     const chillChords = [
-        // Verse (2x)
-        Cmaj7, Am7, Dm7, G7, Cmaj7, Am7, Dm7, G7,
-        // Bridge (2x)
-        Fmaj7, Em7, Dm7, Cmaj7, Fmaj7, Em7, Dm7, Cmaj7,
-        // Chorus (2x)
-        Am7, Fmaj7, Cmaj7, G7, Am7, Fmaj7, Cmaj7, G7
+        Cmaj7, Am7, Dm7, G7, Cmaj7, Am7, Dm7, G7, // Verse
+        Fmaj7, Em7, Dm7, Cmaj7, Fmaj7, Em7, Dm7, Cmaj7, // Bridge
+        Am7, Fmaj7, Cmaj7, G7, Am7, Fmaj7, Cmaj7, G7 // Chorus
     ];
 
     function initAudio() {
@@ -320,7 +371,7 @@
         if (name === 'swipe-right') { playTone(400, 'sine', 0.1, 0.1); setTimeout(()=>playTone(600, 'sine', 0.15, 0.1), 100); }
         if (name === 'accept') { playTone(440, 'square', 0.1, 0.1); setTimeout(()=>playTone(554.37, 'square', 0.1, 0.1), 100); setTimeout(()=>playTone(659.25, 'square', 0.3, 0.1), 200); }
         if (name === 'reject') { playTone(200, 'sawtooth', 0.2, 0.1); setTimeout(()=>playTone(150, 'sawtooth', 0.4, 0.1), 150); }
-        if (name === 'warning') { // Predatory trap indicator
+        if (name === 'warning') { 
             playTone(800, 'square', 0.1, 0.1); setTimeout(()=>playTone(1000, 'square', 0.1, 0.1), 100);
             setTimeout(()=>playTone(800, 'square', 0.1, 0.1), 200); setTimeout(()=>playTone(1000, 'square', 0.1, 0.1), 300);
         }
@@ -329,12 +380,9 @@
     function musicLoop() {
         if(isMuted) { musicTimeout = setTimeout(musicLoop, 100); return; }
 
-        let speed = 250; // Default relaxing speed
+        let speed = 250; 
         if (state === 'PLAYING' || state === 'REVIEWING') {
-            // Gradually speed up starting exactly at Year 2.0 (400 ticks)
-            if (ticks > 400) { 
-                speed = Math.max(100, 250 - (ticks - 400) * 0.15);
-            }
+            if (ticks > 400) { speed = Math.max(100, 250 - (ticks - 400) * 0.15); }
         }
         
         if (seqStep % 8 === 0) playKick();
@@ -342,7 +390,7 @@
             playSoftChord(chillChords[chordProgressionStep]);
             chordProgressionStep = (chordProgressionStep + 1) % chillChords.length;
         }
-        if (seqStep % 4 === 0) playTone(chillChords[chordProgressionStep][0] / 2, 'triangle', 0.4, 0.15); // Bass
+        if (seqStep % 4 === 0) playTone(chillChords[chordProgressionStep][0] / 2, 'triangle', 0.4, 0.15); 
 
         seqStep = (seqStep + 1) % 16;
         musicTimeout = setTimeout(musicLoop, speed);
@@ -369,12 +417,16 @@
        UI BINDINGS & LOGIC
        ========================================= */
     document.addEventListener('DOMContentLoaded', () => {
+        startMusic(); // Start music on load if browser allows, otherwise waits for first interaction
+
         document.getElementById('btn-play').addEventListener('click', () => {
             playSfx('btn');
             startMusic();
             
             playerName = document.getElementById('input-name').value.trim();
             playerField = document.getElementById('input-field').value.trim();
+            playerStatus = document.getElementById('input-status').value || "Unknown";
+            playerAPCExp = document.getElementById('input-apc').value || "Unknown";
             
             if (!playerName) playerName = "Dr. User";
             if (!playerField) playerField = funnyFields[Math.floor(Math.random() * funnyFields.length)];
@@ -414,12 +466,12 @@
     function showToast(msg, isError = false) {
         const container = document.getElementById('toast-container');
         const toast = document.createElement('div');
-        toast.className = 'toast'; toast.innerText = msg;
+        toast.className = 'toast'; toast.innerHTML = msg; // allow <br>
         toast.style.borderColor = isError ? 'var(--neon-pink)' : 'var(--neon-green)';
         toast.style.color = isError ? 'var(--neon-pink)' : 'var(--neon-green)';
         container.appendChild(toast);
         setTimeout(() => toast.classList.add('show'), 10);
-        setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 300); }, 2500);
+        setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 300); }, 3500); // 3.5s for reading
     }
 
     /* =========================================
@@ -460,7 +512,6 @@
         return canvas.toDataURL('image/png'); 
     }
 
-    // Realistic APC Tiers mapped to Impact
     function getRealisticAPC(IF, isPredatory, isDiamond) {
         if (isDiamond) return 0;
         if (isPredatory) {
@@ -490,7 +541,7 @@
             APC = getRealisticAPC(IF, true, false);
             reviewMonths = 0.5;
             displayTime = "0.5 Months";
-            rejRate = 0; // Extremely tempting
+            rejRate = 0; 
         } else {
             APC = arch.oa === 'closed' ? 0 : getRealisticAPC(IF, false, arch.oa === 'diamond');
             reviewMonths = Math.floor(Math.random() * 4) + 1; 
@@ -556,7 +607,7 @@
         if(currentCard.archetype.oa === 'closed') oaColor = '#aaa';
         if(currentCard.archetype.oa === 'gold') oaColor = 'var(--neon-yellow)';
         if(currentCard.archetype.oa === 'diamond') oaColor = 'var(--neon-cyan)';
-        if(currentCard.archetype.type === 'Predatory') { oaColor = 'var(--neon-yellow)'; oaText = "GOLD OA"; } // Disguised trap!
+        if(currentCard.archetype.type === 'Predatory') { oaColor = 'var(--neon-yellow)'; oaText = "GOLD OA"; } // Trap
 
         cardEl.innerHTML = `
             <div class="stamp stamp-reject" id="stamp-rej">SKIP</div>
@@ -628,9 +679,10 @@
         const rt = Date.now() - cardEl.timeShown;
         
         sendSupabaseTrial({
-            session_id: sessionId, player_name: playerName, journal_publisher: currentCard.archetype.type,
-            journal_name: currentCard.name, impact_factor: currentCard.IF, apc_cost: currentCard.APC,
-            decision_made: dir, reaction_time_ms: rt, current_in_game_year: parseFloat((ticks / TICKS_PER_YEAR).toFixed(2))
+            session_id: sessionId, player_name: playerName, academic_status: playerStatus, paid_apc_before: playerAPCExp,
+            journal_publisher: currentCard.archetype.type, journal_name: currentCard.name, 
+            impact_factor: currentCard.IF, apc_cost: currentCard.APC, decision_made: dir, 
+            reaction_time_ms: rt, current_in_game_year: parseFloat((ticks / TICKS_PER_YEAR).toFixed(2))
         });
 
         cardEl.style.transition = 'transform 0.3s ease-out';
@@ -652,6 +704,13 @@
         
         let rTime = currentCard.reviewTimeMs; 
         let timeLeft = rTime;
+        let isDeskReject = false;
+
+        // 10% Desk Reject chance (legit journals only)
+        if (currentCard.archetype.type !== 'Predatory' && Math.random() < 0.10) {
+            isDeskReject = true;
+            timeLeft = 500; // 0.5 months
+        }
 
         let cdInterval = setInterval(() => {
             if(state !== 'REVIEWING') { clearInterval(cdInterval); return; }
@@ -659,7 +718,15 @@
             if(timeLeft <= 0) {
                 clearInterval(cdInterval);
                 document.getElementById('review-overlay').style.display = 'none';
-                resolveReview();
+                
+                if (isDeskReject) {
+                    const cmt = deskRejectComments[Math.floor(Math.random() * deskRejectComments.length)];
+                    showToast(`DESK REJECTED!<br><span style="font-size:16px; color:#aaa;">"${cmt}"</span>`, true);
+                    playSfx('reject');
+                    if (papers < 3) { state = 'PLAYING'; spawnCard(); }
+                } else {
+                    resolveReview();
+                }
             } else {
                 document.getElementById('review-timer').innerText = (timeLeft/1000).toFixed(1) + 's';
             }
@@ -674,15 +741,17 @@
             totalApc += currentCard.APC;
             
             if (currentCard.archetype.type === 'Predatory') {
-                showToast("ACCEPTED! But it's Predatory... DOES NOT COUNT!", true);
-                playSfx('reject'); // Scam alert
+                showToast(`ACCEPTED!<br><span style="font-size:16px; color:#aaa;">But it's Predatory... DOES NOT COUNT!</span>`, true);
+                playSfx('reject'); 
             } else {
                 papers++;
-                showToast("PAPER ACCEPTED!", false);
+                const cmt = acceptComments[Math.floor(Math.random() * acceptComments.length)];
+                showToast(`PAPER ACCEPTED!<br><span style="font-size:16px; color:#fff;">"${cmt}"</span>`, false);
                 playSfx('accept');
             }
         } else {
-            showToast("REJECTED BY REVIEWER #2!", true);
+            const cmt = rejectComments[Math.floor(Math.random() * rejectComments.length)];
+            showToast(`REJECTED BY REVIEWER #2!<br><span style="font-size:16px; color:#aaa;">"${cmt}"</span>`, true);
             playSfx('reject');
         }
 
@@ -691,7 +760,7 @@
             setTimeout(() => endGame(true), 500);
         } else {
             state = 'PLAYING';
-            spawnCard();
+            setTimeout(spawnCard, 500); // Tiny buffer so toast is readable
         }
     }
 
@@ -701,7 +770,7 @@
     function getAuthorProfile(predatoryCount) {
         if (predatoryCount > 0) return "The Gullible Scammed";
         if (papers === 0) return "The Burnout";
-        if (totalApc === 0) return "The Frugal Idealist";
+        if (totalApc === 0) return "The Zero-Budget Scholar";
         
         let totalIF = paperData.reduce((sum, p) => sum + p.IF, 0);
         let avgIF = papers > 0 ? totalIF / papers : 0;
@@ -762,6 +831,7 @@
 
         sendSupabaseHighscore({
             session_id: sessionId, player_name: playerName, player_field: playerField,
+            academic_status: playerStatus, paid_apc_before: playerAPCExp,
             win_status: true, total_years: parseFloat(yearsTaken.toFixed(2)), total_apc: totalApc,
             total_citations: totalCitations, predatory_papers_count: predatoryCount, final_score: finalScore
         });
