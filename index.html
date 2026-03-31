@@ -61,23 +61,24 @@
         .journal-slot.drag-over { border-color: var(--neon-green); background: #1a3320; box-shadow: 0 0 15px var(--neon-green); transform: scale(1.02); z-index: 10;}
         
         .j-logo { width: 50px; height: 50px; border-radius: 8px; flex-shrink: 0; display: flex; justify-content: center; align-items: center; }
-        .j-logo svg { width: 35px; height: 35px; fill: none; stroke: var(--bg); stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
+        .j-logo img { width: 40px; height: 40px; }
         
         .j-info { flex: 1; display: flex; flex-direction: column; font-family: var(--sans); }
         .j-pub { font-size: 13px; color: #aaa; text-transform: uppercase; margin-bottom: 2px; font-weight: bold; font-family: var(--sans);}
-        .j-title { font-size: 20px; color: var(--neon-yellow); font-weight: bold; line-height: 1.1; margin-bottom: 6px; text-shadow: none; font-family: var(--sans);}
+        .j-title { font-size: 19px; color: var(--neon-yellow); font-weight: bold; line-height: 1.1; margin-bottom: 6px; text-shadow: none; font-family: var(--sans);}
         
         .j-stats { display: flex; gap: 6px; flex-wrap: wrap; font-size: 14px; font-weight: bold; color: #fff; font-family: var(--sans); text-shadow: none;}
         .j-stat-item { background: #000; padding: 3px 6px; border: 1px solid #555; border-radius: 4px; font-family: var(--sans);}
 
-        /* Manuscript Draggable */
-        #manuscript-area { padding: 15px; background: var(--bg); border-top: 4px solid var(--neon-cyan); display: flex; justify-content: center; align-items: center; z-index: 20; position: relative; height: 140px; }
+        /* Lower Action Panel */
+        #action-panel { background: var(--bg); border-top: 4px solid var(--neon-cyan); padding: 10px 15px 15px 15px; display: flex; flex-direction: column; align-items: center; z-index: 20; }
         
-        #ms-draggable { width: 95%; max-width: 320px; background: #fff; color: #000; border: 3px solid #000; padding: 15px; text-align: center; font-size: 20px; font-weight: bold; box-shadow: 4px 4px 0 var(--neon-pink); cursor: grab; position: absolute; z-index: 100; display: flex; align-items: center; justify-content: center; line-height: 1.2; text-shadow: none; font-family: var(--sans); border-radius: 4px;}
-        #ms-draggable.dragging { cursor: grabbing; box-shadow: 10px 10px 0 rgba(255,0,127,0.5); transform: scale(1.05) rotate(-2deg); }
-        
-        #btn-refresh-journals { position: absolute; bottom: 155px; right: 10px; font-size: 16px; padding: 8px 12px; z-index: 5; background: #000; border: 2px solid var(--neon-pink); color: var(--neon-pink); border-radius: 6px; font-weight: bold; cursor: pointer; box-shadow: 2px 2px 0 var(--neon-pink); }
+        #btn-refresh-journals { font-family: var(--sans); font-weight: bold; background: #000; border: 2px solid var(--neon-pink); color: var(--neon-pink); padding: 8px 15px; border-radius: 6px; cursor: pointer; font-size: 16px; align-self: flex-end; margin-bottom: 10px; box-shadow: 2px 2px 0 var(--neon-pink); transition: transform 0.1s; }
         #btn-refresh-journals:active { transform: translate(2px, 2px); box-shadow: none; }
+        
+        #ms-container { width: 100%; display: flex; justify-content: center; position: relative; }
+        #ms-draggable { width: 100%; max-width: 360px; background: #fff; color: #000; border: 3px solid #000; padding: 15px; text-align: center; font-size: 19px; font-weight: bold; box-shadow: 4px 4px 0 var(--neon-pink); cursor: grab; display: flex; align-items: center; justify-content: center; line-height: 1.2; text-shadow: none; font-family: var(--sans); border-radius: 4px; position: relative; z-index: 100; }
+        #ms-draggable.dragging { cursor: grabbing; box-shadow: 10px 10px 0 rgba(255,0,127,0.5); transform: scale(1.05) rotate(-2deg); }
 
         /* Overlays */
         .overlay-modal { position: absolute; top:0;left:0;width:100%;height:100%; background:rgba(0,0,0,0.9); z-index: 50; display: none; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; }
@@ -85,8 +86,8 @@
         @keyframes spin { 0% { transform: rotate(0deg); } 25% { transform: rotate(90deg); } 50% { transform: rotate(180deg); } 75% { transform: rotate(270deg); } }
 
         /* Modified Toast container - Above manuscript */
-        #toast-container { position: absolute; bottom: 150px; left: 50%; transform: translateX(-50%); width: 95%; max-width: 400px; display: flex; flex-direction: column; align-items: center; z-index: 60; pointer-events: none; }
-        .toast { background: #000; border: 3px solid; color: white; padding: 15px; font-size: 20px; margin-bottom: 10px; opacity: 0; transform: translateY(20px); transition: all 0.2s; box-shadow: 4px 4px 0 #000; text-align: center; white-space: pre-line; line-height: 1.2; width: 100%; pointer-events: auto; cursor: pointer; font-family: var(--sans); text-shadow: none; border-radius: 8px;}
+        #toast-container { position: absolute; bottom: 180px; left: 50%; transform: translateX(-50%); width: 95%; max-width: 400px; display: flex; flex-direction: column; align-items: center; z-index: 60; pointer-events: none; }
+        .toast { background: #000; border: 3px solid; color: white; padding: 15px; font-size: 18px; margin-bottom: 10px; opacity: 0; transform: translateY(20px); transition: all 0.2s; box-shadow: 4px 4px 0 #000; text-align: center; white-space: pre-line; line-height: 1.2; width: 100%; pointer-events: auto; cursor: pointer; font-family: var(--sans); text-shadow: none; border-radius: 8px;}
         .toast.show { opacity: 1; transform: translateY(0); }
 
         .cascade-box { background: #111; border: 3px dashed var(--neon-yellow); padding: 15px; margin: 15px 0; color: var(--white); text-align: left; font-size: 18px; width: 100%; max-width: 350px; font-family: var(--sans); text-shadow: none;}
@@ -184,14 +185,15 @@
         <div id="desk-area">
             <!-- Journals injected here -->
         </div>
-        
-        <button id="btn-refresh-journals">↻ Skip All (1 Mo.)</button>
 
         <div id="toast-container"></div>
 
-        <!-- Manuscript Drag Area -->
-        <div id="manuscript-area">
-            <div id="ms-draggable">"Manuscript Title"</div>
+        <!-- Lower Action Panel -->
+        <div id="action-panel">
+            <button id="btn-refresh-journals">↻ Skip All (1 Mo.)</button>
+            <div id="ms-container">
+                <div id="ms-draggable">"Manuscript Title"</div>
+            </div>
         </div>
 
         <!-- Review Overlay -->
@@ -276,7 +278,7 @@
     let playerStatus = "";
     let playerAPCExp = "";
     
-    const TICKS_PER_YEAR = 400; // 40s = 1 Year (double time)
+    const TICKS_PER_YEAR = 400; // 40s = 1 Year
     const MAX_YEARS = 6;
     const WARNING_YEAR = 3;
 
@@ -330,19 +332,25 @@
     }
 
     /* =========================================
-       SUPER MARIO WII GRASS LAND LO-FI AUDIO
+       CHILL LO-FI AUDIO ENGINE (A -> B -> A')
        ========================================= */
     let audioCtx = null;
     let noiseBuffer = null;
     let musicTimeout = null;
     let seqStep = 0;
     
-    // Cheerful, bouncy chords
-    const Cmaj7 = [130.81, 261.63, 329.63, 392.00];
-    const Am7   = [110.00, 220.00, 261.63, 329.63];
-    const Fmaj7 = [87.31,  174.61, 261.63, 329.63];
-    const G7    = [98.00,  196.00, 246.94, 349.23];
-    const chordsA = [Cmaj7, Am7, Fmaj7, G7];
+    // Lo-Fi Chords
+    const Cmaj9 = [130.81, 261.63, 329.63, 392.00, 493.88, 587.33];
+    const Am9   = [110.00, 220.00, 261.63, 329.63, 392.00, 493.88];
+    const Dm9   = [146.83, 293.66, 349.23, 440.00, 523.25, 659.25];
+    const G13   = [98.00,  196.00, 246.94, 349.23, 440.00, 659.25];
+    
+    const Fmaj9 = [87.31,  174.61, 261.63, 329.63, 392.00, 493.88];
+    const Em7   = [164.81, 196.00, 246.94, 293.66, 392.00, 493.88];
+    const Cmaj7 = [130.81, 261.63, 329.63, 392.00, 493.88, 523.25];
+
+    const chordsA = [Cmaj9, Am9, Dm9, G13];
+    const chordsB = [Fmaj9, Em7, Dm9, Cmaj7];
 
     function initAudio() {
         if (!audioCtx) {
@@ -355,21 +363,21 @@
             const noiseSrc = audioCtx.createBufferSource();
             noiseSrc.buffer = noiseBuffer; noiseSrc.loop = true;
             const filter = audioCtx.createBiquadFilter();
-            filter.type = 'lowpass'; filter.frequency.value = 600;
+            filter.type = 'lowpass'; filter.frequency.value = 800;
             const gain = audioCtx.createGain();
-            gain.gain.value = 0.005; 
+            gain.gain.value = 0.005; // Subtle crackle
             noiseSrc.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination);
             noiseSrc.start();
         }
         if (audioCtx.state === 'suspended') audioCtx.resume();
     }
 
-    function playTone(freq, type, duration, vol) {
+    function playTone(freq, type, duration, vol, detune=0) {
         if (isMuted || !audioCtx) return;
         try {
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
-            osc.type = type; osc.frequency.value = freq; 
+            osc.type = type; osc.frequency.value = freq; osc.detune.value = detune; 
             osc.connect(gain); gain.connect(audioCtx.destination);
             gain.gain.setValueAtTime(vol, audioCtx.currentTime);
             gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
@@ -377,35 +385,43 @@
         } catch(e) {}
     }
 
-    function playStab(chord) {
+    function playSoftChord(chord) {
         if (isMuted || !audioCtx) return;
         chord.forEach((freq, i) => {
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
-            osc.type = i === 0 ? 'triangle' : 'sine'; 
+            osc.type = i < 2 ? 'triangle' : 'sine'; 
             osc.frequency.value = freq;
+            osc.detune.value = (Math.random() - 0.5) * 10; 
             osc.connect(gain); gain.connect(audioCtx.destination);
             gain.gain.setValueAtTime(0, audioCtx.currentTime);
-            gain.gain.linearRampToValueAtTime(i === 0 ? 0.05 : 0.02, audioCtx.currentTime + 0.05);
-            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4); 
-            osc.start(); osc.stop(audioCtx.currentTime + 0.4);
+            gain.gain.linearRampToValueAtTime(i < 2 ? 0.06 : 0.03, audioCtx.currentTime + 0.1);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 2.0);
+            osc.start(); osc.stop(audioCtx.currentTime + 2.0);
         });
     }
 
     function playKick() {
         if (isMuted || !audioCtx) return;
-        playTone(100, 'sine', 0.3, 0.5);
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.frequency.setValueAtTime(120, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+        gain.gain.setValueAtTime(0.6, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+        osc.start(); osc.stop(audioCtx.currentTime + 0.3);
     }
-    
+
     function playHat() {
         if (isMuted || !audioCtx || !noiseBuffer) return;
         const source = audioCtx.createBufferSource();
         const filter = audioCtx.createBiquadFilter();
         const gain = audioCtx.createGain();
         source.buffer = noiseBuffer;
-        filter.type = 'highpass'; filter.frequency.value = 5000;
+        filter.type = 'highpass'; filter.frequency.value = 6000;
         source.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination);
-        gain.gain.setValueAtTime(0.03, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
         source.start();
     }
@@ -424,27 +440,33 @@
     }
 
     function musicLoop() {
-        if(isMuted || state === 'MENU' || state === 'END') { musicTimeout = setTimeout(musicLoop, 200); return; }
+        if(isMuted || state === 'MENU') { musicTimeout = setTimeout(musicLoop, 200); return; }
 
-        let stepDuration = 250; 
-        if (ticks > 1200) { stepDuration = Math.max(150, 250 - (ticks - 1200) * 0.1); } // Speed up later (since max is 2400)
+        let stepDuration = 350; 
+        if (state === 'PLAYING' || state === 'REVIEWING') {
+            if (ticks > 1200) { stepDuration = Math.max(150, 350 - (ticks - 1200) * 0.15); } 
+        }
         
         let subStep = seqStep % 16;
-        let measure = Math.floor(seqStep / 16) % 4; 
-        let currentChord = chordsA[measure];
+        let measure = Math.floor(seqStep / 16) % 12; 
+        
+        let section = measure < 4 ? 'A' : (measure < 8 ? 'B' : 'A_prime');
+        let chordSet = section === 'B' ? chordsB : chordsA;
+        let currentChord = chordSet[measure % 4];
 
         if (subStep === 0 || subStep === 10) playKick();
         if (subStep % 2 === 0) playHat();
         
-        if (subStep === 0 || subStep === 8) playTone(currentChord[0] / 2, 'triangle', 0.2, 0.15);
-        if (subStep === 4 || subStep === 12) playTone(currentChord[0] * 0.75, 'triangle', 0.2, 0.1);
+        if (subStep === 0) playSoftChord(currentChord);
+        if (subStep === 8) playSoftChord(currentChord);
+        
+        if (subStep % 4 === 0) playTone(currentChord[0] / 2, 'triangle', 0.4, 0.15);
 
-        if (subStep === 4 || subStep === 10) playStab(currentChord);
-
-        if (subStep % 2 === 0 && Math.random() > 0.4) {
-            let notes = [currentChord[1]*2, currentChord[2]*2, currentChord[3]*2];
-            let note = notes[Math.floor(Math.random() * notes.length)];
-            playTone(note, 'sine', 0.15, 0.03);
+        if (section === 'A_prime' && subStep % 2 === 0) {
+            let noteIdx = (subStep / 2) % 4; 
+            if (measure % 2 === 1) noteIdx = 3 - noteIdx; 
+            let note = currentChord[noteIdx + 2] * 2; 
+            playTone(note, 'sine', 0.3, 0.05, (Math.random()-0.5)*10);
         }
 
         seqStep++;
@@ -495,16 +517,14 @@
         document.getElementById('btn-about').addEventListener('click', () => { playSfx('btn'); startMusic(); showScreen('screen-about'); document.getElementById('btn-about-back').dataset.target = 'screen-menu'; });
         document.getElementById('btn-end-about').addEventListener('click', () => { playSfx('btn'); showScreen('screen-about'); document.getElementById('btn-about-back').dataset.target = 'screen-end'; });
         document.getElementById('btn-about-back').addEventListener('click', (e) => { playSfx('btn'); showScreen(e.target.dataset.target); });
-        
         document.getElementById('btn-cert').addEventListener('click', () => { playSfx('btn'); downloadCert(); });
         document.getElementById('btn-replay').addEventListener('click', () => { playSfx('btn'); startGame(); });
-        
         document.getElementById('btn-mute').addEventListener('click', () => { isMuted = !isMuted; document.getElementById('btn-mute').innerText = isMuted ? '🔇' : '🔊'; initAudio(); });
 
         document.getElementById('btn-refresh-journals').addEventListener('click', () => {
             if(state !== 'PLAYING') return;
             playSfx('btn');
-            ticks += 10; // Cost ~1 month to reroll
+            ticks += 16; 
             updateHeader();
             populateJournals();
         });
@@ -513,7 +533,7 @@
             playSfx('btn');
             document.getElementById('cascade-overlay').style.display = 'none';
             activeJournal = cascadeOffer;
-            triggerReviewPhase(false); // No desk reject on cascade
+            triggerReviewPhase(false); 
         });
 
         document.getElementById('btn-cascade-decline').addEventListener('click', () => {
@@ -538,7 +558,6 @@
         toast.style.borderColor = isError ? 'var(--neon-pink)' : 'var(--neon-green)';
         toast.style.color = isError ? 'var(--neon-pink)' : 'var(--neon-green)';
         
-        // Click to close early
         toast.addEventListener('click', () => {
             toast.classList.remove('show');
             setTimeout(() => toast.remove(), 200);
@@ -555,7 +574,7 @@
     }
 
     /* =========================================
-       DATA GENERATION (Journals & Creative SVGs)
+       DATA GENERATION (Journals & SVG Logos)
        ========================================= */
     const journalTemplates = [
         "Journal of {field}", "Advances in {field}", "Perspectives on {field}", "{field} Research", "Proceedings in {field}", 
@@ -568,24 +587,39 @@
         return activeTemplates.pop().replace(/{field}/g, playerField);
     }
 
-    // Creative SVGs as Data URIs
+    // Creative SVG Vector Icons
     const svgLogos = {
-        elsevillain: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50,90 Q45,50 20,20 M50,90 Q55,50 80,20 M50,90 L50,40" stroke="%23555" stroke-width="8" stroke-linecap="round" fill="none"/></svg>`,
-        sprinter: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M15,20 L85,50 L15,80 Z" fill="%23ff007f"/></svg>`,
-        wile: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M20,40 L80,40 L70,80 L30,80 Z" fill="%23ffff00"/><rect x="40" y="20" width="20" height="20" fill="%23ffff00"/></svg>`,
-        tailor: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="30" cy="75" r="15" fill="none" stroke="%2300ffff" stroke-width="8"/><circle cx="70" cy="75" r="15" fill="none" stroke="%2300ffff" stroke-width="8"/><line x1="35" y1="60" x2="80" y2="10" stroke="%2300ffff" stroke-width="8" stroke-linecap="round"/><line x1="65" y1="60" x2="20" y2="10" stroke="%2300ffff" stroke-width="8" stroke-linecap="round"/></svg>`,
-        community: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="30" r="15" fill="%2339ff14"/><circle cx="25" cy="70" r="15" fill="%2339ff14"/><circle cx="75" cy="70" r="15" fill="%2339ff14"/><line x1="50" y1="45" x2="35" y2="60" stroke="%2339ff14" stroke-width="6"/><line x1="50" y1="45" x2="65" y2="60" stroke="%2339ff14" stroke-width="6"/></svg>`,
-        predatory: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M10,90 Q50,20 90,90 Z" fill="%23ff0000"/></svg>` // Shark Fin
+        elsevillain: encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50,90 Q45,50 20,20 M50,90 Q55,50 80,20 M50,90 L50,40" stroke="#555" stroke-width="8" stroke-linecap="round" fill="none"/></svg>`),
+        sprinter: encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M15,20 L85,50 L15,80 Z" fill="#ff007f"/></svg>`),
+        wile: encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M20,40 L80,40 L70,80 L30,80 Z" fill="#ffff00"/><rect x="40" y="20" width="20" height="20" fill="#ffff00"/></svg>`),
+        tailor: encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="30" cy="75" r="15" fill="none" stroke="#00ffff" stroke-width="8"/><circle cx="70" cy="75" r="15" fill="none" stroke="#00ffff" stroke-width="8"/><line x1="35" y1="60" x2="80" y2="10" stroke="#00ffff" stroke-width="8" stroke-linecap="round"/><line x1="65" y1="60" x2="20" y2="10" stroke="#00ffff" stroke-width="8" stroke-linecap="round"/></svg>`),
+        community: encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="30" r="15" fill="#39ff14"/><circle cx="25" cy="70" r="15" fill="#39ff14"/><circle cx="75" cy="70" r="15" fill="#39ff14"/><line x1="50" y1="45" x2="35" y2="60" stroke="#39ff14" stroke-width="6"/><line x1="50" y1="45" x2="65" y2="60" stroke="#39ff14" stroke-width="6"/></svg>`),
+        predatory: encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M10,90 Q50,20 90,90 Z" fill="#ff0000"/></svg>`)
     };
 
     const publisherArchetypes = [
-        { type: 'Elsevillain', oa: 'closed', color: '#555555', isLegit: true, logo: svgLogos.elsevillain }, 
-        { type: 'Sprinter', oa: 'gold', color: '#ff007f', isLegit: true, logo: svgLogos.sprinter }, 
-        { type: 'Wile E.', oa: 'gold', color: '#ffff00', isLegit: true, logo: svgLogos.wile }, 
-        { type: 'Tailor & Frances', oa: 'closed', color: '#00ffff', isLegit: true, logo: svgLogos.tailor }, 
-        { type: 'Community', oa: 'diamond', color: '#39ff14', isLegit: true, logo: svgLogos.community }, 
-        { type: 'Predatory', oa: 'predatory', color: '#ff0000', isLegit: false, logo: svgLogos.predatory }  
+        { type: 'Elsevillain', oa: 'closed', color: '#555555', isLegit: true, logo: `data:image/svg+xml;utf8,${svgLogos.elsevillain}` }, 
+        { type: 'Sprinter', oa: 'gold', color: '#ff007f', isLegit: true, logo: `data:image/svg+xml;utf8,${svgLogos.sprinter}` }, 
+        { type: 'Wile E.', oa: 'gold', color: '#ffff00', isLegit: true, logo: `data:image/svg+xml;utf8,${svgLogos.wile}` }, 
+        { type: 'Tailor & Frances', oa: 'closed', color: '#00ffff', isLegit: true, logo: `data:image/svg+xml;utf8,${svgLogos.tailor}` }, 
+        { type: 'Community', oa: 'diamond', color: '#39ff14', isLegit: true, logo: `data:image/svg+xml;utf8,${svgLogos.community}` }, 
+        { type: 'Predatory', oa: 'predatory', color: '#ff0000', isLegit: false, logo: `data:image/svg+xml;utf8,${svgLogos.predatory}` }  
     ];
+
+    function getRealisticAPC(IF, isPredatory, isDiamond) {
+        if (isDiamond) return 0;
+        if (isPredatory) {
+            const predTiers = [800, 950, 1000, 1250]; 
+            return predTiers[Math.floor(Math.random() * predTiers.length)];
+        }
+        let possibleTiers = [];
+        if (IF > 15) possibleTiers = [10000, 12000, 18000];
+        else if (IF > 10) possibleTiers = [6000, 8000, 10000];
+        else if (IF > 5) possibleTiers = [2500, 4500, 5000, 6000];
+        else possibleTiers = [450, 800, 1000, 1250, 1500];
+        
+        return possibleTiers[Math.floor(Math.random() * possibleTiers.length)];
+    }
 
     function generateJournal() {
         const arch = publisherArchetypes[Math.floor(Math.random() * publisherArchetypes.length)];
@@ -597,17 +631,13 @@
 
         if (arch.type === 'Predatory') {
             IF = parseFloat((Math.random() * 10 + 15).toFixed(1)); 
-            APC = [800, 950, 1000, 1250][Math.floor(Math.random() * 4)];
+            APC = getRealisticAPC(IF, true, false);
             reviewMonths = 0.5; displayTime = "0.5 Mo.";
             accRate = 100; displayAccRate = "All"; 
         } else {
             if(arch.oa === 'closed' || arch.oa === 'diamond') APC = 0;
-            else {
-                if (IF > 15) APC = [10000, 12000, 18000][Math.floor(Math.random() * 3)];
-                else if (IF > 10) APC = [6000, 8000, 10000][Math.floor(Math.random() * 3)];
-                else if (IF > 5) APC = [2500, 4500, 5000, 6000][Math.floor(Math.random() * 4)];
-                else APC = [450, 800, 1000, 1250, 1500][Math.floor(Math.random() * 5)];
-            }
+            else APC = getRealisticAPC(IF, false, arch.oa === 'diamond');
+            
             reviewMonths = Math.floor(Math.random() * 4) + 1; 
             displayTime = `${reviewMonths} Mo.`;
             let rejRate = Math.min(95, Math.floor(IF * 4 + 10 + Math.random() * 15));
@@ -640,9 +670,9 @@
             div.className = 'journal-slot';
             div.id = `j-${j.id}`;
             div.innerHTML = `
-                <div class="j-logo" style="border-color:${j.archetype.color}"><img src="${j.logo}" style="width:100%; height:100%;"></div>
+                <div class="j-logo" style="border-color:${j.archetype.color}"><img src="${j.logo}"></div>
                 <div class="j-info">
-                    <div class="j-pub" style="color:${j.archetype.color}">${j.archetype.type} <span style="color:${oaColor}; border:1px solid; padding:1px 4px; border-radius:3px; font-size:10px;">${oaText}</span></div>
+                    <div class="j-pub" style="color:${j.archetype.color}">${j.archetype.type} <span style="color:${oaColor}; border:2px solid ${oaColor}; padding:2px 6px; border-radius:4px; font-size:11px; font-weight:900; background:rgba(0,0,0,0.5); vertical-align:middle; display:inline-block; margin-left:5px;">${oaText}</span></div>
                     <div class="j-title">${j.name}</div>
                     <div class="j-stats">
                         <span class="j-stat-item">IF: ${j.IF}</span>
@@ -657,7 +687,7 @@
     }
 
     /* =========================================
-       DRAG AND DROP LOGIC (3 Journals)
+       DRAG AND DROP LOGIC
        ========================================= */
     function setupDragAndDrop() {
         const ms = document.getElementById('ms-draggable');
@@ -676,10 +706,17 @@
             startX = clientX;
             startY = clientY;
             
+            let ph = document.createElement('div');
+            ph.id = 'ms-placeholder';
+            ph.style.width = rect.width + 'px';
+            ph.style.height = rect.height + 'px';
+            ms.parentNode.insertBefore(ph, ms);
+
             ms.style.position = 'fixed';
             ms.style.left = initX + 'px';
             ms.style.top = initY + 'px';
-            ms.style.width = rect.width + 'px'; // Lock width during drag
+            ms.style.width = rect.width + 'px'; 
+            ms.style.margin = '0';
         };
 
         const dragMove = (e) => {
@@ -697,8 +734,15 @@
             currentJournals.forEach(j => {
                 const el = document.getElementById(`j-${j.id}`);
                 const jRect = el.getBoundingClientRect();
-                if(isColliding(msRect, jRect)) el.classList.add('drag-over');
-                else el.classList.remove('drag-over');
+                
+                const msCY = msRect.top + msRect.height/2;
+                const msCX = msRect.left + msRect.width/2;
+                
+                if(msCX > jRect.left && msCX < jRect.right && msCY > jRect.top && msCY < jRect.bottom) {
+                    el.classList.add('drag-over');
+                } else {
+                    el.classList.remove('drag-over');
+                }
             });
         };
 
@@ -708,24 +752,31 @@
             ms.classList.remove('dragging');
             
             const msRect = ms.getBoundingClientRect();
+            const msCY = msRect.top + msRect.height/2;
+            const msCX = msRect.left + msRect.width/2;
+            
             let droppedJournal = null;
             
             currentJournals.forEach(j => {
                 const el = document.getElementById(`j-${j.id}`);
                 el.classList.remove('drag-over');
                 const jRect = el.getBoundingClientRect();
-                if(isColliding(msRect, jRect)) droppedJournal = j;
+                if(msCX > jRect.left && msCX < jRect.right && msCY > jRect.top && msCY < jRect.bottom) {
+                    droppedJournal = j;
+                }
             });
 
-            ms.style.position = 'absolute';
+            ms.style.position = 'relative';
             ms.style.left = '';
             ms.style.top = '';
-            ms.style.width = '95%'; // Restore responsive width
+            ms.style.width = '100%'; 
+            ms.style.margin = '';
             ms.style.transform = 'none';
+            
+            let ph = document.getElementById('ms-placeholder');
+            if(ph) ph.remove();
 
-            if(droppedJournal) {
-                handleSubmission(droppedJournal);
-            }
+            if(droppedJournal) handleSubmission(droppedJournal);
         };
 
         ms.addEventListener('mousedown', dragStart);
@@ -736,17 +787,12 @@
         document.addEventListener('touchend', dragEnd);
     }
 
-    function isColliding(r1, r2) {
-        // More forgiving collision (centers intersect)
-        const r1cx = r1.left + r1.width/2;
-        const r1cy = r1.top + r1.height/2;
-        return (r1cx > r2.left && r1cx < r2.right && r1cy > r2.top && r1cy < r2.bottom);
-    }
-
     /* =========================================
        CORE GAMEPLAY LOGIC
        ========================================= */
     function startGame() {
+        if(!audioCtx) startMusic(); // Fallback if browser blocked previous auto-starts
+        
         ticks = 0; papers = 0; totalApc = 0; paperData = []; activeTemplates = []; availableMs = [];
         
         document.getElementById('time-container').classList.remove('time-warning');
@@ -819,7 +865,7 @@
                 document.getElementById('review-overlay').style.display = 'none';
                 
                 if (isDeskReject) {
-                    showToast(`DESK REJECTED!<br><span style="font-size:18px; color:#aaa;">"${getComment('desk')}"</span>`, true);
+                    showToast(`DESK REJECTED!<br><span style="font-size:16px; color:#aaa;">"${getComment('desk')}"</span>`, true);
                     playSfx('reject');
                     if (papers < 3) { state = 'PLAYING'; populateJournals(); } 
                 } else {
@@ -840,13 +886,13 @@
             totalApc += activeJournal.APC;
             
             if (activeJournal.archetype.type === 'Predatory') {
-                showToast(`ACCEPTED!<br><span style="font-size:18px; color:#aaa;">But it's Predatory... DOES NOT COUNT!</span>`, true);
+                showToast(`ACCEPTED!<br><span style="font-size:16px; color:#aaa;">But it's Predatory... DOES NOT COUNT!</span>`, true);
                 playSfx('reject'); 
                 getNextManuscript(); 
             } else {
                 papers++;
                 document.getElementById(`pb-${papers}`).classList.add('filled');
-                showToast(`PAPER ACCEPTED!<br><span style="font-size:18px; color:#fff;">"${getComment('accept')}"</span>`, false);
+                showToast(`PAPER ACCEPTED!<br><span style="font-size:16px; color:#fff;">"${getComment('accept')}"</span>`, false);
                 playSfx('accept');
                 getNextManuscript(); 
             }
@@ -862,7 +908,6 @@
         } else {
             playSfx('reject');
             
-            // Check for Cascade
             if(activeJournal.archetype.isLegit && activeJournal.archetype.oa !== 'diamond' && Math.random() < 0.5) {
                 state = 'CASCADE';
                 
@@ -881,9 +926,9 @@
                 `;
                 
                 setTimeout(() => document.getElementById('cascade-overlay').style.display = 'flex', 500); 
-                showToast(`REJECTED!<br><span style="font-size:18px; color:#aaa;">"${getComment('reject')}"</span>`, true);
+                showToast(`REJECTED!<br><span style="font-size:16px; color:#aaa;">"${getComment('reject')}"</span>`, true);
             } else {
-                showToast(`REJECTED BY REVIEWER #2!<br><span style="font-size:18px; color:#aaa;">"${getComment('reject')}"</span>`, true);
+                showToast(`REJECTED BY REVIEWER #2!<br><span style="font-size:16px; color:#aaa;">"${getComment('reject')}"</span>`, true);
                 state = 'PLAYING';
                 populateJournals(); 
             }
@@ -964,7 +1009,6 @@
         document.getElementById('end-profile').innerText = getAuthorProfile(pred);
         document.getElementById('end-time-display').innerText = `Time Taken: ${timeStr}`;
 
-        // Populate valid papers list
         let papersListHTML = "";
         let validPapers = paperData.filter(p => p.archetype.type !== 'Predatory');
         validPapers.forEach((p, index) => {
@@ -972,12 +1016,10 @@
         });
         document.getElementById('end-papers-list').innerHTML = papersListHTML;
 
-        // Footer info
         let footerHTML = `*Total APCs paid: $${totalApc}`;
         if(pred > 0) footerHTML += `<br><span style="color:#e74c3c;">*Plus ${pred} predatory publication(s) yielding 0 value.</span>`;
         document.getElementById('end-footer-notes').innerHTML = footerHTML;
 
-        // Social sharing
         let shareText = `I got my PhD in ${timeStr} as '${getAuthorProfile(pred)}', spent $${totalApc} in APCs on Journal Match! Can you graduate faster?`;
         let encodedText = encodeURIComponent(shareText);
         let url = encodeURIComponent(window.location.href);
