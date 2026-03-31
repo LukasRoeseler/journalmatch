@@ -25,33 +25,47 @@
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'VT323', monospace; user-select: none; touch-action: none; }
 
-        body {
-            background-color: var(--bg);
-            color: var(--white);
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            height: 100dvh;
-            height: var(--app-h);
-            text-shadow: 1px 1px 0 #000;
-        }
-        
-        #app {
-            width: 100%;
-            max-width: 480px;
-            height: 100vh;
-            height: 100dvh;
-            height: var(--app-h);
-            position: relative;
-            background: var(--bg);
-            border-left: 4px solid var(--neon-cyan);
-            border-right: 4px solid var(--neon-cyan);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
+        /* REPLACE body rule */
+body {
+    background-color: var(--bg);
+    color: var(--white);
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+    height: 100dvh;
+    height: var(--app-h);
+    text-shadow: 1px 1px 0 #000;
+}
+
+/* REPLACE #app rule */
+#app {
+    width: 100%;
+    max-width: 480px;
+    height: 95vh;
+    height: 95dvh;
+    height: calc(var(--app-h) * 0.95);
+    position: relative;
+    background: var(--bg);
+    border-left: 4px solid var(--neon-cyan);
+    border-right: 4px solid var(--neon-cyan);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* REPLACE #action-panel rule */
+#action-panel {
+    background: var(--bg);
+    border-top: 3px solid var(--neon-cyan);
+    padding: 8px 10px 10px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 20;
+    flex-shrink: 0;
+}
         
         .screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); display: none; flex-direction: column; padding: 15px; z-index: 10; overflow-y: auto; overflow-x: hidden; }
         .screen.active { display: flex; }
@@ -301,14 +315,14 @@
        visible area and sets a CSS variable.
        ========================================= */
     function fixViewportHeight() {
-        const h = window.innerHeight;
-        document.documentElement.style.setProperty('--app-h', h + 'px');
-    }
-    fixViewportHeight();
-    window.addEventListener('resize', fixViewportHeight);
-    window.addEventListener('orientationchange', () => {
-        setTimeout(fixViewportHeight, 150);
-    });
+    const h = window.innerHeight;
+    document.documentElement.style.setProperty('--app-h', h + 'px');
+}
+fixViewportHeight();
+window.addEventListener('resize', fixViewportHeight);
+window.addEventListener('orientationchange', () => {
+    setTimeout(fixViewportHeight, 150);
+});
 
     /* =========================================
        SUPABASE CONFIGURATION
