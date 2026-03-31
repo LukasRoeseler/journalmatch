@@ -123,7 +123,7 @@
         <p>👈 <b>Swipe Left (or Left Arrow):</b> SKIP journal.</p>
         <p>⏰ <b>Time limits:</b> 20 real seconds = 1 PhD Year. Max 6 years. Taking over 3 years causes stress!</p>
         <p>💰 <b>APCs & IF:</b> High Impact Factors = high rejection rates and massive costs!</p>
-        <p style="color: var(--neon-pink);">⚠️ <b>Predatory Journals:</b> Instant accept, but they <b>DO NOT COUNT</b> towards your 3 papers and yield 0 citations!</p>
+        <p style="color: var(--neon-pink);">⚠️ <b>Predatory Journals:</b> They trick you! Fast review & 0% rejection, but they <b>DO NOT COUNT</b> towards your papers and yield 0 citations!</p>
         <button id="btn-tut-start" class="action-btn btn-cyan" style="margin-top: auto;">Start Swiping</button>
     </div>
 
@@ -251,12 +251,21 @@
     let seqStep = 0;
     let chordProgressionStep = 0;
     
-    // Chill Chords (Cmaj7, Am7, Dm7, G7)
+    // Complex Song Structure: Verse -> Bridge -> Chorus
+    const Cmaj7 = [261.63, 329.63, 392.00, 493.88];
+    const Am7   = [220.00, 261.63, 329.63, 392.00];
+    const Dm7   = [293.66, 349.23, 440.00, 523.25];
+    const G7    = [196.00, 246.94, 293.66, 349.23];
+    const Fmaj7 = [174.61, 220.00, 261.63, 329.63];
+    const Em7   = [164.81, 196.00, 246.94, 293.66];
+
     const chillChords = [
-        [261.63, 329.63, 392.00, 493.88],
-        [220.00, 261.63, 329.63, 392.00],
-        [293.66, 349.23, 440.00, 523.25],
-        [196.00, 246.94, 293.66, 349.23] 
+        // Verse (2x)
+        Cmaj7, Am7, Dm7, G7, Cmaj7, Am7, Dm7, G7,
+        // Bridge (2x)
+        Fmaj7, Em7, Dm7, Cmaj7, Fmaj7, Em7, Dm7, Cmaj7,
+        // Chorus (2x)
+        Am7, Fmaj7, Cmaj7, G7, Am7, Fmaj7, Cmaj7, G7
     ];
 
     function initAudio() {
@@ -311,7 +320,7 @@
         if (name === 'swipe-right') { playTone(400, 'sine', 0.1, 0.1); setTimeout(()=>playTone(600, 'sine', 0.15, 0.1), 100); }
         if (name === 'accept') { playTone(440, 'square', 0.1, 0.1); setTimeout(()=>playTone(554.37, 'square', 0.1, 0.1), 100); setTimeout(()=>playTone(659.25, 'square', 0.3, 0.1), 200); }
         if (name === 'reject') { playTone(200, 'sawtooth', 0.2, 0.1); setTimeout(()=>playTone(150, 'sawtooth', 0.4, 0.1), 150); }
-        if (name === 'warning') { // Predatory trap
+        if (name === 'warning') { // Predatory trap indicator
             playTone(800, 'square', 0.1, 0.1); setTimeout(()=>playTone(1000, 'square', 0.1, 0.1), 100);
             setTimeout(()=>playTone(800, 'square', 0.1, 0.1), 200); setTimeout(()=>playTone(1000, 'square', 0.1, 0.1), 300);
         }
@@ -320,9 +329,10 @@
     function musicLoop() {
         if(isMuted) { musicTimeout = setTimeout(musicLoop, 100); return; }
 
-        let speed = 250;
+        let speed = 250; // Default relaxing speed
         if (state === 'PLAYING' || state === 'REVIEWING') {
-            if (ticks > 400) { // Gradually speed up past Year 2.0
+            // Gradually speed up starting exactly at Year 2.0 (400 ticks)
+            if (ticks > 400) { 
                 speed = Math.max(100, 250 - (ticks - 400) * 0.15);
             }
         }
@@ -450,32 +460,43 @@
         return canvas.toDataURL('image/png'); 
     }
 
+    // Realistic APC Tiers mapped to Impact
+    function getRealisticAPC(IF, isPredatory, isDiamond) {
+        if (isDiamond) return 0;
+        if (isPredatory) {
+            const predTiers = [450, 800, 950, 1000];
+            return predTiers[Math.floor(Math.random() * predTiers.length)];
+        }
+        let possibleTiers = [];
+        if (IF > 15) possibleTiers = [10000, 12000, 18000];
+        else if (IF > 10) possibleTiers = [6000, 8000, 10000];
+        else if (IF > 5) possibleTiers = [2500, 4500, 5000, 6000];
+        else possibleTiers = [1000, 1250, 1500, 2500];
+        
+        return possibleTiers[Math.floor(Math.random() * possibleTiers.length)];
+    }
+
     function generateJournal() {
         const arch = publisherArchetypes[Math.floor(Math.random() * publisherArchetypes.length)];
         let IF = parseFloat((Math.random() * 19.5 + 0.5).toFixed(1));
+        
+        let reviewMonths = 0;
+        let displayTime = "";
+        let rejRate = 0;
         let APC = 0;
-        let reviewMonths = (arch.type === 'Predatory') ? 0 : Math.floor(Math.random() * 4) + 1; 
 
         if (arch.type === 'Predatory') {
             IF = parseFloat((Math.random() * 10 + 15).toFixed(1)); 
-            APC = Math.floor(Math.random() * 400 + 100); 
-        } else if (arch.type === 'Community') {
-            APC = 0;
+            APC = getRealisticAPC(IF, true, false);
+            reviewMonths = 0.5;
+            displayTime = "0.5 Months";
+            rejRate = 0; // Extremely tempting
         } else {
-            if (arch.oa === 'gold') {
-                if (IF >= 10.0) APC = Math.floor(Math.random() * 2000 + 10000); 
-                else APC = Math.floor(IF * 500 + Math.random() * 1000);
-            }
+            APC = arch.oa === 'closed' ? 0 : getRealisticAPC(IF, false, arch.oa === 'diamond');
+            reviewMonths = Math.floor(Math.random() * 4) + 1; 
+            displayTime = `${reviewMonths} Month${reviewMonths>1?'s':''}`;
+            rejRate = Math.min(95, Math.floor(IF * 4 + 10 + Math.random() * 15));
         }
-
-        if(APC > 0 && APC < 500 && arch.type !== 'Predatory') APC = 500;
-        if(APC > 15000) APC = 15000;
-
-        let rejRate = 0;
-        if (arch.type === 'Predatory') rejRate = 0;
-        else rejRate = Math.min(95, Math.floor(IF * 4 + 10 + Math.random() * 15));
-
-        let displayTime = reviewMonths === 0 ? "Instant" : `${reviewMonths} Month${reviewMonths>1?'s':''}`;
 
         return { 
             name: getJournalName(), archetype: arch, logo: getLogoDataURL(arch), 
@@ -535,7 +556,7 @@
         if(currentCard.archetype.oa === 'closed') oaColor = '#aaa';
         if(currentCard.archetype.oa === 'gold') oaColor = 'var(--neon-yellow)';
         if(currentCard.archetype.oa === 'diamond') oaColor = 'var(--neon-cyan)';
-        if(currentCard.archetype.type === 'Predatory') { oaColor = 'var(--neon-pink)'; oaText = "GOLD OA (PREDATORY!)"; }
+        if(currentCard.archetype.type === 'Predatory') { oaColor = 'var(--neon-yellow)'; oaText = "GOLD OA"; } // Disguised trap!
 
         cardEl.innerHTML = `
             <div class="stamp stamp-reject" id="stamp-rej">SKIP</div>
@@ -631,12 +652,6 @@
         
         let rTime = currentCard.reviewTimeMs; 
         let timeLeft = rTime;
-        
-        if(rTime === 0) { 
-            document.getElementById('review-timer').innerText = "INSTANT!";
-            setTimeout(resolveReview, 500);
-            return;
-        }
 
         let cdInterval = setInterval(() => {
             if(state !== 'REVIEWING') { clearInterval(cdInterval); return; }
@@ -652,18 +667,15 @@
     }
 
     function resolveReview() {
-        document.getElementById('review-overlay').style.display = 'none';
-        
-        // Acceptance probability based on Rejection Rate
         let isAccepted = (Math.random() * 100) > currentCard.rejRate;
 
         if (isAccepted) {
-            paperData.push(currentCard); // Record for end stats
+            paperData.push(currentCard); 
             totalApc += currentCard.APC;
             
             if (currentCard.archetype.type === 'Predatory') {
                 showToast("ACCEPTED! But it's Predatory... DOES NOT COUNT!", true);
-                playSfx('reject'); // Sad because trap
+                playSfx('reject'); // Scam alert
             } else {
                 papers++;
                 showToast("PAPER ACCEPTED!", false);
@@ -695,7 +707,7 @@
         let avgIF = papers > 0 ? totalIF / papers : 0;
         
         if (avgIF > 10) return "The Prestige Hound";
-        if (totalApc > 10000) return "The Grant Waster";
+        if (totalApc >= 10000) return "The Grant Waster";
         
         let oaCount = paperData.filter(p => p.archetype.oa !== 'closed' && p.archetype.type !== 'Predatory').length;
         if (oaCount === papers && papers > 0) return "The Open Access Crusader";
