@@ -21,15 +21,12 @@
         
         #app { width: 100%; max-width: 450px; height: 100vh; position: relative; background: var(--bg); border-left: 4px solid var(--neon-cyan); border-right: 4px solid var(--neon-cyan); display: flex; flex-direction: column; overflow: hidden; }
         
-        /* Screens */
         .screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); display: none; flex-direction: column; padding: 20px; z-index: 10; overflow-y: auto;}
         .screen.active { display: flex; }
         
-        /* Global Mute Button */
         #btn-mute { position: absolute; top: 15px; right: 15px; width: 45px; height: 45px; background: var(--bg); color: var(--neon-cyan); border: 2px solid var(--neon-cyan); font-size: 22px; z-index: 999; cursor: pointer; box-shadow: 4px 4px 0 #000; display: flex; justify-content: center; align-items: center; }
         #btn-mute:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 #000; }
 
-        /* Typography & Inputs */
         h1 { text-align: center; color: var(--neon-pink); margin-bottom: 10px; font-size: 38px; text-transform: uppercase; letter-spacing: 2px; text-shadow: 2px 2px 0 #000; }
         h2 { color: var(--neon-cyan); margin-bottom: 10px; font-size: 28px; }
         p { margin-bottom: 15px; line-height: 1.4; font-size: 20px; }
@@ -46,34 +43,44 @@
         .btn-cyan { color: var(--neon-cyan) !important; border-color: var(--neon-cyan) !important; }
         .btn-cyan:active { background: var(--neon-cyan) !important; color: #000 !important; }
         
-        /* Game UI */
-        #game-header { padding: 20px 70px 10px 15px; background: #000; border-bottom: 4px solid var(--neon-pink); z-index: 5; }
-        .stats-row { display: flex; justify-content: space-between; font-size: 22px; margin-bottom: 5px; color: var(--neon-cyan); }
-        .progress-bar { width: 100%; height: 20px; background: #222; border: 2px solid #555; position: relative; margin-bottom: 10px; }
-        .progress-fill { height: 100%; background: var(--neon-green); width: 0%; transition: width 0.3s; }
+        /* Game UI (Header) */
+        #game-header { padding: 15px 15px 10px 15px; background: #000; border-bottom: 4px solid var(--neon-pink); z-index: 5; display: flex; flex-direction: column; align-items: center; }
         
-        .warning-flash { animation: flashRed 0.5s infinite alternate; }
-        @keyframes flashRed { from { border-color: var(--neon-pink); } to { border-color: #ff0000; box-shadow: inset 0 0 20px #ff0000; } }
+        #current-manuscript { font-size: 18px; color: var(--neon-yellow); text-align: center; margin-bottom: 10px; min-height: 44px; line-height: 1.1; font-style: italic; width: 100%; }
+
+        .boxes-container { display: flex; gap: 15px; margin-bottom: 15px; }
+        .paper-box { width: 30px; height: 30px; border: 3px solid var(--neon-cyan); background: #000; transition: background 0.3s; }
+        .paper-box.filled { background: var(--neon-green); border-color: var(--neon-green); box-shadow: 0 0 10px var(--neon-green); }
+
+        .time-bar-container { width: 100%; height: 20px; background: #222; border: 2px solid #555; position: relative; overflow: hidden; }
+        .time-bar-fill { height: 100%; background: var(--neon-pink); width: 0%; transition: width 0.1s linear; }
+        .time-marker-3yr { position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; background: #fff; z-index: 2; }
+        
+        .time-warning { animation: flashTime 0.5s infinite alternate; }
+        @keyframes flashTime { from { border-color: #555; } to { border-color: #ff0000; box-shadow: 0 0 15px #ff0000; } }
 
         /* Swipe Area */
         #swipe-container { flex: 1; position: relative; display: flex; justify-content: center; align-items: center; padding: 20px; }
-        .card { width: 100%; max-width: 320px; height: 440px; background: var(--card-bg); border: 4px solid var(--neon-cyan); box-shadow: 8px 8px 0 #000; position: absolute; display: flex; flex-direction: column; align-items: center; padding: 20px; transition: transform 0.2s ease; cursor: grab; }
+        .card { width: 100%; max-width: 320px; height: 420px; background: var(--card-bg); border: 4px solid var(--neon-cyan); box-shadow: 8px 8px 0 #000; position: absolute; display: flex; flex-direction: column; align-items: center; padding: 15px; transition: transform 0.2s ease; cursor: grab; }
         .card.dragging { transition: none; cursor: grabbing; }
         
         .stamp { position: absolute; top: 30px; font-size: 40px; font-weight: bold; border: 4px solid; padding: 5px 10px; opacity: 0; z-index: 10; text-transform: uppercase; background: rgba(0,0,0,0.8); pointer-events: none;}
         .stamp-reject { right: 10px; color: var(--neon-pink); border-color: var(--neon-pink); transform: rotate(15deg); }
         .stamp-submit { left: 10px; color: var(--neon-green); border-color: var(--neon-green); transform: rotate(-15deg); }
 
-        .journal-logo { width: 80px; height: 80px; image-rendering: pixelated; margin-bottom: 10px; border: 2px solid #fff; background: #000; }
-        .journal-title { font-size: 24px; text-align: center; margin-bottom: 5px; color: var(--neon-yellow); line-height: 1.1; }
-        .journal-oa { font-size: 16px; padding: 2px 8px; border: 2px solid; margin-bottom: 15px; }
+        .publisher-header { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; margin-bottom: 5px; }
+        .journal-logo { width: 40px; height: 40px; image-rendering: pixelated; border: 2px solid #fff; background: #000; }
+        .publisher-name { font-size: 20px; color: #aaa; text-transform: uppercase; }
+
+        .journal-title { font-size: 24px; text-align: center; margin-bottom: 5px; color: var(--white); line-height: 1.1; font-weight: bold; }
+        .journal-oa { font-size: 16px; padding: 2px 8px; border: 2px solid; margin-bottom: auto; }
         
-        .stat-grid { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; text-align: center; margin-top: auto; }
+        .stat-grid { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; text-align: center; margin-top: 10px; }
         .stat-box { background: #000; padding: 5px; border: 2px solid #555; }
         .stat-val { font-size: 22px; color: var(--neon-cyan); }
         .stat-label { font-size: 14px; color: #aaa; }
 
-        .controls-hint { display: flex; justify-content: space-between; width: 100%; padding: 0 20px; position: absolute; bottom: 20px; font-size: 20px; color: #fff; pointer-events: none;}
+        .controls-hint { display: flex; justify-content: space-between; width: 100%; padding: 0 20px; position: absolute; bottom: 15px; font-size: 20px; color: #fff; pointer-events: none;}
         .hint-left { color: var(--neon-pink); }
         .hint-right { color: var(--neon-green); }
 
@@ -82,8 +89,8 @@
         .pixel-spinner { width: 40px; height: 40px; background: var(--neon-cyan); animation: spin 1s step-end infinite; margin-bottom: 20px; }
         @keyframes spin { 0% { transform: rotate(0deg); } 25% { transform: rotate(90deg); } 50% { transform: rotate(180deg); } 75% { transform: rotate(270deg); } }
 
-        #toast-container { position: absolute; top: 130px; left: 0; width: 100%; display: flex; flex-direction: column; align-items: center; z-index: 40; pointer-events: none; }
-        .toast { background: #000; border: 2px solid; color: white; padding: 15px 20px; font-size: 20px; margin-bottom: 10px; opacity: 0; transform: translateY(-20px); transition: all 0.2s; box-shadow: 4px 4px 0 #000; text-align: center; white-space: pre-line; line-height: 1.2; width: 90%;}
+        #toast-container { position: absolute; top: 180px; left: 0; width: 100%; display: flex; flex-direction: column; align-items: center; z-index: 40; pointer-events: none; }
+        .toast { background: #000; border: 2px solid; color: white; padding: 15px; font-size: 18px; margin-bottom: 10px; opacity: 0; transform: translateY(-20px); transition: all 0.2s; box-shadow: 4px 4px 0 #000; text-align: center; white-space: pre-line; line-height: 1.2; width: 90%;}
         .toast.show { opacity: 1; transform: translateY(0); }
 
         /* Receipt Style */
@@ -113,7 +120,7 @@
         <h1>JOURNAL MATCH</h1>
         <p style="text-align: center; color: var(--neon-cyan); margin-bottom: 20px;">What Author Type Are You?</p>
         
-        <input type="text" id="input-name" placeholder="Enter Nickname (Optional)" autocomplete="off">
+        <input type="text" id="input-name" placeholder="Nickname (Optional)" autocomplete="off">
         <input type="text" id="input-field" placeholder="Research Field (Optional)" autocomplete="off">
         
         <select id="input-status" required>
@@ -126,7 +133,7 @@
         </select>
 
         <select id="input-apc" required>
-            <option value="" disabled selected>Ever paid an APC as 1st author?</option>
+            <option value="" disabled selected>Ever paid APCs as 1st author?</option>
             <option value="Yes">Yes</option>
             <option value="No">No</option>
         </select>
@@ -135,15 +142,15 @@
         <button id="btn-about" class="action-btn btn-cyan">About / Context</button>
     </div>
 
-    <!-- TUTORIAL (Shown only once) -->
+    <!-- TUTORIAL -->
     <div id="screen-tutorial" class="screen">
         <h2 id="tut-greeting" style="color: var(--neon-yellow); line-height: 1.2;"></h2>
-        <p style="margin-top: 10px;">Goal: Publish 3 papers to get your PhD.</p>
-        <p>👉 <b>Swipe Right (or Right Arrow):</b> SUBMIT to journal.</p>
-        <p>👈 <b>Swipe Left (or Left Arrow):</b> SKIP journal.</p>
-        <p>⏰ <b>Time limits:</b> 20 real seconds = 1 PhD Year. Max 6 years. Taking over 3 years causes stress!</p>
-        <p>💰 <b>APCs & IF:</b> High Impact Factors = high rejection rates and massive costs!</p>
-        <p style="color: var(--neon-pink);">⚠️ <b>Predatory Journals:</b> They trick you! Fast review & 0% rejection, but they <b>DO NOT COUNT</b> towards your papers and yield 0 citations!</p>
+        <p style="margin-top: 10px;">Goal: Publish 3 papers to graduate.</p>
+        <p>👉 <b>Swipe Right:</b> SUBMIT.</p>
+        <p>👈 <b>Swipe Left:</b> SKIP.</p>
+        <p>⏰ <b>Time limits:</b> 20 real seconds = 1 PhD Year. Max 6 years. Over 3 years = Stress!</p>
+        <p>💰 <b>APCs & IF:</b> High Impact Factors = Low Acceptance Rates and massive costs!</p>
+        <p style="color: var(--neon-pink);">⚠️ <b>Predatory Journals:</b> They trick you! Fast review & 100% acceptance, but they <b>DO NOT COUNT</b> towards your papers!</p>
         <button id="btn-tut-start" class="action-btn btn-cyan" style="margin-top: auto;">Start Swiping</button>
     </div>
 
@@ -151,13 +158,13 @@
     <div id="screen-about" class="screen">
         <h2>The Reality of Publishing</h2>
         <p>This game is a satirical but grimly accurate reflection of academic publishing.</p>
-        <p>Early career researchers face immense pressure to "Publish or Perish". They navigate exorbitant Article Processing Charges (APCs) dictated by a multi-billion dollar oligopoly.</p>
-        <p>Meanwhile, review processes rely on free labor from peers, causing massive delays and stress, highlighted by movements like the German <b>#ichbinhanna</b>.</p>
+        <p>Early career researchers face immense pressure to "Publish or Perish". They navigate exorbitant Article Processing Charges (APCs) dictated by an oligopoly.</p>
+        <p>Meanwhile, review processes rely on free labor from peers, causing massive delays and stress, highlighted by movements like <b>#ichbinhanna</b>.</p>
         
         <div class="serious-box">
             <h3 style="color:var(--neon-pink); margin-bottom:5px;">⚠️ Mental Health Warning</h3>
             <p style="font-size:16px; margin-bottom:10px;">Burnout and mental health crises in academia are serious and common (<a href="https://doi.org/10.1177/1745691619898848" target="_blank">see research here</a>).</p>
-            <p style="font-size:16px; margin-bottom:0;">If you or someone you know is affected, please seek help. In Germany, you can contact the <a href="https://www.telefonseelsorge.de/" target="_blank">TelefonSeelsorge (111 0 111)</a> or visit <a href="https://hilfetelefon.de" target="_blank">hilfetelefon.de</a>.</p>
+            <p style="font-size:16px; margin-bottom:0;">If you are affected, please seek help. In Germany, contact <a href="https://www.telefonseelsorge.de/" target="_blank">TelefonSeelsorge (111 0 111)</a> or visit <a href="https://hilfetelefon.de" target="_blank">hilfetelefon.de</a>.</p>
         </div>
 
         <button id="btn-about-back" class="action-btn" style="margin-top: auto;">Back</button>
@@ -166,14 +173,15 @@
     <!-- GAME UI -->
     <div id="screen-game" class="screen" style="padding: 0;">
         <div id="game-header">
-            <div class="stats-row" style="font-size:18px;">
-                <span id="ui-papers-text">Papers: 0/3</span>
-                <span id="ui-year">Year: 0.0</span>
+            <div id="current-manuscript">"Manuscript Title Here"</div>
+            <div class="boxes-container">
+                <div class="paper-box" id="pb-1"></div>
+                <div class="paper-box" id="pb-2"></div>
+                <div class="paper-box" id="pb-3"></div>
             </div>
-            <div class="progress-bar"><div id="ui-progress" class="progress-fill"></div></div>
-            <div class="stats-row" style="font-size:16px; color: var(--neon-pink);">
-                <span id="ui-apc">APCs: $0</span>
-                <span id="ui-warning" style="display:none;">⚠️ OVER 3 YEARS!</span>
+            <div class="time-bar-container" id="time-container">
+                <div class="time-bar-fill" id="time-bar"></div>
+                <div class="time-marker-3yr"></div>
             </div>
         </div>
 
@@ -200,7 +208,7 @@
     <div id="screen-loading" class="screen" style="justify-content: center; align-items: center;">
         <div class="pixel-spinner" style="background: var(--neon-pink);"></div>
         <h2 style="color:var(--neon-green); text-align:center;">CONGRATULATIONS!</h2>
-        <p style="text-align:center; color: var(--white);">You got 3 accepted papers!</p>
+        <p style="text-align:center; color: var(--white);">You published 3 papers!</p>
         <p style="text-align:center; color: var(--neon-cyan); margin-top:20px;">Computing academic worth...<br><span id="loading-dots"></span></p>
     </div>
 
@@ -213,11 +221,10 @@
         
         <!-- Receipt -->
         <div class="receipt">
-            <div class="receipt-row"><span>Years Taken:</span><span id="end-years">0</span></div>
+            <div class="receipt-row"><span>Time Taken:</span><span id="end-years">0</span></div>
             <div class="receipt-row"><span>Total APCs:</span><span id="end-apc">$0</span></div>
-            <div class="receipt-row"><span>Citations:</span><span id="end-citations">0</span></div>
             <hr>
-            <div class="receipt-row" style="font-weight:bold; font-size:20px;"><span>FINAL SCORE:</span><span id="end-score">0</span></div>
+            <div class="receipt-row" style="font-weight:bold; font-size:20px;"><span>SCORE:</span><span id="end-score">0</span></div>
         </div>
         
         <p id="end-msg" style="text-align: center; color: var(--neon-pink); font-size: 16px; margin-bottom: 10px;"></p>
@@ -264,72 +271,157 @@
     let playerField = "";
     let playerStatus = "";
     let playerAPCExp = "";
-    let activeTemplates = [];
-
-    const TICKS_PER_YEAR = 200; 
+    
+    const TICKS_PER_YEAR = 200; // 20s = 1 Year
     const MAX_YEARS = 6;
     const WARNING_YEAR = 3;
 
+    const normalNames = ["Alex", "Sam", "Jordan", "Taylor", "Casey", "Morgan", "Riley", "Jamie", "Robin", "Drew"];
     const funnyFields = ["Applied Procrastination", "Quantum Astrology", "Theoretical Memetics", "Advanced Coffee Consumption", "Subatomic Sociology", "Recreational Anxiety", "Crypto-Zoological Finance", "Post-Modern Thermodynamics"];
 
-    // Reviewer Comments
-    const acceptComments = [
-        "The researcher should get an award.",
-        "This will surely move our field forward.",
-        "I love it. So so much!",
-        "Accept as is (a rare honor).",
-        "Groundbreaking work.",
-        "Minor spelling errors on page 42, otherwise brilliant."
+    /* =========================================
+       MANUSCRIPT & COMMENT GENERATORS
+       ========================================= */
+    const msTemplates = [
+        "Towards a unified theory of {field}",
+        "Why everything we know about {field} is wrong",
+        "A meta-analysis of meta-analyses in {field}",
+        "The impact of {field} on modern society",
+        "Re-evaluating the fundamental paradigms of {field}",
+        "A novel approach to {field} methodologies",
+        "The hidden crisis within {field}",
+        "Machine learning applications in {field}",
+        "Historical perspectives on {field}",
+        "Future directions for {field} research",
+        "A critical review of {field} literature",
+        "Bridging the gap between {field} and reality",
+        "The paradox of choice in {field}",
+        "Empirical evidence supporting new {field} theories",
+        "Deconstructing the myths of {field}",
+        "A longitudinal study of {field} dynamics",
+        "The role of artificial intelligence in {field}",
+        "Ethical considerations in {field}",
+        "A qualitative analysis of {field} practitioners",
+        "Quantitative bounds of {field} theorems",
+        "The intersection of {field} and public policy",
+        "Disruptive innovations in {field}",
+        "A comprehensive framework for {field}",
+        "The evolution of {field} over the last decade",
+        "Challenges and opportunities in {field}",
+        "An exploratory study into {field}",
+        "Demystifying complex systems in {field}",
+        "The socio-economic impacts of {field}",
+        "A multi-disciplinary approach to {field}",
+        "Rethinking foundational models in {field}"
     ];
-    
-    const rejectComments = [
-        "I tried to like it but I couldn't.",
-        "This was obviously written by a first-year PhD student.",
-        "The authors failed to cite my completely unrelated 2012 paper.",
-        "Fundamentally flawed methodology.",
-        "Not novel enough for this prestigious journal.",
-        "Reviewer #2 simply said: 'No.'"
+
+    let availableMs = [];
+    let currentMsTitle = "";
+
+    function getNextManuscript() {
+        if(availableMs.length === 0) availableMs = [...msTemplates].sort(() => Math.random() - 0.5);
+        currentMsTitle = availableMs.pop().replace(/{field}/g, playerField);
+        return currentMsTitle;
+    }
+
+    const acceptCommentsPool = [
+        "The researcher should get an award.", "This will surely move our field forward.", "I love it. So so much!",
+        "Accept as is (a rare honor).", "Groundbreaking work.", "Minor spelling errors on page 42, otherwise brilliant.",
+        "A masterpiece of academic literature.", "I wish I had written this myself.", "Clear, concise, and revolutionary.",
+        "The methodology is flawlessly executed.", "A vital contribution to the literature.", "Exactly what this journal needs.",
+        "Stunningly insightful.", "I learned a lot from reading this.", "The data speaks for itself.",
+        "Impeccable statistical analysis.", "A joy to read.", "Transforms our understanding of the subject.",
+        "The authors are clearly experts.", "Exceptional rigor.", "Beautifully visualized data.",
+        "A triumph of modern research.", "Thoroughly convincing.", "I recommend immediate publication.",
+        "A benchmark for future studies.", "Elegant theoretical framework.", "Outstanding clarity.",
+        "This paper gave me hope for academia.", "A flawless submission.", "Perfection."
+    ];
+
+    const rejectCommentsPool = [
+        "I tried to like it but I couldn't.", "This was obviously written by a first-year PhD student.", "The authors failed to cite my completely unrelated 2012 paper.",
+        "Fundamentally flawed methodology.", "Not novel enough for this prestigious journal.", "Reviewer #2 simply said: 'No.'",
+        "The sample size is laughably small.", "Grammar is atrocious.", "I fell asleep reading the abstract.",
+        "The conclusions do not follow from the data.", "This has already been done in 1985.", "Lacks theoretical depth.",
+        "The figures look like they were made in MS Paint.", "Completely unreadable.", "A waste of my time.",
+        "I strongly disagree with the core premise.", "The authors ignore the last decade of literature.", "Too speculative.",
+        "Reads like a blog post.", "Methodological disaster.", "Statistical tests are inappropriate.",
+        "The hypothesis is trivial.", "Formatting ignores our guidelines completely.", "I am baffled by the inclusion of Figure 3.",
+        "The intro is far too long.", "Data is clearly cherry-picked.", "This belongs in a lesser journal.",
+        "I reject this on philosophical grounds.", "The experiment lacks proper controls.", "Just... no."
     ];
 
     const deskRejectComments = [
-        "Outside the scope of this journal.",
-        "Does not meet our high editorial threshold.",
-        "We receive too many submissions and must reject this without review."
+        "Outside the scope of this journal.", "Does not meet our high editorial threshold.", "We receive too many submissions and must reject this without review.",
+        "The Editor-in-Chief vetoed this immediately.", "Fails the basic technical checks.", "Please format correctly and resubmit elsewhere."
     ];
 
+    let availAccept = [], availReject = [];
+    function getComment(type) {
+        if(type === 'accept') {
+            if(availAccept.length === 0) availAccept = [...acceptCommentsPool].sort(()=>Math.random()-0.5);
+            return availAccept.pop();
+        } else if(type === 'reject') {
+            if(availReject.length === 0) availReject = [...rejectCommentsPool].sort(()=>Math.random()-0.5);
+            return availReject.pop();
+        } else {
+            return deskRejectComments[Math.floor(Math.random()*deskRejectComments.length)];
+        }
+    }
+
     /* =========================================
-       CHILL NINTENDO WII STYLE AUDIO ENGINE
+       CHILL LO-FI AUDIO ENGINE
        ========================================= */
     let audioCtx = null;
+    let noiseBuffer = null;
     let musicTimeout = null;
     let seqStep = 0;
-    let chordProgressionStep = 0;
     
-    // Complex Song Structure: Verse -> Bridge -> Chorus
-    const Cmaj7 = [261.63, 329.63, 392.00, 493.88];
-    const Am7   = [220.00, 261.63, 329.63, 392.00];
-    const Dm7   = [293.66, 349.23, 440.00, 523.25];
-    const G7    = [196.00, 246.94, 293.66, 349.23];
-    const Fmaj7 = [174.61, 220.00, 261.63, 329.63];
-    const Em7   = [164.81, 196.00, 246.94, 293.66];
-
-    const chillChords = [
-        Cmaj7, Am7, Dm7, G7, Cmaj7, Am7, Dm7, G7, // Verse
-        Fmaj7, Em7, Dm7, Cmaj7, Fmaj7, Em7, Dm7, Cmaj7, // Bridge
-        Am7, Fmaj7, Cmaj7, G7, Am7, Fmaj7, Cmaj7, G7 // Chorus
+    // Song Parts: Verse, Chorus, Bridge
+    // Let's use jazzy/lofi chords
+    const Cmaj9 = [130.81, 261.63, 329.63, 392.00, 493.88, 587.33];
+    const Am9   = [110.00, 220.00, 261.63, 329.63, 392.00, 493.88];
+    const Dm9   = [146.83, 293.66, 349.23, 440.00, 523.25, 659.25];
+    const G13   = [98.00,  196.00, 246.94, 349.23, 440.00, 659.25];
+    const Fmaj9 = [87.31,  174.61, 261.63, 329.63, 392.00, 493.88];
+    const E7aug = [82.41,  164.81, 207.65, 293.66, 392.00, 523.25];
+    
+    // Progression: Verse(x2) -> Chorus(x2) -> Bridge(x1) -> Chorus(x1)
+    const songStructure = [
+        Cmaj9, Am9, Dm9, G13, Cmaj9, Am9, Dm9, G13, // Verse
+        Fmaj9, Cmaj9, Fmaj9, Cmaj9, Fmaj9, Cmaj9, Dm9, G13, // Chorus
+        E7aug, Am9, E7aug, Am9, Dm9, G13, Cmaj9, G13 // Bridge
     ];
 
     function initAudio() {
-        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (!audioCtx) {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            
+            // Generate Vinyl Crackle Buffer
+            const bufferSize = audioCtx.sampleRate * 2; 
+            noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const output = noiseBuffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) output[i] = Math.random() * 2 - 1;
+            
+            // Play continuous very low vinyl noise
+            const noiseSrc = audioCtx.createBufferSource();
+            noiseSrc.buffer = noiseBuffer;
+            noiseSrc.loop = true;
+            const filter = audioCtx.createBiquadFilter();
+            filter.type = 'lowpass'; filter.frequency.value = 800;
+            const gain = audioCtx.createGain();
+            gain.gain.value = 0.005; // Very subtle
+            noiseSrc.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination);
+            noiseSrc.start();
+        }
         if (audioCtx.state === 'suspended') audioCtx.resume();
     }
 
-    function playTone(freq, type, duration, vol) {
+    function playTone(freq, type, duration, vol, detune=0) {
         if (isMuted || !audioCtx) return;
         try {
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
-            osc.type = type; osc.frequency.value = freq;
+            osc.type = type; osc.frequency.value = freq; osc.detune.value = detune; // Add lo-fi detune
             osc.connect(gain); gain.connect(audioCtx.destination);
             gain.gain.setValueAtTime(vol, audioCtx.currentTime);
             gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
@@ -339,15 +431,17 @@
 
     function playSoftChord(chord) {
         if (isMuted || !audioCtx) return;
-        chord.forEach(freq => {
+        chord.forEach((freq, i) => {
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
-            osc.type = 'sine'; osc.frequency.value = freq;
+            osc.type = i < 2 ? 'triangle' : 'sine'; // Bass notes triangle, upper notes sine
+            osc.frequency.value = freq;
+            osc.detune.value = (Math.random() - 0.5) * 10; // Lo-fi pitch wobble
             osc.connect(gain); gain.connect(audioCtx.destination);
             gain.gain.setValueAtTime(0, audioCtx.currentTime);
-            gain.gain.linearRampToValueAtTime(0.04, audioCtx.currentTime + 0.1);
-            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.5);
-            osc.start(); osc.stop(audioCtx.currentTime + 1.5);
+            gain.gain.linearRampToValueAtTime(i < 2 ? 0.06 : 0.03, audioCtx.currentTime + 0.1);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 2.0);
+            osc.start(); osc.stop(audioCtx.currentTime + 2.0);
         });
     }
 
@@ -356,11 +450,24 @@
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
         osc.connect(gain); gain.connect(audioCtx.destination);
-        osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+        osc.frequency.setValueAtTime(120, audioCtx.currentTime);
         osc.frequency.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
-        gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.6, audioCtx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
         osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+    }
+
+    function playHat() {
+        if (isMuted || !audioCtx || !noiseBuffer) return;
+        const source = audioCtx.createBufferSource();
+        const filter = audioCtx.createBiquadFilter();
+        const gain = audioCtx.createGain();
+        source.buffer = noiseBuffer;
+        filter.type = 'highpass'; filter.frequency.value = 6000;
+        source.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination);
+        gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+        source.start();
     }
 
     function playSfx(name) {
@@ -371,34 +478,47 @@
         if (name === 'swipe-right') { playTone(400, 'sine', 0.1, 0.1); setTimeout(()=>playTone(600, 'sine', 0.15, 0.1), 100); }
         if (name === 'accept') { playTone(440, 'square', 0.1, 0.1); setTimeout(()=>playTone(554.37, 'square', 0.1, 0.1), 100); setTimeout(()=>playTone(659.25, 'square', 0.3, 0.1), 200); }
         if (name === 'reject') { playTone(200, 'sawtooth', 0.2, 0.1); setTimeout(()=>playTone(150, 'sawtooth', 0.4, 0.1), 150); }
-        if (name === 'warning') { 
+        if (name === 'warning') { // Trap indicator
             playTone(800, 'square', 0.1, 0.1); setTimeout(()=>playTone(1000, 'square', 0.1, 0.1), 100);
             setTimeout(()=>playTone(800, 'square', 0.1, 0.1), 200); setTimeout(()=>playTone(1000, 'square', 0.1, 0.1), 300);
         }
     }
 
     function musicLoop() {
-        if(isMuted) { musicTimeout = setTimeout(musicLoop, 100); return; }
+        if(isMuted) { musicTimeout = setTimeout(musicLoop, 200); return; }
 
-        let speed = 250; 
+        let stepDuration = 350; // Base tempo (chill)
         if (state === 'PLAYING' || state === 'REVIEWING') {
-            if (ticks > 400) { speed = Math.max(100, 250 - (ticks - 400) * 0.15); }
+            if (ticks > 400) { stepDuration = Math.max(150, 350 - (ticks - 400) * 0.2); } // Speed up past Yr 2
         }
         
-        if (seqStep % 8 === 0) playKick();
-        if (seqStep % 16 === 0) {
-            playSoftChord(chillChords[chordProgressionStep]);
-            chordProgressionStep = (chordProgressionStep + 1) % chillChords.length;
-        }
-        if (seqStep % 4 === 0) playTone(chillChords[chordProgressionStep][0] / 2, 'triangle', 0.4, 0.15); 
+        // 16-step sequencer (1 measure)
+        let subStep = seqStep % 16;
+        let chordIndex = Math.floor(seqStep / 16) % songStructure.length;
 
-        seqStep = (seqStep + 1) % 16;
-        musicTimeout = setTimeout(musicLoop, speed);
+        // Drums
+        if (subStep === 0 || subStep === 10) playKick();
+        if (subStep % 2 === 0) playHat();
+        
+        // Chords
+        if (subStep === 0) playSoftChord(songStructure[chordIndex]);
+        if (subStep === 8) playSoftChord(songStructure[chordIndex]); // Soft hit on beat 3
+        
+        // Lo-fi Melody noodle (pentatonic based on chord root)
+        if (subStep % 4 === 0 && Math.random() > 0.3) {
+            let root = songStructure[chordIndex][0] * 4; // Shift up 2 octaves
+            let pentatonic = [1, 1.122, 1.25, 1.5, 1.666]; // R, M2, M3, P5, M6
+            let note = root * pentatonic[Math.floor(Math.random()*pentatonic.length)];
+            playTone(note, 'sine', 0.4, 0.05, (Math.random()-0.5)*15);
+        }
+
+        seqStep++;
+        musicTimeout = setTimeout(musicLoop, stepDuration);
     }
 
     function startMusic() {
         initAudio();
-        if(!musicTimeout) { seqStep = 0; chordProgressionStep = 0; musicLoop(); }
+        if(!musicTimeout) { seqStep = 0; musicLoop(); }
     }
 
     function playWinFanfare() {
@@ -417,7 +537,8 @@
        UI BINDINGS & LOGIC
        ========================================= */
     document.addEventListener('DOMContentLoaded', () => {
-        startMusic(); // Start music on load if browser allows, otherwise waits for first interaction
+        // Try starting music, browsers may block until interaction
+        document.body.addEventListener('click', () => { if(!audioCtx) startMusic(); }, {once:true});
 
         document.getElementById('btn-play').addEventListener('click', () => {
             playSfx('btn');
@@ -428,7 +549,7 @@
             playerStatus = document.getElementById('input-status').value || "Unknown";
             playerAPCExp = document.getElementById('input-apc').value || "Unknown";
             
-            if (!playerName) playerName = "Dr. User";
+            if (!playerName) playerName = normalNames[Math.floor(Math.random() * normalNames.length)];
             if (!playerField) playerField = funnyFields[Math.floor(Math.random() * funnyFields.length)];
             
             if (!hasSeenTutorial) {
@@ -439,23 +560,13 @@
             }
         });
 
-        document.getElementById('btn-tut-start').addEventListener('click', () => {
-            playSfx('btn'); hasSeenTutorial = true; startGame();
-        });
-
+        document.getElementById('btn-tut-start').addEventListener('click', () => { playSfx('btn'); hasSeenTutorial = true; startGame(); });
         document.getElementById('btn-about').addEventListener('click', () => { playSfx('btn'); startMusic(); showScreen('screen-about'); document.getElementById('btn-about-back').dataset.target = 'screen-menu'; });
         document.getElementById('btn-end-about').addEventListener('click', () => { playSfx('btn'); showScreen('screen-about'); document.getElementById('btn-about-back').dataset.target = 'screen-end'; });
-        
         document.getElementById('btn-about-back').addEventListener('click', (e) => { playSfx('btn'); showScreen(e.target.dataset.target); });
-
         document.getElementById('btn-cert').addEventListener('click', () => { playSfx('btn'); downloadCert(); });
         document.getElementById('btn-replay').addEventListener('click', () => { playSfx('btn'); startGame(); });
-
-        document.getElementById('btn-mute').addEventListener('click', () => {
-            isMuted = !isMuted;
-            document.getElementById('btn-mute').innerText = isMuted ? '🔇' : '🔊';
-            initAudio(); 
-        });
+        document.getElementById('btn-mute').addEventListener('click', () => { isMuted = !isMuted; document.getElementById('btn-mute').innerText = isMuted ? '🔇' : '🔊'; initAudio(); });
     });
 
     function showScreen(id) {
@@ -466,25 +577,22 @@
     function showToast(msg, isError = false) {
         const container = document.getElementById('toast-container');
         const toast = document.createElement('div');
-        toast.className = 'toast'; toast.innerHTML = msg; // allow <br>
+        toast.className = 'toast'; toast.innerHTML = msg; 
         toast.style.borderColor = isError ? 'var(--neon-pink)' : 'var(--neon-green)';
         toast.style.color = isError ? 'var(--neon-pink)' : 'var(--neon-green)';
         container.appendChild(toast);
         setTimeout(() => toast.classList.add('show'), 10);
-        setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 300); }, 3500); // 3.5s for reading
+        setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 300); }, 3500); 
     }
 
     /* =========================================
        DATA GENERATION
        ========================================= */
     const journalTemplates = [
-        "Journal of {field}", "Advances in {field}", "Perspectives on {field}",
-        "{field} Research", "Proceedings in {field}", "The {field} Review",
-        "International Journal of {field}", "Frontiers in {field}",
-        "Applied {field}", "Theoretical {field}", "Annual Review of {field}",
-        "Trends in {field}", "Current Opinions in {field}", "Archives of {field}", 
-        "The {field} Bulletin", "{field} Letters", "Quarterly Journal of {field}", 
-        "Global {field} Science", "Journal of Applied {field}"
+        "Journal of {field}", "Advances in {field}", "Perspectives on {field}", "{field} Research", "Proceedings in {field}", 
+        "The {field} Review", "International Journal of {field}", "Frontiers in {field}", "Applied {field}", "Theoretical {field}", 
+        "Annual Review of {field}", "Trends in {field}", "Current Opinions in {field}", "Archives of {field}", "The {field} Bulletin", 
+        "{field} Letters", "Quarterly Journal of {field}", "Global {field} Science", "Journal of Applied {field}"
     ];
 
     function getJournalName() {
@@ -506,23 +614,21 @@
         const ctx = canvas.getContext('2d');
         ctx.clearRect(0,0,8,8);
         ctx.fillStyle = archetype.color;
-        for(let i=0; i<64; i++) {
-            if(archetype.grid[i] === 1) ctx.fillRect(i%8, Math.floor(i/8), 1, 1);
-        }
+        for(let i=0; i<64; i++) { if(archetype.grid[i] === 1) ctx.fillRect(i%8, Math.floor(i/8), 1, 1); }
         return canvas.toDataURL('image/png'); 
     }
 
     function getRealisticAPC(IF, isPredatory, isDiamond) {
         if (isDiamond) return 0;
         if (isPredatory) {
-            const predTiers = [450, 800, 950, 1000];
+            const predTiers = [800, 950, 1000, 1250]; // Always around 1K
             return predTiers[Math.floor(Math.random() * predTiers.length)];
         }
         let possibleTiers = [];
         if (IF > 15) possibleTiers = [10000, 12000, 18000];
         else if (IF > 10) possibleTiers = [6000, 8000, 10000];
         else if (IF > 5) possibleTiers = [2500, 4500, 5000, 6000];
-        else possibleTiers = [1000, 1250, 1500, 2500];
+        else possibleTiers = [450, 800, 1000, 1250, 1500];
         
         return possibleTiers[Math.floor(Math.random() * possibleTiers.length)];
     }
@@ -531,27 +637,30 @@
         const arch = publisherArchetypes[Math.floor(Math.random() * publisherArchetypes.length)];
         let IF = parseFloat((Math.random() * 19.5 + 0.5).toFixed(1));
         
-        let reviewMonths = 0;
-        let displayTime = "";
-        let rejRate = 0;
+        let reviewMonths = 0; let displayTime = "";
+        let accRate = 0; let displayAccRate = "";
         let APC = 0;
 
         if (arch.type === 'Predatory') {
             IF = parseFloat((Math.random() * 10 + 15).toFixed(1)); 
             APC = getRealisticAPC(IF, true, false);
-            reviewMonths = 0.5;
-            displayTime = "0.5 Months";
-            rejRate = 0; 
+            reviewMonths = 0.5; displayTime = "0.5 Months";
+            accRate = 100; displayAccRate = "100%"; // Trick players
         } else {
             APC = arch.oa === 'closed' ? 0 : getRealisticAPC(IF, false, arch.oa === 'diamond');
             reviewMonths = Math.floor(Math.random() * 4) + 1; 
             displayTime = `${reviewMonths} Month${reviewMonths>1?'s':''}`;
-            rejRate = Math.min(95, Math.floor(IF * 4 + 10 + Math.random() * 15));
+            // Convert rej rate to Acc rate
+            let rejRate = Math.min(95, Math.floor(IF * 4 + 10 + Math.random() * 15));
+            accRate = 100 - rejRate;
+            if(accRate > 60) displayAccRate = "High";
+            else if(accRate > 30) displayAccRate = "Medium";
+            else displayAccRate = "Low";
         }
 
         return { 
             name: getJournalName(), archetype: arch, logo: getLogoDataURL(arch), 
-            IF, APC, rejRate, reviewMonths, reviewTimeMs: reviewMonths * 1000, displayTime 
+            IF, APC, accRate, displayAccRate, reviewMonths, reviewTimeMs: reviewMonths * 1000, displayTime 
         };
     }
 
@@ -559,9 +668,14 @@
        CORE GAMEPLAY
        ========================================= */
     function startGame() {
-        ticks = 0; papers = 0; totalApc = 0; paperData = []; activeTemplates = [];
-        document.getElementById('app').classList.remove('warning-flash');
-        document.getElementById('ui-warning').style.display = 'none';
+        ticks = 0; papers = 0; totalApc = 0; paperData = []; activeTemplates = []; availableMs = [];
+        
+        document.getElementById('time-container').classList.remove('time-warning');
+        document.getElementById('pb-1').className = "paper-box";
+        document.getElementById('pb-2').className = "paper-box";
+        document.getElementById('pb-3').className = "paper-box";
+        
+        getNextManuscript(); // generate first title
         
         updateHeader();
         showScreen('screen-game');
@@ -573,15 +687,15 @@
     }
 
     function updateHeader() {
-        let years = (ticks / TICKS_PER_YEAR).toFixed(1);
-        document.getElementById('ui-year').innerText = `Year: ${years}`;
-        document.getElementById('ui-papers-text').innerText = `Papers: ${papers}/3`;
-        document.getElementById('ui-progress').style.width = `${(papers/3)*100}%`;
-        document.getElementById('ui-apc').innerText = `APCs: $${totalApc}`;
+        // Timeline Bar
+        let pct = (ticks / (MAX_YEARS * TICKS_PER_YEAR)) * 100;
+        document.getElementById('time-bar').style.width = `${pct}%`;
+        
+        document.getElementById('current-manuscript').innerText = `"${currentMsTitle}"`;
 
-        if (years >= WARNING_YEAR && document.getElementById('ui-warning').style.display === 'none') {
-            document.getElementById('app').classList.add('warning-flash');
-            document.getElementById('ui-warning').style.display = 'block';
+        let years = (ticks / TICKS_PER_YEAR).toFixed(1);
+        if (years >= WARNING_YEAR && !document.getElementById('time-container').classList.contains('time-warning')) {
+            document.getElementById('time-container').classList.add('time-warning');
         }
         if (years >= MAX_YEARS) endGame(false);
     }
@@ -612,12 +726,15 @@
         cardEl.innerHTML = `
             <div class="stamp stamp-reject" id="stamp-rej">SKIP</div>
             <div class="stamp stamp-submit" id="stamp-sub">SUBMIT</div>
-            <img src="${currentCard.logo}" class="journal-logo" style="border-color:${currentCard.archetype.color}">
+            <div class="publisher-header">
+                <img src="${currentCard.logo}" class="journal-logo" style="border-color:${currentCard.archetype.color}">
+                <div class="publisher-name" style="color:${currentCard.archetype.color}">${currentCard.archetype.type}</div>
+            </div>
             <div class="journal-title">${currentCard.name}</div>
             <div class="journal-oa" style="color:${oaColor}; border-color:${oaColor};">${oaText}</div>
             <div class="stat-grid">
                 <div class="stat-box"><div class="stat-val">${currentCard.IF}</div><div class="stat-label">Impact Factor</div></div>
-                <div class="stat-box"><div class="stat-val">${currentCard.rejRate}%</div><div class="stat-label">Rejection Rate</div></div>
+                <div class="stat-box"><div class="stat-val" style="color:${currentCard.displayAccRate==='100%'?'var(--neon-pink)':'var(--neon-cyan)'}">${currentCard.displayAccRate}</div><div class="stat-label">Acceptance Rate</div></div>
                 <div class="stat-box"><div class="stat-val">$${currentCard.APC}</div><div class="stat-label">APC</div></div>
                 <div class="stat-box"><div class="stat-val">${currentCard.displayTime}</div><div class="stat-label">Review Time</div></div>
             </div>
@@ -680,7 +797,7 @@
         
         sendSupabaseTrial({
             session_id: sessionId, player_name: playerName, academic_status: playerStatus, paid_apc_before: playerAPCExp,
-            journal_publisher: currentCard.archetype.type, journal_name: currentCard.name, 
+            journal_publisher: currentCard.archetype.type, journal_name: currentCard.name, manuscript_title: currentMsTitle,
             impact_factor: currentCard.IF, apc_cost: currentCard.APC, decision_made: dir, 
             reaction_time_ms: rt, current_in_game_year: parseFloat((ticks / TICKS_PER_YEAR).toFixed(2))
         });
@@ -709,7 +826,7 @@
         // 10% Desk Reject chance (legit journals only)
         if (currentCard.archetype.type !== 'Predatory' && Math.random() < 0.10) {
             isDeskReject = true;
-            timeLeft = 500; // 0.5 months
+            timeLeft = 500; // instant
         }
 
         let cdInterval = setInterval(() => {
@@ -720,10 +837,9 @@
                 document.getElementById('review-overlay').style.display = 'none';
                 
                 if (isDeskReject) {
-                    const cmt = deskRejectComments[Math.floor(Math.random() * deskRejectComments.length)];
-                    showToast(`DESK REJECTED!<br><span style="font-size:16px; color:#aaa;">"${cmt}"</span>`, true);
+                    showToast(`DESK REJECTED!<br><span style="font-size:16px; color:#aaa;">"${getComment('desk')}"</span>`, true);
                     playSfx('reject');
-                    if (papers < 3) { state = 'PLAYING'; spawnCard(); }
+                    if (papers < 3) { state = 'PLAYING'; spawnCard(); } // Keep same MsTitle
                 } else {
                     resolveReview();
                 }
@@ -734,7 +850,8 @@
     }
 
     function resolveReview() {
-        let isAccepted = (Math.random() * 100) > currentCard.rejRate;
+        // Acceptance probability based on actual numeric rate
+        let isAccepted = (Math.random() * 100) < currentCard.accRate;
 
         if (isAccepted) {
             paperData.push(currentCard); 
@@ -743,24 +860,26 @@
             if (currentCard.archetype.type === 'Predatory') {
                 showToast(`ACCEPTED!<br><span style="font-size:16px; color:#aaa;">But it's Predatory... DOES NOT COUNT!</span>`, true);
                 playSfx('reject'); 
+                getNextManuscript(); // Generates new title even though scammed
             } else {
                 papers++;
-                const cmt = acceptComments[Math.floor(Math.random() * acceptComments.length)];
-                showToast(`PAPER ACCEPTED!<br><span style="font-size:16px; color:#fff;">"${cmt}"</span>`, false);
+                document.getElementById(`pb-${papers}`).classList.add('filled');
+                showToast(`PAPER ACCEPTED!<br><span style="font-size:16px; color:#fff;">"${getComment('accept')}"</span>`, false);
                 playSfx('accept');
+                getNextManuscript(); // Generate new title for next submission
             }
         } else {
-            const cmt = rejectComments[Math.floor(Math.random() * rejectComments.length)];
-            showToast(`REJECTED BY REVIEWER #2!<br><span style="font-size:16px; color:#aaa;">"${cmt}"</span>`, true);
+            showToast(`REJECTED BY REVIEWER #2!<br><span style="font-size:16px; color:#aaa;">"${getComment('reject')}"</span>`, true);
             playSfx('reject');
+            // Do NOT generate new title, keep trying to publish currentMsTitle
         }
 
         if (papers >= 3) {
-            updateHeader(); 
+            state = 'END'; // Stop interactions
             setTimeout(() => endGame(true), 500);
         } else {
             state = 'PLAYING';
-            setTimeout(spawnCard, 500); // Tiny buffer so toast is readable
+            setTimeout(spawnCard, 500); 
         }
     }
 
@@ -784,62 +903,55 @@
         return "The Pragmatic Survivor";
     }
 
+    function formatTime(totalTicks) {
+        let totalYears = Math.floor(totalTicks / TICKS_PER_YEAR);
+        let remainingTicks = totalTicks % TICKS_PER_YEAR;
+        let totalMonths = Math.floor((remainingTicks / TICKS_PER_YEAR) * 12);
+        return `${totalYears} Years, ${totalMonths} Months`;
+    }
+
     function endGame(win) {
         clearInterval(gameTimer);
         state = 'END';
         
         if (!win) {
             playLoseFanfare();
-            document.getElementById('end-title').innerText = 'FAILED TO DEFEND!';
+            document.getElementById('end-title').innerText = 'BURN OUT!';
             document.getElementById('end-title').style.color = 'var(--neon-pink)';
-            document.getElementById('end-subtitle').innerText = "Funding ran out (6 years).";
+            document.getElementById('end-subtitle').innerText = "Funding ran out (6 Years).";
             document.getElementById('btn-cert').style.display = 'none';
-            renderEndStats(0, 0, (ticks/TICKS_PER_YEAR));
+            renderEndStats(0, formatTime(ticks));
         } else {
             showScreen('screen-loading');
             let dots = 0;
             let dotInt = setInterval(() => {
-                dots = (dots+1)%4;
-                document.getElementById('loading-dots').innerText = '.'.repeat(dots);
+                dots = (dots+1)%4; document.getElementById('loading-dots').innerText = '.'.repeat(dots);
             }, 500);
 
-            setTimeout(() => {
-                clearInterval(dotInt);
-                computeFinalScore();
-            }, 5000); 
+            setTimeout(() => { clearInterval(dotInt); computeFinalScore(); }, 3000); 
         }
     }
 
     function computeFinalScore() {
-        let totalCitations = 0;
         let predatoryCount = 0;
+        paperData.forEach(p => { if (p.archetype.type === 'Predatory') predatoryCount++; });
 
-        paperData.forEach(p => {
-            if (p.archetype.type === 'Predatory') predatoryCount++;
-            else totalCitations += Math.floor(Math.random() * 490 + 10); 
-        });
-
-        const yearsTaken = ticks / TICKS_PER_YEAR;
-        let timePenalty = 0;
-        if (yearsTaken > WARNING_YEAR) {
-            let overTicks = ticks - (WARNING_YEAR * TICKS_PER_YEAR);
-            timePenalty = Math.floor(overTicks / 10) * 50;
-        }
-
-        let finalScore = Math.floor((totalCitations * 100) - (totalApc * 0.1) - timePenalty);
-        if(finalScore < 0) finalScore = 0;
+        // Simple score based on time and money (since citations are removed)
+        let timePenalty = ticks * 2; 
+        let apcPenalty = Math.floor(totalApc / 10);
+        let finalScore = Math.max(0, 10000 - timePenalty - apcPenalty);
 
         sendSupabaseHighscore({
             session_id: sessionId, player_name: playerName, player_field: playerField,
             academic_status: playerStatus, paid_apc_before: playerAPCExp,
-            win_status: true, total_years: parseFloat(yearsTaken.toFixed(2)), total_apc: totalApc,
-            total_citations: totalCitations, predatory_papers_count: predatoryCount, final_score: finalScore
+            win_status: true, total_time_ticks: ticks, total_apc: totalApc,
+            predatory_papers_count: predatoryCount, final_score: finalScore
         });
 
-        renderEndStats(totalCitations, finalScore, yearsTaken, predatoryCount);
+        renderEndStats(finalScore, formatTime(ticks), predatoryCount);
     }
 
-    function renderEndStats(citations, score, years, pred = 0) {
+    function renderEndStats(score, timeStr, pred = 0) {
         showScreen('screen-end');
         if(score > 0) {
             playWinFanfare(); 
@@ -848,19 +960,17 @@
         }
         
         document.getElementById('end-profile').innerText = getAuthorProfile(pred);
-        
-        document.getElementById('end-years').innerText = years.toFixed(1);
+        document.getElementById('end-years').innerText = timeStr;
         document.getElementById('end-apc').innerText = `$${totalApc}`;
-        document.getElementById('end-citations').innerText = citations;
         document.getElementById('end-score').innerText = score;
 
         if (pred > 0) {
-            document.getElementById('end-msg').innerHTML = `WARNING: You submitted to ${pred} predatory journal(s). They drained your funds and yielded 0 citations.`;
+            document.getElementById('end-msg').innerHTML = `WARNING: You submitted to ${pred} predatory journal(s). They drained your funds.`;
         } else {
             document.getElementById('end-msg').innerHTML = "";
         }
 
-        let shareText = `I survived my PhD in ${years.toFixed(1)} years as '${getAuthorProfile(pred)}', spent $${totalApc} in APCs, and scored ${score} on Journal Match! Can you graduate faster?`;
+        let shareText = `I got my PhD in ${timeStr} as '${getAuthorProfile(pred)}', spent $${totalApc} in APCs, and scored ${score} on Journal Match! Can you graduate faster?`;
         let encodedText = encodeURIComponent(shareText);
         let url = encodeURIComponent(window.location.href);
 
@@ -887,17 +997,17 @@
         ctx.fillStyle = '#00ffff'; ctx.font = 'bold 40px monospace'; ctx.fillText(playerName.toUpperCase(), 400, 210);
         
         ctx.fillStyle = '#fff'; ctx.font = '20px monospace';
-        ctx.fillText('has survived ' + (ticks / TICKS_PER_YEAR).toFixed(1) + ' years of publishing purgatory in', 400, 260);
+        ctx.fillText('has survived ' + document.getElementById('end-years').innerText + ' of publishing purgatory in', 400, 260);
         ctx.fillStyle = '#ff007f'; ctx.font = 'bold 28px monospace'; ctx.fillText(playerField.toUpperCase(), 400, 300);
 
         ctx.fillStyle = '#ffff00'; ctx.font = '24px monospace';
         ctx.fillText(`AUTHOR PROFILE: ${document.getElementById('end-profile').innerText}`, 400, 360);
 
         ctx.fillStyle = '#aaa'; ctx.font = '20px monospace';
-        ctx.fillText(`Spent: $${totalApc} APCs | Earned: ${document.getElementById('end-citations').innerText} Citations`, 400, 420);
+        ctx.fillText(`Spent: $${totalApc} APCs`, 400, 420);
         
         ctx.fillStyle = '#00ffff'; ctx.font = 'bold 30px monospace';
-        ctx.fillText(`FINAL DEFENSE SCORE: ${document.getElementById('end-score').innerText}`, 400, 480);
+        ctx.fillText(`FINAL SCORE: ${document.getElementById('end-score').innerText}`, 400, 480);
 
         ctx.fillStyle = '#fff'; ctx.font = '20px monospace';
         ctx.fillText('Reviewer #2', 200, 550); ctx.fillText('University Admin', 600, 550);
