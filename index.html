@@ -16,8 +16,8 @@
             --neon-yellow: #ffff00;
             --white: #fff;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'VT323', monospace; user-select: none; }
-        body { background-color: var(--bg); color: var(--white); overflow: hidden; display: flex; justify-content: center; align-items: center; height: 100vh; touch-action: none; text-shadow: 1px 1px 0 #000; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'VT323', monospace; user-select: none; touch-action: none; }
+        body { background-color: var(--bg); color: var(--white); overflow: hidden; display: flex; justify-content: center; align-items: center; height: 100vh; text-shadow: 1px 1px 0 #000; }
         
         #app { width: 100%; max-width: 450px; height: 100vh; position: relative; background: var(--bg); border-left: 4px solid var(--neon-cyan); border-right: 4px solid var(--neon-cyan); display: flex; flex-direction: column; overflow: hidden; }
         
@@ -39,79 +39,66 @@
         button.action-btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 #000; background: var(--neon-green); color: #000; }
         
         .btn-pink { color: var(--neon-pink) !important; border-color: var(--neon-pink) !important; }
-        .btn-pink:active { background: var(--neon-pink) !important; color: #000 !important; }
         .btn-cyan { color: var(--neon-cyan) !important; border-color: var(--neon-cyan) !important; }
-        .btn-cyan:active { background: var(--neon-cyan) !important; color: #000 !important; }
+        .btn-yellow { color: var(--neon-yellow) !important; border-color: var(--neon-yellow) !important; }
         
-        /* Game UI (Header) */
-        #game-header { padding: 15px 15px 10px 15px; background: #000; border-bottom: 4px solid var(--neon-pink); z-index: 5; display: flex; flex-direction: column; align-items: center; }
-        #current-manuscript { font-size: 18px; color: var(--neon-yellow); text-align: center; margin-bottom: 10px; min-height: 44px; line-height: 1.1; font-style: italic; width: 100%; }
-
-        .boxes-container { display: flex; gap: 15px; margin-bottom: 15px; }
+        /* Game Header */
+        #game-header { padding: 15px; background: #000; border-bottom: 4px solid var(--neon-pink); z-index: 5; display: flex; flex-direction: column; align-items: center; }
+        .boxes-container { display: flex; gap: 15px; margin-bottom: 10px; }
         .paper-box { width: 30px; height: 30px; border: 3px solid var(--neon-cyan); background: #000; transition: background 0.3s; }
         .paper-box.filled { background: var(--neon-green); border-color: var(--neon-green); box-shadow: 0 0 10px var(--neon-green); }
 
-        .time-bar-container { width: 100%; height: 20px; background: #222; border: 2px solid #555; position: relative; overflow: hidden; }
+        .time-bar-container { width: 100%; height: 20px; background: #222; border: 2px solid #555; position: relative; overflow: hidden; margin-bottom: 5px;}
         .time-bar-fill { height: 100%; background: var(--neon-pink); width: 0%; transition: width 0.1s linear; }
         .time-marker-3yr { position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; background: #fff; z-index: 2; }
-        
         .time-warning { animation: flashTime 0.5s infinite alternate; }
         @keyframes flashTime { from { border-color: #555; } to { border-color: #ff0000; box-shadow: 0 0 15px #ff0000; } }
 
-        /* Swipe Area */
-        #swipe-container { flex: 1; position: relative; display: flex; justify-content: center; align-items: center; padding: 20px; }
-        .card { width: 100%; max-width: 320px; height: 420px; background: var(--card-bg); border: 4px solid var(--neon-cyan); box-shadow: 8px 8px 0 #000; position: absolute; display: flex; flex-direction: column; align-items: center; padding: 15px; transition: transform 0.2s ease; cursor: grab; }
-        .card.dragging { transition: none; cursor: grabbing; }
+        /* Desk / Journals Area */
+        #desk-area { flex: 1; display: flex; flex-direction: column; padding: 10px; gap: 10px; overflow-y: auto; background: #111; position: relative; z-index: 1;}
         
-        .stamp { position: absolute; top: 30px; font-size: 40px; font-weight: bold; border: 4px solid; padding: 5px 10px; opacity: 0; z-index: 10; text-transform: uppercase; background: rgba(0,0,0,0.8); pointer-events: none;}
-        .stamp-reject { right: 10px; color: var(--neon-pink); border-color: var(--neon-pink); transform: rotate(15deg); }
-        .stamp-submit { left: 10px; color: var(--neon-green); border-color: var(--neon-green); transform: rotate(-15deg); }
-
-        .publisher-header { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; margin-bottom: 5px; }
-        .journal-logo { width: 40px; height: 40px; image-rendering: pixelated; border: 2px solid #fff; background: #000; }
-        .publisher-name { font-size: 20px; color: #aaa; text-transform: uppercase; }
-
-        .journal-title { font-size: 24px; text-align: center; margin-bottom: 5px; color: var(--white); line-height: 1.1; font-weight: bold; }
-        .journal-oa { font-size: 16px; padding: 2px 8px; border: 2px solid; margin-bottom: auto; }
+        .journal-slot { width: 100%; background: var(--card-bg); border: 3px solid #555; border-radius: 8px; padding: 10px; display: flex; align-items: center; gap: 10px; transition: all 0.2s; position: relative; }
+        .journal-slot.drag-over { border-color: var(--neon-green); background: #1a3320; box-shadow: 0 0 15px var(--neon-green); transform: scale(1.02); }
         
-        .stat-grid { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; text-align: center; margin-top: 10px; }
-        .stat-box { background: #000; padding: 5px; border: 2px solid #555; }
-        .stat-val { font-size: 22px; color: var(--neon-cyan); }
-        .stat-label { font-size: 14px; color: #aaa; }
+        .j-logo { width: 45px; height: 45px; image-rendering: pixelated; border: 2px solid #fff; background: #000; flex-shrink: 0; }
+        .j-info { flex: 1; display: flex; flex-direction: column; }
+        .j-title { font-size: 18px; color: var(--neon-yellow); font-weight: bold; line-height: 1.1; margin-bottom: 4px; }
+        .j-pub { font-size: 14px; color: #aaa; text-transform: uppercase; margin-bottom: 4px; }
+        .j-stats { display: flex; gap: 10px; font-size: 14px; color: var(--neon-cyan); }
+        .j-stat-item { background: #000; padding: 2px 6px; border: 1px solid #555; border-radius: 4px; }
 
-        .controls-hint { display: flex; justify-content: space-between; width: 100%; padding: 0 20px; position: absolute; bottom: 15px; font-size: 20px; color: #fff; pointer-events: none;}
-        .hint-left { color: var(--neon-pink); }
-        .hint-right { color: var(--neon-green); }
+        /* Manuscript Draggable */
+        #manuscript-area { padding: 15px; background: var(--bg); border-top: 4px solid var(--neon-cyan); display: flex; justify-content: center; align-items: center; z-index: 20; position: relative; height: 120px; }
+        
+        #ms-draggable { width: 90%; max-width: 300px; background: #fff; color: #000; border: 3px solid #000; padding: 10px; text-align: center; font-size: 18px; font-weight: bold; font-style: italic; box-shadow: 4px 4px 0 var(--neon-pink); cursor: grab; position: absolute; z-index: 100; user-select: none; touch-action: none; display: flex; align-items: center; justify-content: center; min-height: 70px; line-height: 1.1; }
+        #ms-draggable.dragging { cursor: grabbing; box-shadow: 10px 10px 0 rgba(255,0,127,0.5); transform: scale(1.05); }
+        
+        #btn-refresh-journals { position: absolute; bottom: 130px; right: 10px; font-size: 14px; padding: 8px; z-index: 5; }
 
-        /* Overlays & Popups */
-        #review-overlay { position: absolute; top:0;left:0;width:100%;height:100%; background:rgba(0,0,0,0.9); z-index: 20; display: none; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; }
+        /* Overlays */
+        .overlay-modal { position: absolute; top:0;left:0;width:100%;height:100%; background:rgba(0,0,0,0.9); z-index: 50; display: none; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; }
         .pixel-spinner { width: 40px; height: 40px; background: var(--neon-cyan); animation: spin 1s step-end infinite; margin-bottom: 20px; }
         @keyframes spin { 0% { transform: rotate(0deg); } 25% { transform: rotate(90deg); } 50% { transform: rotate(180deg); } 75% { transform: rotate(270deg); } }
 
-        #toast-container { position: absolute; top: 180px; left: 0; width: 100%; display: flex; flex-direction: column; align-items: center; z-index: 40; pointer-events: none; }
+        #toast-container { position: absolute; top: 150px; left: 0; width: 100%; display: flex; flex-direction: column; align-items: center; z-index: 60; pointer-events: none; }
         .toast { background: #000; border: 2px solid; color: white; padding: 15px; font-size: 18px; margin-bottom: 10px; opacity: 0; transform: translateY(-20px); transition: all 0.2s; box-shadow: 4px 4px 0 #000; text-align: center; white-space: pre-line; line-height: 1.2; width: 90%;}
         .toast.show { opacity: 1; transform: translateY(0); }
 
-        /* Certificate / End Screen UI */
-        .cert-box { background: #fdfbf7; color: #2c3e50; padding: 20px; border: 4px solid #2c3e50; outline: 2px solid #e94560; outline-offset: -8px; margin-bottom: 15px; width: 100%; box-shadow: 6px 6px 0 #000; text-shadow: none; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; flex-direction: column; align-items: center; }
-        .cert-header { font-size: 24px; font-weight: bold; text-align: center; margin-bottom: 5px; color: #2c3e50; font-family: 'VT323', monospace; text-transform: uppercase; }
-        .cert-sub { font-size: 16px; text-align: center; margin-bottom: 15px; font-style: italic; }
-        .cert-time { font-size: 26px; font-weight: bold; color: #e74c3c; margin-bottom: 15px; text-align: center; background: #fadbd8; padding: 5px 15px; border-radius: 5px; border: 2px solid #e74c3c; }
-        .cert-papers { width: 100%; margin-bottom: 15px; text-align: left; border-top: 2px solid #ccc; padding-top: 10px; }
-        .cert-paper-item { margin-bottom: 8px; font-size: 14px; line-height: 1.2; }
+        .cascade-box { background: #111; border: 3px dashed var(--neon-yellow); padding: 15px; margin: 15px 0; color: var(--white); text-align: left; font-size: 16px; width: 100%; max-width: 350px;}
+        
+        /* Certificate */
+        .cert-box { background: #fdfbf7; color: #2c3e50; padding: 15px; border: 4px solid #2c3e50; outline: 2px solid #e94560; outline-offset: -8px; margin-bottom: 10px; width: 100%; box-shadow: 6px 6px 0 #000; text-shadow: none; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; flex-direction: column; align-items: center; max-height: 60vh; overflow-y: auto;}
+        .cert-header { font-size: 22px; font-weight: bold; text-align: center; margin-bottom: 5px; color: #2c3e50; font-family: 'VT323', monospace; text-transform: uppercase; }
+        .cert-sub { font-size: 16px; text-align: center; margin-bottom: 10px; font-style: italic; }
+        .cert-time { font-size: 22px; font-weight: bold; color: #e74c3c; margin-bottom: 10px; text-align: center; background: #fadbd8; padding: 5px 15px; border-radius: 5px; border: 2px solid #e74c3c; }
+        .cert-papers { width: 100%; margin-bottom: 10px; text-align: left; border-top: 2px solid #ccc; padding-top: 10px; }
+        .cert-paper-item { margin-bottom: 8px; font-size: 13px; line-height: 1.2; }
         .cert-paper-title { font-weight: bold; }
         .cert-paper-journal { font-style: italic; color: #555; }
         .cert-footer { width: 100%; font-size: 12px; color: #7f8c8d; text-align: center; border-top: 1px solid #ccc; padding-top: 10px; }
 
-        .serious-box { background: rgba(255, 0, 127, 0.1); border: 2px solid var(--neon-pink); padding: 15px; margin-bottom: 15px; text-shadow: none; }
-        .serious-box a { color: var(--neon-cyan); text-decoration: underline; }
-
-        /* Social Share Buttons */
-        .social-btn { display: inline-block; padding: 10px 15px; margin: 5px; border-radius: 5px; color: white; text-decoration: none; font-size: 18px; text-shadow: none; box-shadow: 2px 2px 0 #000; border: 2px solid #000; transition: transform 0.1s; }
-        .social-btn:active { transform: translate(2px, 2px); box-shadow: none; }
-        .bg-bsky { background: #0085ff; }
-        .bg-x { background: #333; }
-        .bg-masto { background: #2b90d9; }
+        .social-btn { display: inline-block; padding: 8px 12px; margin: 3px; border-radius: 5px; color: white; text-decoration: none; font-size: 16px; text-shadow: none; box-shadow: 2px 2px 0 #000; border: 2px solid #000; }
+        .bg-bsky { background: #0085ff; } .bg-x { background: #333; } .bg-masto { background: #2b90d9; }
     </style>
 </head>
 <body>
@@ -127,7 +114,7 @@
         <input type="text" id="input-name" placeholder="Nickname (Optional)" autocomplete="off">
         <input type="text" id="input-field" placeholder="Research Field (Optional)" autocomplete="off">
         
-        <select id="input-status" required>
+        <select id="input-status">
             <option value="" disabled selected>Current Academic Status...</option>
             <option value="Not in Academia">Not in Academia</option>
             <option value="Undergraduate">Undergraduate</option>
@@ -136,7 +123,7 @@
             <option value="Professor">Professor / Tenured</option>
         </select>
 
-        <select id="input-apc" required>
+        <select id="input-apc">
             <option value="" disabled selected>Ever paid APCs as 1st author?</option>
             <option value="Yes">Yes</option>
             <option value="No">No</option>
@@ -150,28 +137,25 @@
     <div id="screen-tutorial" class="screen">
         <h2 id="tut-greeting" style="color: var(--neon-yellow); line-height: 1.2;"></h2>
         <p style="margin-top: 10px;">Goal: Publish 3 papers to graduate.</p>
-        <p>👉 <b>Swipe Right:</b> SUBMIT.</p>
-        <p>👈 <b>Swipe Left:</b> SKIP.</p>
+        <p>👉 <b>Drag & Drop:</b> Drag your manuscript onto one of the 3 journal options.</p>
         <p>⏰ <b>Time limits:</b> 20 real seconds = 1 PhD Year. Max 6 years. Over 3 years = Stress!</p>
-        <p>💰 <b>APCs & IF:</b> High Impact Factors = Low Acceptance Rates and massive costs!</p>
-        <p style="color: var(--neon-pink);">⚠️ <b>Predatory Journals:</b> They trick you! Fast review & 100% acceptance, but they <b>DO NOT COUNT</b> towards your papers!</p>
-        <button id="btn-tut-start" class="action-btn btn-cyan" style="margin-top: auto;">Start Swiping</button>
+        <p>🔄 <b>Cascades:</b> If rejected by a big publisher, they might offer a fast transfer to a lower-tier journal.</p>
+        <p style="color: var(--neon-pink);">⚠️ <b>Predatory Journals:</b> Fast review & 100% acceptance, but they <b>DO NOT COUNT</b> towards your papers!</p>
+        <button id="btn-tut-start" class="action-btn btn-cyan" style="margin-top: auto;">Start Publishing</button>
     </div>
 
     <!-- ABOUT -->
     <div id="screen-about" class="screen">
         <h2>The Reality of Publishing</h2>
-        <p>This game is a satirical but grimly accurate reflection of academic publishing.</p>
-        <p>Early career researchers face immense pressure to "Publish or Perish". They navigate exorbitant Article Processing Charges (APCs) dictated by an oligopoly.</p>
-        <p>Meanwhile, review processes rely on free labor from peers, causing massive delays and stress, highlighted by movements like <b>#ichbinhanna</b>.</p>
+        <p>This game is a satirical but grimly accurate reflection of academic publishing, exposing APC oligopolies and free peer-review labor delays.</p>
         
-        <div class="serious-box">
-            <h3 style="color:var(--neon-pink); margin-bottom:5px;">⚠️ Mental Health Warning</h3>
-            <p style="font-size:16px; margin-bottom:10px;">Burnout and mental health crises in academia are serious and common (<a href="https://doi.org/10.1177/1745691619898848" target="_blank">see research here</a>).</p>
-            <p style="font-size:16px; margin-bottom:0;">If you are affected, please seek help. In Germany, contact <a href="https://www.telefonseelsorge.de/" target="_blank">TelefonSeelsorge (111 0 111)</a> or visit <a href="https://hilfetelefon.de" target="_blank">hilfetelefon.de</a>.</p>
+        <div style="background: rgba(255, 0, 127, 0.1); border: 2px solid var(--neon-pink); padding: 10px; margin-bottom: 15px; text-shadow: none;">
+            <h3 style="color:var(--neon-pink); margin-bottom:5px; font-size: 20px;">⚠️ Mental Health Warning</h3>
+            <p style="font-size:16px; margin-bottom:5px;">Burnout in academia is serious (<a href="https://doi.org/10.1177/1745691619898848" target="_blank" style="color:var(--neon-cyan);">see research</a>).</p>
+            <p style="font-size:16px; margin-bottom:0;">Please seek help if affected. In Germany: <a href="https://hilfetelefon.de" target="_blank" style="color:var(--neon-cyan);">hilfetelefon.de</a>.</p>
         </div>
         
-        <p style="font-size: 14px; color: #888;">Disclaimer: Names of articles and journals are procedurally generated. Any resemblance to real-life research or actual publications is purely coincidental.</p>
+        <p style="font-size: 14px; color: #888;">Disclaimer: Names of articles and journals are procedurally generated. Any resemblance to real-life research is coincidental.</p>
 
         <button id="btn-about-back" class="action-btn" style="margin-top: auto;">Back</button>
     </div>
@@ -179,7 +163,6 @@
     <!-- GAME UI -->
     <div id="screen-game" class="screen" style="padding: 0;">
         <div id="game-header">
-            <div id="current-manuscript">"Manuscript Title Here"</div>
             <div class="boxes-container">
                 <div class="paper-box" id="pb-1"></div>
                 <div class="paper-box" id="pb-2"></div>
@@ -189,24 +172,35 @@
                 <div class="time-bar-fill" id="time-bar"></div>
                 <div class="time-marker-3yr"></div>
             </div>
+            <div style="font-size: 14px; color: #aaa; margin-top: 5px;" id="ui-year-text">Year 0.0</div>
         </div>
 
         <div id="toast-container"></div>
 
-        <div id="swipe-container">
-            <!-- Cards here -->
+        <div id="desk-area">
+            <!-- Journals injected here -->
         </div>
         
-        <div class="controls-hint">
-            <span class="hint-left">◄ SKIP</span>
-            <span class="hint-right">SUBMIT ►</span>
+        <button id="btn-refresh-journals" class="action-btn btn-pink" style="width: auto; position: absolute; bottom: 135px; right: 10px; padding: 5px 10px; font-size: 16px;">↻ Skip All (1 Mo.)</button>
+
+        <div id="manuscript-area">
+            <div id="ms-draggable">"Manuscript Title"</div>
         </div>
 
         <!-- Review Overlay -->
-        <div id="review-overlay">
+        <div id="review-overlay" class="overlay-modal">
             <div class="pixel-spinner"></div>
             <h2 id="review-text" style="color: var(--neon-yellow);">UNDER REVIEW</h2>
             <p style="font-size: 35px; color: var(--neon-cyan); margin: 10px 0;" id="review-timer">0.0s</p>
+        </div>
+
+        <!-- Cascade Modal -->
+        <div id="cascade-overlay" class="overlay-modal">
+            <h2 style="color: var(--neon-yellow);">TRANSFER OFFER</h2>
+            <p>Your paper was rejected, but the publisher offers to transfer it to their Megajournal.</p>
+            <div class="cascade-box" id="cascade-details"></div>
+            <button id="btn-cascade-accept" class="action-btn btn-cyan">Accept Transfer</button>
+            <button id="btn-cascade-decline" class="action-btn btn-pink">Decline & Start Over</button>
         </div>
     </div>
 
@@ -215,32 +209,24 @@
         <div class="pixel-spinner" style="background: var(--neon-pink);"></div>
         <h2 style="color:var(--neon-green); text-align:center;">CONGRATULATIONS!</h2>
         <p style="text-align:center; color: var(--white);">You published 3 papers!</p>
-        <p style="text-align:center; color: var(--neon-cyan); margin-top:20px;">Computing academic worth...<br><span id="loading-dots"></span></p>
+        <p style="text-align:center; color: var(--neon-cyan); margin-top:20px;">Computing academic worth<span id="loading-dots"></span></p>
     </div>
 
     <!-- END SCREEN -->
     <div id="screen-end" class="screen" style="align-items: center;">
-        
         <div class="cert-box">
-            <div class="cert-header" id="cert-status-title">DOCTORAL DEFENSE PASSED</div>
+            <div class="cert-header" id="cert-status-title">DEFENSE PASSED</div>
             <div class="cert-sub">
                 <strong>Dr. <span id="end-name"></span></strong><br>
                 Field: <span id="end-field"></span><br>
                 <span style="font-size: 13px; color: #e74c3c; font-weight:bold;">Profile: <span id="end-profile"></span></span>
             </div>
-            
             <div class="cert-time" id="end-time-display">Time: 0 Yrs, 0 Mos</div>
-            
-            <div class="cert-papers" id="end-papers-list">
-                <!-- Papers injected here -->
-            </div>
-            
-            <div class="cert-footer" id="end-footer-notes">
-                <!-- Notes injected here -->
-            </div>
+            <div class="cert-papers" id="end-papers-list"></div>
+            <div class="cert-footer" id="end-footer-notes"></div>
         </div>
 
-        <button id="btn-cert" class="action-btn">Download Image</button>
+        <button id="btn-cert" class="action-btn">Download Certificate</button>
         <button id="btn-replay" class="action-btn btn-cyan">Play Again</button>
         <button id="btn-end-about" class="action-btn btn-pink" style="margin-bottom: 5px;">About This Reality</button>
         
@@ -272,10 +258,12 @@
     let papers = 0;
     let totalApc = 0;
     let paperData = []; 
-    let currentCard = null;
+    let currentJournals = [];
+    let activeJournal = null;
     let gameTimer = null;
     let isMuted = false;
     let hasSeenTutorial = false;
+    let cascadeOffer = null;
     
     let playerName = "";
     let playerField = "";
@@ -311,73 +299,45 @@
     function getNextManuscript() {
         if(availableMs.length === 0) availableMs = [...msTemplates].sort(() => Math.random() - 0.5);
         currentMsTitle = availableMs.pop().replace(/{field}/g, playerField);
+        document.getElementById('ms-draggable').innerText = `"${currentMsTitle}"`;
         return currentMsTitle;
     }
 
     const acceptCommentsPool = [
         "The researcher should get an award.", "This will surely move our field forward.", "I love it. So so much!",
         "Accept as is (a rare honor).", "Groundbreaking work.", "Minor spelling errors on page 42, otherwise brilliant.",
-        "A masterpiece of academic literature.", "I wish I had written this myself.", "Clear, concise, and revolutionary.",
-        "The methodology is flawlessly executed.", "A vital contribution to the literature.", "Exactly what this journal needs.",
-        "Stunningly insightful.", "I learned a lot from reading this.", "The data speaks for itself.",
-        "Impeccable statistical analysis.", "A joy to read.", "Transforms our understanding of the subject.",
-        "The authors are clearly experts.", "Exceptional rigor.", "Beautifully visualized data.",
-        "A triumph of modern research.", "Thoroughly convincing.", "I recommend immediate publication.",
-        "A benchmark for future studies.", "Elegant theoretical framework.", "Outstanding clarity.",
-        "This paper gave me hope for academia.", "A flawless submission.", "Perfection."
+        "A masterpiece.", "Exactly what this journal needs.", "Stunningly insightful.", "Impeccable statistical analysis.",
+        "Transforms our understanding.", "Exceptional rigor."
     ];
 
     const rejectCommentsPool = [
-        "I tried to like it but I couldn't.", "This was obviously written by a first-year PhD student.", "The authors failed to cite my completely unrelated 2012 paper.",
-        "Fundamentally flawed methodology.", "Not novel enough for this prestigious journal.", "Reviewer #2 simply said: 'No.'",
-        "The sample size is laughably small.", "Grammar is atrocious.", "I fell asleep reading the abstract.",
-        "The conclusions do not follow from the data.", "This has already been done in 1985.", "Lacks theoretical depth.",
-        "The figures look like they were made in MS Paint.", "Completely unreadable.", "A waste of my time.",
-        "I strongly disagree with the core premise.", "The authors ignore the last decade of literature.", "Too speculative.",
-        "Reads like a blog post.", "Methodological disaster.", "Statistical tests are inappropriate.",
-        "The hypothesis is trivial.", "Formatting ignores our guidelines completely.", "I am baffled by the inclusion of Figure 3.",
-        "The intro is far too long.", "Data is clearly cherry-picked.", "This belongs in a lesser journal.",
-        "I reject this on philosophical grounds.", "The experiment lacks proper controls.", "Just... no."
+        "I tried to like it but I couldn't.", "This was obviously written by a first-year PhD student.", "The authors failed to cite my 2012 paper.",
+        "Fundamentally flawed methodology.", "Not novel enough.", "Reviewer #2 simply said: 'No.'",
+        "The sample size is laughably small.", "I fell asleep reading the abstract.", "This has already been done in 1985.",
+        "The figures look like they were made in MS Paint.", "A waste of my time.", "Methodological disaster."
     ];
 
-    const deskRejectComments = [
-        "Outside the scope of this journal.", "Does not meet our high editorial threshold.", "We receive too many submissions and must reject this without review.",
-        "The Editor-in-Chief vetoed this immediately.", "Fails the basic technical checks.", "Please format correctly and resubmit elsewhere."
-    ];
-
-    let availAccept = [], availReject = [];
     function getComment(type) {
-        if(type === 'accept') {
-            if(availAccept.length === 0) availAccept = [...acceptCommentsPool].sort(()=>Math.random()-0.5);
-            return availAccept.pop();
-        } else if(type === 'reject') {
-            if(availReject.length === 0) availReject = [...rejectCommentsPool].sort(()=>Math.random()-0.5);
-            return availReject.pop();
-        } else {
-            return deskRejectComments[Math.floor(Math.random()*deskRejectComments.length)];
-        }
+        if(type === 'accept') return acceptCommentsPool[Math.floor(Math.random() * acceptCommentsPool.length)];
+        if(type === 'reject') return rejectCommentsPool[Math.floor(Math.random() * rejectCommentsPool.length)];
+        return "Outside the scope of this journal. Desk Rejected.";
     }
 
     /* =========================================
-       CHILL LO-FI AUDIO ENGINE (A -> B -> A')
+       SUPER MARIO WII GRASS LAND LO-FI AUDIO
        ========================================= */
     let audioCtx = null;
     let noiseBuffer = null;
     let musicTimeout = null;
     let seqStep = 0;
     
-    // Lo-Fi Chords
-    const Cmaj9 = [130.81, 261.63, 329.63, 392.00, 493.88, 587.33];
-    const Am9   = [110.00, 220.00, 261.63, 329.63, 392.00, 493.88];
-    const Dm9   = [146.83, 293.66, 349.23, 440.00, 523.25, 659.25];
-    const G13   = [98.00,  196.00, 246.94, 349.23, 440.00, 659.25];
+    // Cheerful, bouncy chords (Cmaj7, Am7, Fmaj7, G7)
+    const Cmaj7 = [130.81, 261.63, 329.63, 392.00];
+    const Am7   = [110.00, 220.00, 261.63, 329.63];
+    const Fmaj7 = [87.31,  174.61, 261.63, 329.63];
+    const G7    = [98.00,  196.00, 246.94, 349.23];
     
-    const Fmaj9 = [87.31,  174.61, 261.63, 329.63, 392.00, 493.88];
-    const Em7   = [164.81, 196.00, 246.94, 293.66, 392.00, 493.88];
-    const Cmaj7 = [130.81, 261.63, 329.63, 392.00, 493.88, 523.25];
-
-    const chordsA = [Cmaj9, Am9, Dm9, G13];
-    const chordsB = [Fmaj9, Em7, Dm9, Cmaj7];
+    const chordsA = [Cmaj7, Am7, Fmaj7, G7];
 
     function initAudio() {
         if (!audioCtx) {
@@ -390,21 +350,21 @@
             const noiseSrc = audioCtx.createBufferSource();
             noiseSrc.buffer = noiseBuffer; noiseSrc.loop = true;
             const filter = audioCtx.createBiquadFilter();
-            filter.type = 'lowpass'; filter.frequency.value = 800;
+            filter.type = 'lowpass'; filter.frequency.value = 600;
             const gain = audioCtx.createGain();
-            gain.gain.value = 0.005; // Subtle crackle
+            gain.gain.value = 0.005; 
             noiseSrc.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination);
             noiseSrc.start();
         }
         if (audioCtx.state === 'suspended') audioCtx.resume();
     }
 
-    function playTone(freq, type, duration, vol, detune=0) {
+    function playTone(freq, type, duration, vol) {
         if (isMuted || !audioCtx) return;
         try {
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
-            osc.type = type; osc.frequency.value = freq; osc.detune.value = detune; 
+            osc.type = type; osc.frequency.value = freq; 
             osc.connect(gain); gain.connect(audioCtx.destination);
             gain.gain.setValueAtTime(vol, audioCtx.currentTime);
             gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
@@ -412,43 +372,35 @@
         } catch(e) {}
     }
 
-    function playSoftChord(chord) {
+    function playStab(chord) {
         if (isMuted || !audioCtx) return;
         chord.forEach((freq, i) => {
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
-            osc.type = i < 2 ? 'triangle' : 'sine'; 
+            osc.type = i === 0 ? 'triangle' : 'sine'; 
             osc.frequency.value = freq;
-            osc.detune.value = (Math.random() - 0.5) * 10; 
             osc.connect(gain); gain.connect(audioCtx.destination);
             gain.gain.setValueAtTime(0, audioCtx.currentTime);
-            gain.gain.linearRampToValueAtTime(i < 2 ? 0.06 : 0.03, audioCtx.currentTime + 0.1);
-            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 2.0);
-            osc.start(); osc.stop(audioCtx.currentTime + 2.0);
+            gain.gain.linearRampToValueAtTime(i === 0 ? 0.05 : 0.02, audioCtx.currentTime + 0.05);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4); // Staccato
+            osc.start(); osc.stop(audioCtx.currentTime + 0.4);
         });
     }
 
     function playKick() {
         if (isMuted || !audioCtx) return;
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.connect(gain); gain.connect(audioCtx.destination);
-        osc.frequency.setValueAtTime(120, audioCtx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
-        gain.gain.setValueAtTime(0.6, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
-        osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+        playTone(100, 'sine', 0.3, 0.5);
     }
-
+    
     function playHat() {
         if (isMuted || !audioCtx || !noiseBuffer) return;
         const source = audioCtx.createBufferSource();
         const filter = audioCtx.createBiquadFilter();
         const gain = audioCtx.createGain();
         source.buffer = noiseBuffer;
-        filter.type = 'highpass'; filter.frequency.value = 6000;
+        filter.type = 'highpass'; filter.frequency.value = 5000;
         source.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination);
-        gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.03, audioCtx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
         source.start();
     }
@@ -457,8 +409,7 @@
         if(isMuted) return;
         initAudio();
         if (name === 'btn') playTone(600, 'square', 0.1, 0.1);
-        if (name === 'swipe-left') playTone(200, 'triangle', 0.15, 0.1);
-        if (name === 'swipe-right') { playTone(400, 'sine', 0.1, 0.1); setTimeout(()=>playTone(600, 'sine', 0.15, 0.1), 100); }
+        if (name === 'submit') { playTone(400, 'sine', 0.1, 0.1); setTimeout(()=>playTone(600, 'sine', 0.15, 0.1), 100); }
         if (name === 'accept') { playTone(440, 'square', 0.1, 0.1); setTimeout(()=>playTone(554.37, 'square', 0.1, 0.1), 100); setTimeout(()=>playTone(659.25, 'square', 0.3, 0.1), 200); }
         if (name === 'reject') { playTone(200, 'sawtooth', 0.2, 0.1); setTimeout(()=>playTone(150, 'sawtooth', 0.4, 0.1), 150); }
         if (name === 'warning') { 
@@ -468,37 +419,31 @@
     }
 
     function musicLoop() {
-        if(isMuted) { musicTimeout = setTimeout(musicLoop, 200); return; }
+        if(isMuted || state === 'MENU' || state === 'END') { musicTimeout = setTimeout(musicLoop, 200); return; }
 
-        let stepDuration = 350; 
-        if (state === 'PLAYING' || state === 'REVIEWING') {
-            if (ticks > 400) { stepDuration = Math.max(150, 350 - (ticks - 400) * 0.2); } 
-        }
+        let stepDuration = 250; // Chill 120bpm feel
+        if (ticks > 400) { stepDuration = Math.max(120, 250 - (ticks - 400) * 0.2); } // Speed up over time
         
         let subStep = seqStep % 16;
-        let measure = Math.floor(seqStep / 16) % 12; 
-        
-        let section = measure < 4 ? 'A' : (measure < 8 ? 'B' : 'A_prime');
-        let chordSet = section === 'B' ? chordsB : chordsA;
-        let currentChord = chordSet[measure % 4];
+        let measure = Math.floor(seqStep / 16) % 4; 
+        let currentChord = chordsA[measure];
 
-        // Drums
+        // Bouncy Drums
         if (subStep === 0 || subStep === 10) playKick();
         if (subStep % 2 === 0) playHat();
         
-        // Chords
-        if (subStep === 0) playSoftChord(currentChord);
-        if (subStep === 8) playSoftChord(currentChord);
-        
-        // Bass
-        if (subStep % 4 === 0) playTone(currentChord[0] / 2, 'triangle', 0.4, 0.15);
+        // Syncopated Bass (Root & Fifth)
+        if (subStep === 0 || subStep === 8) playTone(currentChord[0] / 2, 'triangle', 0.2, 0.15);
+        if (subStep === 4 || subStep === 12) playTone(currentChord[0] * 0.75, 'triangle', 0.2, 0.1);
 
-        // Melody (only in A_prime section)
-        if (section === 'A_prime' && subStep % 2 === 0) {
-            let noteIdx = (subStep / 2) % 4; // 0, 1, 2, 3
-            if (measure % 2 === 1) noteIdx = 3 - noteIdx; // Descending on odd measures
-            let note = currentChord[noteIdx + 2] * 2; // Nice harmonic notes an octave up
-            playTone(note, 'sine', 0.3, 0.05, (Math.random()-0.5)*10);
+        // Off-beat Chord Stabs
+        if (subStep === 4 || subStep === 10) playStab(currentChord);
+
+        // Bouncy Melody (Mario-esque Arpeggios)
+        if (subStep % 2 === 0 && Math.random() > 0.4) {
+            let notes = [currentChord[1]*2, currentChord[2]*2, currentChord[3]*2];
+            let note = notes[Math.floor(Math.random() * notes.length)];
+            playTone(note, 'sine', 0.15, 0.03);
         }
 
         seqStep++;
@@ -529,16 +474,11 @@
         document.body.addEventListener('click', () => { if(!audioCtx) startMusic(); }, {once:true});
 
         document.getElementById('btn-play').addEventListener('click', () => {
-            playSfx('btn');
-            startMusic();
-            
-            playerName = document.getElementById('input-name').value.trim();
-            playerField = document.getElementById('input-field').value.trim();
+            playSfx('btn'); startMusic();
+            playerName = document.getElementById('input-name').value.trim() || normalNames[Math.floor(Math.random() * normalNames.length)];
+            playerField = document.getElementById('input-field').value.trim() || funnyFields[Math.floor(Math.random() * funnyFields.length)];
             playerStatus = document.getElementById('input-status').value || "Unknown";
             playerAPCExp = document.getElementById('input-apc').value || "Unknown";
-            
-            if (!playerName) playerName = normalNames[Math.floor(Math.random() * normalNames.length)];
-            if (!playerField) playerField = funnyFields[Math.floor(Math.random() * funnyFields.length)];
             
             if (!hasSeenTutorial) {
                 document.getElementById('tut-greeting').innerText = `Welcome ${playerName},\ngood luck getting your PhD in ${playerField}!`;
@@ -552,9 +492,35 @@
         document.getElementById('btn-about').addEventListener('click', () => { playSfx('btn'); startMusic(); showScreen('screen-about'); document.getElementById('btn-about-back').dataset.target = 'screen-menu'; });
         document.getElementById('btn-end-about').addEventListener('click', () => { playSfx('btn'); showScreen('screen-about'); document.getElementById('btn-about-back').dataset.target = 'screen-end'; });
         document.getElementById('btn-about-back').addEventListener('click', (e) => { playSfx('btn'); showScreen(e.target.dataset.target); });
+        
         document.getElementById('btn-cert').addEventListener('click', () => { playSfx('btn'); downloadCert(); });
         document.getElementById('btn-replay').addEventListener('click', () => { playSfx('btn'); startGame(); });
+        
         document.getElementById('btn-mute').addEventListener('click', () => { isMuted = !isMuted; document.getElementById('btn-mute').innerText = isMuted ? '🔇' : '🔊'; initAudio(); });
+
+        document.getElementById('btn-refresh-journals').addEventListener('click', () => {
+            if(state !== 'PLAYING') return;
+            playSfx('btn');
+            ticks += 16; // Cost ~1.5 months to reroll
+            updateHeader();
+            populateJournals();
+        });
+
+        document.getElementById('btn-cascade-accept').addEventListener('click', () => {
+            playSfx('btn');
+            document.getElementById('cascade-overlay').style.display = 'none';
+            activeJournal = cascadeOffer;
+            triggerReviewPhase(false); // No desk reject on cascade
+        });
+
+        document.getElementById('btn-cascade-decline').addEventListener('click', () => {
+            playSfx('btn');
+            document.getElementById('cascade-overlay').style.display = 'none';
+            state = 'PLAYING';
+            populateJournals(); // Start over with new journals, same manuscript
+        });
+
+        setupDragAndDrop();
     });
 
     function showScreen(id) {
@@ -574,15 +540,26 @@
     }
 
     /* =========================================
-       DATA GENERATION
+       DATA GENERATION (Journals)
        ========================================= */
+    const journalTemplates = [
+        "Journal of {field}", "Advances in {field}", "Perspectives on {field}", "{field} Research", "Proceedings in {field}", 
+        "The {field} Review", "Int. Journal of {field}", "Frontiers in {field}", "Applied {field}", "Theoretical {field}"
+    ];
+
+    let activeTemplates = [];
+    function getJournalName() {
+        if(activeTemplates.length === 0) activeTemplates = [...journalTemplates].sort(() => Math.random() - 0.5);
+        return activeTemplates.pop().replace(/{field}/g, playerField);
+    }
+
     const publisherArchetypes = [
-        { type: 'Elsevillain', oa: 'closed', color: '#555555', grid: [0,0,1,1,1,1,0,0, 0,1,1,1,1,1,1,0, 1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1, 0,1,1,1,1,1,1,0, 0,0,0,1,1,0,0,0, 0,0,0,1,1,0,0,0, 0,0,1,1,1,1,0,0]}, 
-        { type: 'Sprinter', oa: 'gold', color: '#ff007f', grid: [0,0,0,1,1,1,0,0, 0,0,1,1,1,1,1,0, 0,1,1,1,0,0,0,0, 1,1,1,1,1,1,0,0, 0,1,1,1,1,1,1,0, 0,0,1,1,0,1,1,0, 0,1,1,0,0,0,1,1, 1,1,0,0,0,0,0,1]}, 
-        { type: 'Wile E.', oa: 'gold', color: '#ffff00', grid: [1,0,0,0,0,0,0,1, 1,1,0,0,0,0,1,1, 0,1,1,0,0,1,1,0, 0,0,1,1,1,1,0,0, 0,0,0,1,1,0,0,0, 0,0,1,1,1,1,0,0, 0,1,1,0,0,1,1,0, 1,1,0,0,0,0,1,1]}, 
-        { type: 'Tailor & Frances', oa: 'closed', color: '#00ffff', grid: [1,1,0,0,0,0,1,1, 1,1,0,0,0,0,1,1, 0,0,1,0,0,1,0,0, 0,0,0,1,1,0,0,0, 0,0,0,1,1,0,0,0, 0,0,1,0,0,1,0,0, 1,1,0,0,0,0,1,1, 1,1,0,0,0,0,1,1]}, 
-        { type: 'Community', oa: 'diamond', color: '#39ff14', grid: [0,1,1,0,0,1,1,0, 0,1,1,0,0,1,1,0, 0,0,0,0,0,0,0,0, 1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1, 0,1,1,0,0,1,1,0, 0,1,1,0,0,1,1,0]}, 
-        { type: 'Predatory', oa: 'predatory', color: '#ff0000', grid: [0,0,0,1,1,0,0,0, 0,0,1,1,1,1,0,0, 0,1,1,0,0,0,0,0, 0,0,1,1,1,0,0,0, 0,0,0,0,1,1,0,0, 0,0,0,0,0,1,1,0, 0,1,1,1,1,1,0,0, 0,0,0,1,1,0,0,0]}  
+        { type: 'Elsevillain', oa: 'closed', color: '#555555', isLegit: true, grid: [0,0,1,1,1,1,0,0, 0,1,1,1,1,1,1,0, 1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1, 0,1,1,1,1,1,1,0, 0,0,0,1,1,0,0,0, 0,0,0,1,1,0,0,0, 0,0,1,1,1,1,0,0]}, 
+        { type: 'Sprinter', oa: 'gold', color: '#ff007f', isLegit: true, grid: [0,0,0,1,1,1,0,0, 0,0,1,1,1,1,1,0, 0,1,1,1,0,0,0,0, 1,1,1,1,1,1,0,0, 0,1,1,1,1,1,1,0, 0,0,1,1,0,1,1,0, 0,1,1,0,0,0,1,1, 1,1,0,0,0,0,0,1]}, 
+        { type: 'Wile E.', oa: 'gold', color: '#ffff00', isLegit: true, grid: [1,0,0,0,0,0,0,1, 1,1,0,0,0,0,1,1, 0,1,1,0,0,1,1,0, 0,0,1,1,1,1,0,0, 0,0,0,1,1,0,0,0, 0,0,1,1,1,1,0,0, 0,1,1,0,0,1,1,0, 1,1,0,0,0,0,1,1]}, 
+        { type: 'Tailor & Frances', oa: 'closed', color: '#00ffff', isLegit: true, grid: [1,1,0,0,0,0,1,1, 1,1,0,0,0,0,1,1, 0,0,1,0,0,1,0,0, 0,0,0,1,1,0,0,0, 0,0,0,1,1,0,0,0, 0,0,1,0,0,1,0,0, 1,1,0,0,0,0,1,1, 1,1,0,0,0,0,1,1]}, 
+        { type: 'Community', oa: 'diamond', color: '#39ff14', isLegit: false, grid: [0,1,1,0,0,1,1,0, 0,1,1,0,0,1,1,0, 0,0,0,0,0,0,0,0, 1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1, 0,1,1,0,0,1,1,0, 0,1,1,0,0,1,1,0]}, 
+        { type: 'Predatory', oa: 'predatory', color: '#ff0000', isLegit: false, grid: [0,0,0,1,1,0,0,0, 0,0,1,1,1,1,0,0, 0,1,1,0,0,0,0,0, 0,0,1,1,1,0,0,0, 0,0,0,0,1,1,0,0, 0,0,0,0,0,1,1,0, 0,1,1,1,1,1,0,0, 0,0,0,1,1,0,0,0]}  
     ];
 
     function getLogoDataURL(archetype) {
@@ -592,21 +569,6 @@
         ctx.fillStyle = archetype.color;
         for(let i=0; i<64; i++) { if(archetype.grid[i] === 1) ctx.fillRect(i%8, Math.floor(i/8), 1, 1); }
         return canvas.toDataURL('image/png'); 
-    }
-
-    function getRealisticAPC(IF, isPredatory, isDiamond) {
-        if (isDiamond) return 0;
-        if (isPredatory) {
-            const predTiers = [800, 950, 1000, 1250]; 
-            return predTiers[Math.floor(Math.random() * predTiers.length)];
-        }
-        let possibleTiers = [];
-        if (IF > 15) possibleTiers = [10000, 12000, 18000];
-        else if (IF > 10) possibleTiers = [6000, 8000, 10000];
-        else if (IF > 5) possibleTiers = [2500, 4500, 5000, 6000];
-        else possibleTiers = [450, 800, 1000, 1250, 1500];
-        
-        return possibleTiers[Math.floor(Math.random() * possibleTiers.length)];
     }
 
     function generateJournal() {
@@ -619,28 +581,153 @@
 
         if (arch.type === 'Predatory') {
             IF = parseFloat((Math.random() * 10 + 15).toFixed(1)); 
-            APC = getRealisticAPC(IF, true, false);
-            reviewMonths = 0.5; displayTime = "0.5 Months";
+            APC = [800, 950, 1000, 1250][Math.floor(Math.random() * 4)];
+            reviewMonths = 0.5; displayTime = "0.5 Mo.";
             accRate = 100; displayAccRate = "100%"; 
         } else {
-            APC = arch.oa === 'closed' ? 0 : getRealisticAPC(IF, false, arch.oa === 'diamond');
+            if(arch.oa === 'closed' || arch.oa === 'diamond') APC = 0;
+            else {
+                if (IF > 15) APC = [10000, 12000, 18000][Math.floor(Math.random() * 3)];
+                else if (IF > 10) APC = [6000, 8000, 10000][Math.floor(Math.random() * 3)];
+                else if (IF > 5) APC = [2500, 4500, 5000, 6000][Math.floor(Math.random() * 4)];
+                else APC = [450, 800, 1000, 1250, 1500][Math.floor(Math.random() * 5)];
+            }
             reviewMonths = Math.floor(Math.random() * 4) + 1; 
-            displayTime = `${reviewMonths} Month${reviewMonths>1?'s':''}`;
+            displayTime = `${reviewMonths} Mo.`;
             let rejRate = Math.min(95, Math.floor(IF * 4 + 10 + Math.random() * 15));
             accRate = 100 - rejRate;
             if(accRate > 60) displayAccRate = "High";
-            else if(accRate > 30) displayAccRate = "Medium";
+            else if(accRate > 30) displayAccRate = "Med";
             else displayAccRate = "Low";
         }
 
         return { 
             name: getJournalName(), archetype: arch, logo: getLogoDataURL(arch), 
-            IF, APC, accRate, displayAccRate, reviewMonths, reviewTimeMs: reviewMonths * 1000, displayTime 
+            IF, APC, accRate, displayAccRate, reviewMonths, reviewTimeMs: reviewMonths * 1000, displayTime, id: Math.random().toString(36).substr(2, 9)
         };
     }
 
+    function populateJournals() {
+        const container = document.getElementById('desk-area');
+        container.innerHTML = '';
+        currentJournals = [generateJournal(), generateJournal(), generateJournal()];
+        
+        currentJournals.forEach(j => {
+            let oaColor = '#fff';
+            let oaText = j.archetype.oa.toUpperCase() + (j.archetype.oa==='closed'?' ACCESS':' OA');
+            if(j.archetype.oa === 'closed') oaColor = '#aaa';
+            if(j.archetype.oa === 'gold') oaColor = 'var(--neon-yellow)';
+            if(j.archetype.oa === 'diamond') oaColor = 'var(--neon-cyan)';
+            if(j.archetype.type === 'Predatory') { oaColor = 'var(--neon-yellow)'; oaText = "GOLD OA"; }
+
+            const div = document.createElement('div');
+            div.className = 'journal-slot';
+            div.id = `j-${j.id}`;
+            div.innerHTML = `
+                <img src="${j.logo}" class="j-logo" style="border-color:${j.archetype.color}">
+                <div class="j-info">
+                    <div class="j-pub" style="color:${j.archetype.color}">${j.archetype.type} <span style="color:${oaColor}; border:1px solid; padding:1px 4px; border-radius:3px; font-size:10px;">${oaText}</span></div>
+                    <div class="j-title">${j.name}</div>
+                    <div class="j-stats">
+                        <span class="j-stat-item">IF: ${j.IF}</span>
+                        <span class="j-stat-item" style="color:${j.displayAccRate==='100%'?'var(--neon-pink)':'var(--neon-cyan)'}">Acc: ${j.displayAccRate}</span>
+                        <span class="j-stat-item">APC: $${j.APC}</span>
+                        <span class="j-stat-item">⏱ ${j.displayTime}</span>
+                    </div>
+                </div>
+            `;
+            container.appendChild(div);
+        });
+    }
+
     /* =========================================
-       CORE GAMEPLAY
+       DRAG AND DROP LOGIC (3 Journals)
+       ========================================= */
+    function setupDragAndDrop() {
+        const ms = document.getElementById('ms-draggable');
+        let startX, startY, initX, initY, isDragging = false;
+        
+        const dragStart = (e) => {
+            if(state !== 'PLAYING') return;
+            isDragging = true;
+            ms.classList.add('dragging');
+            let clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+            let clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+            
+            // Get current absolute position
+            const rect = ms.getBoundingClientRect();
+            initX = rect.left;
+            initY = rect.top;
+            startX = clientX;
+            startY = clientY;
+            
+            // Switch to fixed to drag freely over the screen
+            ms.style.position = 'fixed';
+            ms.style.left = initX + 'px';
+            ms.style.top = initY + 'px';
+        };
+
+        const dragMove = (e) => {
+            if(!isDragging || state !== 'PLAYING') return;
+            e.preventDefault(); // Stop scrolling
+            let clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+            let clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+            
+            let dx = clientX - startX;
+            let dy = clientY - startY;
+            
+            ms.style.transform = `translate(${dx}px, ${dy}px) scale(1.05) rotate(${dx*0.05}deg)`;
+            
+            // Highlight overlaps
+            const msRect = ms.getBoundingClientRect();
+            currentJournals.forEach(j => {
+                const el = document.getElementById(`j-${j.id}`);
+                const jRect = el.getBoundingClientRect();
+                if(isColliding(msRect, jRect)) el.classList.add('drag-over');
+                else el.classList.remove('drag-over');
+            });
+        };
+
+        const dragEnd = (e) => {
+            if(!isDragging || state !== 'PLAYING') return;
+            isDragging = false;
+            ms.classList.remove('dragging');
+            
+            const msRect = ms.getBoundingClientRect();
+            let droppedJournal = null;
+            
+            currentJournals.forEach(j => {
+                const el = document.getElementById(`j-${j.id}`);
+                el.classList.remove('drag-over');
+                const jRect = el.getBoundingClientRect();
+                if(isColliding(msRect, jRect)) droppedJournal = j;
+            });
+
+            // Reset MS position visually
+            ms.style.position = 'absolute';
+            ms.style.left = '';
+            ms.style.top = '';
+            ms.style.transform = 'none';
+
+            if(droppedJournal) {
+                handleSubmission(droppedJournal);
+            }
+        };
+
+        ms.addEventListener('mousedown', dragStart);
+        ms.addEventListener('touchstart', dragStart, {passive: false});
+        document.addEventListener('mousemove', dragMove, {passive: false});
+        document.addEventListener('touchmove', dragMove, {passive: false});
+        document.addEventListener('mouseup', dragEnd);
+        document.addEventListener('touchend', dragEnd);
+    }
+
+    function isColliding(r1, r2) {
+        return !(r1.right < r2.left || r1.left > r2.right || r1.bottom < r2.top || r1.top > r2.bottom);
+    }
+
+    /* =========================================
+       CORE GAMEPLAY LOGIC
        ========================================= */
     function startGame() {
         ticks = 0; papers = 0; totalApc = 0; paperData = []; activeTemplates = []; availableMs = [];
@@ -651,6 +738,7 @@
         document.getElementById('pb-3').className = "paper-box";
         
         getNextManuscript(); 
+        populateJournals();
         
         updateHeader();
         showScreen('screen-game');
@@ -658,13 +746,12 @@
         
         clearInterval(gameTimer);
         gameTimer = setInterval(gameLoop, 100);
-        spawnCard();
     }
 
     function updateHeader() {
         let pct = (ticks / (MAX_YEARS * TICKS_PER_YEAR)) * 100;
         document.getElementById('time-bar').style.width = `${pct}%`;
-        document.getElementById('current-manuscript').innerText = `"${currentMsTitle}"`;
+        document.getElementById('ui-year-text').innerText = `Year ${(ticks / TICKS_PER_YEAR).toFixed(1)}`;
 
         let years = (ticks / TICKS_PER_YEAR).toFixed(1);
         if (years >= WARNING_YEAR && !document.getElementById('time-container').classList.contains('time-warning')) {
@@ -679,124 +766,31 @@
         updateHeader();
     }
 
-    let startX = 0, currentX = 0, isDragging = false, cardEl = null;
-
-    function spawnCard() {
-        const container = document.getElementById('swipe-container');
-        container.querySelectorAll('.card').forEach(c => c.remove());
-        
-        currentCard = generateJournal();
-        cardEl = document.createElement('div');
-        cardEl.className = 'card';
-        
-        let oaColor = '#fff';
-        let oaText = currentCard.archetype.oa.toUpperCase() + (currentCard.archetype.oa==='closed'?' ACCESS':' OA');
-        if(currentCard.archetype.oa === 'closed') oaColor = '#aaa';
-        if(currentCard.archetype.oa === 'gold') oaColor = 'var(--neon-yellow)';
-        if(currentCard.archetype.oa === 'diamond') oaColor = 'var(--neon-cyan)';
-        if(currentCard.archetype.type === 'Predatory') { oaColor = 'var(--neon-yellow)'; oaText = "GOLD OA"; }
-
-        cardEl.innerHTML = `
-            <div class="stamp stamp-reject" id="stamp-rej">SKIP</div>
-            <div class="stamp stamp-submit" id="stamp-sub">SUBMIT</div>
-            <div class="publisher-header">
-                <img src="${currentCard.logo}" class="journal-logo" style="border-color:${currentCard.archetype.color}">
-                <div class="publisher-name" style="color:${currentCard.archetype.color}">${currentCard.archetype.type}</div>
-            </div>
-            <div class="journal-title">${currentCard.name}</div>
-            <div class="journal-oa" style="color:${oaColor}; border-color:${oaColor};">${oaText}</div>
-            <div class="stat-grid">
-                <div class="stat-box"><div class="stat-val">${currentCard.IF}</div><div class="stat-label">Impact Factor</div></div>
-                <div class="stat-box"><div class="stat-val" style="color:${currentCard.displayAccRate==='100%'?'var(--neon-pink)':'var(--neon-cyan)'}">${currentCard.displayAccRate}</div><div class="stat-label">Accept. Rate</div></div>
-                <div class="stat-box"><div class="stat-val">$${currentCard.APC}</div><div class="stat-label">APC</div></div>
-                <div class="stat-box"><div class="stat-val">${currentCard.displayTime}</div><div class="stat-label">Review Time</div></div>
-            </div>
-        `;
-
-        cardEl.addEventListener('mousedown', dragStart);
-        cardEl.addEventListener('touchstart', dragStart, {passive: true});
-        document.addEventListener('mousemove', dragMove);
-        document.addEventListener('touchmove', dragMove, {passive: false});
-        document.addEventListener('mouseup', dragEnd);
-        document.addEventListener('touchend', dragEnd);
-
-        cardEl.timeShown = Date.now();
-        container.appendChild(cardEl);
-    }
-
-    function dragStart(e) {
-        if (state !== 'PLAYING') return;
-        isDragging = true;
-        startX = e.type.includes('mouse') ? e.pageX : e.touches[0].pageX;
-        cardEl.classList.add('dragging');
-    }
-
-    function dragMove(e) {
-        if (!isDragging || state !== 'PLAYING') return;
-        e.preventDefault(); 
-        let x = e.type.includes('mouse') ? e.pageX : e.touches[0].pageX;
-        currentX = x - startX;
-        cardEl.style.transform = `translateX(${currentX}px) rotate(${currentX * 0.05}deg)`;
-        
-        const op = Math.min(Math.abs(currentX) / 100, 1);
-        document.getElementById('stamp-rej').style.opacity = currentX < 0 ? op : 0;
-        document.getElementById('stamp-sub').style.opacity = currentX > 0 ? op : 0;
-    }
-
-    function dragEnd() {
-        if (!isDragging || state !== 'PLAYING') return;
-        isDragging = false;
-        cardEl.classList.remove('dragging');
-        
-        const threshold = 100;
-        if (currentX > threshold) handleDecision('RIGHT');
-        else if (currentX < -threshold) handleDecision('LEFT');
-        else {
-            cardEl.style.transform = `translateX(0) rotate(0)`; 
-            document.getElementById('stamp-rej').style.opacity = 0;
-            document.getElementById('stamp-sub').style.opacity = 0;
-        }
-        currentX = 0;
-    }
-
-    document.addEventListener('keydown', (e) => {
-        if (state !== 'PLAYING') return;
-        if (e.key === 'ArrowLeft') handleDecision('LEFT');
-        if (e.key === 'ArrowRight') handleDecision('RIGHT');
-    });
-
-    function handleDecision(dir) {
-        const rt = Date.now() - cardEl.timeShown;
+    function handleSubmission(journal) {
+        activeJournal = journal;
         
         sendSupabaseTrial({
             session_id: sessionId, player_name: playerName, academic_status: playerStatus, paid_apc_before: playerAPCExp,
-            journal_publisher: currentCard.archetype.type, journal_name: currentCard.name, manuscript_title: currentMsTitle,
-            impact_factor: currentCard.IF, apc_cost: currentCard.APC, decision_made: dir, 
-            reaction_time_ms: rt, current_in_game_year: parseFloat((ticks / TICKS_PER_YEAR).toFixed(2))
+            journal_publisher: activeJournal.archetype.type, journal_name: activeJournal.name, manuscript_title: currentMsTitle,
+            impact_factor: activeJournal.IF, apc_cost: activeJournal.APC, decision_made: 'SUBMIT', 
+            current_in_game_year: parseFloat((ticks / TICKS_PER_YEAR).toFixed(2))
         });
 
-        cardEl.style.transition = 'transform 0.3s ease-out';
-        cardEl.style.transform = `translateX(${dir==='RIGHT'?500:-500}px) rotate(${dir==='RIGHT'?30:-30}deg)`;
-
-        if (dir === 'LEFT') {
-            playSfx('swipe-left');
-            setTimeout(spawnCard, 300); 
-        } else {
-            if (currentCard.archetype.type === 'Predatory') playSfx('warning');
-            else playSfx('swipe-right');
-            triggerReviewPhase();
-        }
+        if (activeJournal.archetype.type === 'Predatory') playSfx('warning');
+        else playSfx('submit');
+        
+        triggerReviewPhase(true);
     }
 
-    function triggerReviewPhase() {
+    function triggerReviewPhase(allowDeskReject) {
         state = 'REVIEWING';
         document.getElementById('review-overlay').style.display = 'flex';
         
-        let rTime = currentCard.reviewTimeMs; 
+        let rTime = activeJournal.reviewTimeMs; 
         let timeLeft = rTime;
         let isDeskReject = false;
 
-        if (currentCard.archetype.type !== 'Predatory' && Math.random() < 0.10) {
+        if (allowDeskReject && activeJournal.archetype.type !== 'Predatory' && Math.random() < 0.10) {
             isDeskReject = true; timeLeft = 500; 
         }
 
@@ -810,7 +804,7 @@
                 if (isDeskReject) {
                     showToast(`DESK REJECTED!<br><span style="font-size:16px; color:#aaa;">"${getComment('desk')}"</span>`, true);
                     playSfx('reject');
-                    if (papers < 3) { state = 'PLAYING'; spawnCard(); } 
+                    if (papers < 3) { state = 'PLAYING'; populateJournals(); } 
                 } else {
                     resolveReview();
                 }
@@ -821,14 +815,14 @@
     }
 
     function resolveReview() {
-        let isAccepted = (Math.random() * 100) < currentCard.accRate;
+        let isAccepted = (Math.random() * 100) < activeJournal.accRate;
 
         if (isAccepted) {
-            totalApc += currentCard.APC;
-            currentCard.msTitle = currentMsTitle;
-            paperData.push(currentCard); 
+            activeJournal.msTitle = currentMsTitle;
+            paperData.push(activeJournal); 
+            totalApc += activeJournal.APC;
             
-            if (currentCard.archetype.type === 'Predatory') {
+            if (activeJournal.archetype.type === 'Predatory') {
                 showToast(`ACCEPTED!<br><span style="font-size:16px; color:#aaa;">But it's Predatory... DOES NOT COUNT!</span>`, true);
                 playSfx('reject'); 
                 getNextManuscript(); 
@@ -839,17 +833,44 @@
                 playSfx('accept');
                 getNextManuscript(); 
             }
-        } else {
-            showToast(`REJECTED BY REVIEWER #2!<br><span style="font-size:16px; color:#aaa;">"${getComment('reject')}"</span>`, true);
-            playSfx('reject');
-        }
+            
+            if (papers >= 3) {
+                state = 'END'; 
+                setTimeout(() => endGame(true), 500);
+            } else {
+                state = 'PLAYING';
+                populateJournals();
+            }
 
-        if (papers >= 3) {
-            state = 'END'; 
-            setTimeout(() => endGame(true), 500);
         } else {
-            state = 'PLAYING';
-            setTimeout(spawnCard, 500); 
+            playSfx('reject');
+            
+            // Check for Cascade
+            if(activeJournal.archetype.isLegit && Math.random() < 0.5) {
+                state = 'CASCADE';
+                
+                // Generate Cascade Journal
+                cascadeOffer = { ...activeJournal };
+                cascadeOffer.name = activeJournal.archetype.type + " Reports/Open";
+                cascadeOffer.IF = parseFloat((activeJournal.IF * 0.4).toFixed(1));
+                cascadeOffer.APC += 500;
+                cascadeOffer.reviewMonths = Math.max(1, activeJournal.reviewMonths - 1);
+                cascadeOffer.reviewTimeMs = cascadeOffer.reviewMonths * 1000;
+                cascadeOffer.accRate = Math.min(95, activeJournal.accRate + 30);
+                
+                document.getElementById('cascade-details').innerHTML = `
+                    <b>${cascadeOffer.name}</b><br>
+                    IF: ${cascadeOffer.IF} | APC: $${cascadeOffer.APC}<br>
+                    Est. Time: ${cascadeOffer.reviewMonths} Mo.
+                `;
+                
+                setTimeout(() => document.getElementById('cascade-overlay').style.display = 'flex', 500); // slight delay after reject toast
+                showToast(`REJECTED!<br><span style="font-size:16px; color:#aaa;">"${getComment('reject')}"</span>`, true);
+            } else {
+                showToast(`REJECTED BY REVIEWER #2!<br><span style="font-size:16px; color:#aaa;">"${getComment('reject')}"</span>`, true);
+                state = 'PLAYING';
+                populateJournals(); // Start over
+            }
         }
     }
 
@@ -894,10 +915,7 @@
         } else {
             showScreen('screen-loading');
             let dots = 0;
-            let dotInt = setInterval(() => {
-                dots = (dots+1)%4; document.getElementById('loading-dots').innerText = '.'.repeat(dots);
-            }, 500);
-
+            let dotInt = setInterval(() => { dots = (dots+1)%4; document.getElementById('loading-dots').innerText = '.'.repeat(dots); }, 500);
             setTimeout(() => { clearInterval(dotInt); computeFinalScore(); }, 3000); 
         }
     }
