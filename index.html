@@ -15,11 +15,12 @@
             --neon-cyan: #00ffff;
             --neon-yellow: #ffff00;
             --white: #fff;
+            --sans: 'Segoe UI', Calibri, Helvetica, Arial, sans-serif;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'VT323', monospace; user-select: none; touch-action: none; }
         body { background-color: var(--bg); color: var(--white); overflow: hidden; display: flex; justify-content: center; align-items: center; height: 100vh; text-shadow: 1px 1px 0 #000; }
         
-        #app { width: 100%; max-width: 450px; height: 100vh; position: relative; background: var(--bg); border-left: 4px solid var(--neon-cyan); border-right: 4px solid var(--neon-cyan); display: flex; flex-direction: column; overflow: hidden; }
+        #app { width: 100%; max-width: 480px; height: 100vh; position: relative; background: var(--bg); border-left: 4px solid var(--neon-cyan); border-right: 4px solid var(--neon-cyan); display: flex; flex-direction: column; overflow: hidden; }
         
         .screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); display: none; flex-direction: column; padding: 20px; z-index: 10; overflow-y: auto;}
         .screen.active { display: flex; }
@@ -40,64 +41,68 @@
         
         .btn-pink { color: var(--neon-pink) !important; border-color: var(--neon-pink) !important; }
         .btn-cyan { color: var(--neon-cyan) !important; border-color: var(--neon-cyan) !important; }
-        .btn-yellow { color: var(--neon-yellow) !important; border-color: var(--neon-yellow) !important; }
         
         /* Game Header */
         #game-header { padding: 15px; background: #000; border-bottom: 4px solid var(--neon-pink); z-index: 5; display: flex; flex-direction: column; align-items: center; }
         .boxes-container { display: flex; gap: 15px; margin-bottom: 10px; }
-        .paper-box { width: 30px; height: 30px; border: 3px solid var(--neon-cyan); background: #000; transition: background 0.3s; }
+        .paper-box { width: 35px; height: 35px; border: 3px solid var(--neon-cyan); background: #000; transition: background 0.3s; }
         .paper-box.filled { background: var(--neon-green); border-color: var(--neon-green); box-shadow: 0 0 10px var(--neon-green); }
 
-        .time-bar-container { width: 100%; height: 20px; background: #222; border: 2px solid #555; position: relative; overflow: hidden; margin-bottom: 5px;}
+        .time-bar-container { width: 100%; height: 24px; background: #222; border: 2px solid #555; position: relative; overflow: hidden; margin-bottom: 5px;}
         .time-bar-fill { height: 100%; background: var(--neon-pink); width: 0%; transition: width 0.1s linear; }
-        .time-marker-3yr { position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; background: #fff; z-index: 2; }
+        .time-marker-3yr { position: absolute; left: 50%; top: 0; bottom: 0; width: 3px; background: #fff; z-index: 2; }
         .time-warning { animation: flashTime 0.5s infinite alternate; }
         @keyframes flashTime { from { border-color: #555; } to { border-color: #ff0000; box-shadow: 0 0 15px #ff0000; } }
 
         /* Desk / Journals Area */
-        #desk-area { flex: 1; display: flex; flex-direction: column; padding: 10px; gap: 10px; overflow-y: auto; background: #111; position: relative; z-index: 1;}
+        #desk-area { flex: 1; display: flex; flex-direction: column; padding: 10px; gap: 12px; overflow-y: auto; background: #111; position: relative; z-index: 1;}
         
-        .journal-slot { width: 100%; background: var(--card-bg); border: 3px solid #555; border-radius: 8px; padding: 10px; display: flex; align-items: center; gap: 10px; transition: all 0.2s; position: relative; }
-        .journal-slot.drag-over { border-color: var(--neon-green); background: #1a3320; box-shadow: 0 0 15px var(--neon-green); transform: scale(1.02); }
+        .journal-slot { width: 100%; background: var(--card-bg); border: 3px solid #555; border-radius: 8px; padding: 12px; display: flex; align-items: center; gap: 12px; transition: all 0.2s; position: relative; font-family: var(--sans); }
+        .journal-slot.drag-over { border-color: var(--neon-green); background: #1a3320; box-shadow: 0 0 15px var(--neon-green); transform: scale(1.02); z-index: 10;}
         
-        .j-logo { width: 45px; height: 45px; image-rendering: pixelated; border: 2px solid #fff; background: #000; flex-shrink: 0; }
-        .j-info { flex: 1; display: flex; flex-direction: column; }
-        .j-title { font-size: 18px; color: var(--neon-yellow); font-weight: bold; line-height: 1.1; margin-bottom: 4px; }
-        .j-pub { font-size: 14px; color: #aaa; text-transform: uppercase; margin-bottom: 4px; }
-        .j-stats { display: flex; gap: 10px; font-size: 14px; color: var(--neon-cyan); }
-        .j-stat-item { background: #000; padding: 2px 6px; border: 1px solid #555; border-radius: 4px; }
+        .j-logo { width: 50px; height: 50px; border-radius: 8px; flex-shrink: 0; display: flex; justify-content: center; align-items: center; }
+        .j-logo svg { width: 35px; height: 35px; fill: none; stroke: var(--bg); stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
+        
+        .j-info { flex: 1; display: flex; flex-direction: column; font-family: var(--sans); }
+        .j-pub { font-size: 13px; color: #aaa; text-transform: uppercase; margin-bottom: 2px; font-weight: bold; font-family: var(--sans);}
+        .j-title { font-size: 20px; color: var(--neon-yellow); font-weight: bold; line-height: 1.1; margin-bottom: 6px; text-shadow: none; font-family: var(--sans);}
+        
+        .j-stats { display: flex; gap: 6px; flex-wrap: wrap; font-size: 14px; font-weight: bold; color: #fff; font-family: var(--sans); text-shadow: none;}
+        .j-stat-item { background: #000; padding: 3px 6px; border: 1px solid #555; border-radius: 4px; font-family: var(--sans);}
 
         /* Manuscript Draggable */
-        #manuscript-area { padding: 15px; background: var(--bg); border-top: 4px solid var(--neon-cyan); display: flex; justify-content: center; align-items: center; z-index: 20; position: relative; height: 120px; }
+        #manuscript-area { padding: 15px; background: var(--bg); border-top: 4px solid var(--neon-cyan); display: flex; justify-content: center; align-items: center; z-index: 20; position: relative; height: 140px; }
         
-        #ms-draggable { width: 90%; max-width: 300px; background: #fff; color: #000; border: 3px solid #000; padding: 10px; text-align: center; font-size: 18px; font-weight: bold; font-style: italic; box-shadow: 4px 4px 0 var(--neon-pink); cursor: grab; position: absolute; z-index: 100; user-select: none; touch-action: none; display: flex; align-items: center; justify-content: center; min-height: 70px; line-height: 1.1; }
-        #ms-draggable.dragging { cursor: grabbing; box-shadow: 10px 10px 0 rgba(255,0,127,0.5); transform: scale(1.05); }
+        #ms-draggable { width: 95%; max-width: 320px; background: #fff; color: #000; border: 3px solid #000; padding: 15px; text-align: center; font-size: 20px; font-weight: bold; box-shadow: 4px 4px 0 var(--neon-pink); cursor: grab; position: absolute; z-index: 100; display: flex; align-items: center; justify-content: center; line-height: 1.2; text-shadow: none; font-family: var(--sans); border-radius: 4px;}
+        #ms-draggable.dragging { cursor: grabbing; box-shadow: 10px 10px 0 rgba(255,0,127,0.5); transform: scale(1.05) rotate(-2deg); }
         
-        #btn-refresh-journals { position: absolute; bottom: 130px; right: 10px; font-size: 14px; padding: 8px; z-index: 5; }
+        #btn-refresh-journals { position: absolute; bottom: 155px; right: 10px; font-size: 16px; padding: 8px 12px; z-index: 5; background: #000; border: 2px solid var(--neon-pink); color: var(--neon-pink); border-radius: 6px; font-weight: bold; cursor: pointer; box-shadow: 2px 2px 0 var(--neon-pink); }
+        #btn-refresh-journals:active { transform: translate(2px, 2px); box-shadow: none; }
 
         /* Overlays */
         .overlay-modal { position: absolute; top:0;left:0;width:100%;height:100%; background:rgba(0,0,0,0.9); z-index: 50; display: none; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; }
         .pixel-spinner { width: 40px; height: 40px; background: var(--neon-cyan); animation: spin 1s step-end infinite; margin-bottom: 20px; }
         @keyframes spin { 0% { transform: rotate(0deg); } 25% { transform: rotate(90deg); } 50% { transform: rotate(180deg); } 75% { transform: rotate(270deg); } }
 
-        #toast-container { position: absolute; top: 150px; left: 0; width: 100%; display: flex; flex-direction: column; align-items: center; z-index: 60; pointer-events: none; }
-        .toast { background: #000; border: 2px solid; color: white; padding: 15px; font-size: 18px; margin-bottom: 10px; opacity: 0; transform: translateY(-20px); transition: all 0.2s; box-shadow: 4px 4px 0 #000; text-align: center; white-space: pre-line; line-height: 1.2; width: 90%;}
+        /* Modified Toast container - Above manuscript */
+        #toast-container { position: absolute; bottom: 150px; left: 50%; transform: translateX(-50%); width: 95%; max-width: 400px; display: flex; flex-direction: column; align-items: center; z-index: 60; pointer-events: none; }
+        .toast { background: #000; border: 3px solid; color: white; padding: 15px; font-size: 20px; margin-bottom: 10px; opacity: 0; transform: translateY(20px); transition: all 0.2s; box-shadow: 4px 4px 0 #000; text-align: center; white-space: pre-line; line-height: 1.2; width: 100%; pointer-events: auto; cursor: pointer; font-family: var(--sans); text-shadow: none; border-radius: 8px;}
         .toast.show { opacity: 1; transform: translateY(0); }
 
-        .cascade-box { background: #111; border: 3px dashed var(--neon-yellow); padding: 15px; margin: 15px 0; color: var(--white); text-align: left; font-size: 16px; width: 100%; max-width: 350px;}
+        .cascade-box { background: #111; border: 3px dashed var(--neon-yellow); padding: 15px; margin: 15px 0; color: var(--white); text-align: left; font-size: 18px; width: 100%; max-width: 350px; font-family: var(--sans); text-shadow: none;}
         
         /* Certificate */
-        .cert-box { background: #fdfbf7; color: #2c3e50; padding: 15px; border: 4px solid #2c3e50; outline: 2px solid #e94560; outline-offset: -8px; margin-bottom: 10px; width: 100%; box-shadow: 6px 6px 0 #000; text-shadow: none; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; flex-direction: column; align-items: center; max-height: 60vh; overflow-y: auto;}
-        .cert-header { font-size: 22px; font-weight: bold; text-align: center; margin-bottom: 5px; color: #2c3e50; font-family: 'VT323', monospace; text-transform: uppercase; }
-        .cert-sub { font-size: 16px; text-align: center; margin-bottom: 10px; font-style: italic; }
-        .cert-time { font-size: 22px; font-weight: bold; color: #e74c3c; margin-bottom: 10px; text-align: center; background: #fadbd8; padding: 5px 15px; border-radius: 5px; border: 2px solid #e74c3c; }
+        .cert-box { background: #fdfbf7; color: #2c3e50; padding: 15px; border: 4px solid #2c3e50; outline: 2px solid #e94560; outline-offset: -8px; margin-bottom: 10px; width: 100%; box-shadow: 6px 6px 0 #000; text-shadow: none; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; flex-direction: column; align-items: center; max-height: 65vh; overflow-y: auto;}
+        .cert-header { font-size: 26px; font-weight: bold; text-align: center; margin-bottom: 5px; color: #2c3e50; font-family: 'VT323', monospace; text-transform: uppercase; }
+        .cert-sub { font-size: 18px; text-align: center; margin-bottom: 15px; font-style: italic; }
+        .cert-time { font-size: 24px; font-weight: bold; color: #e74c3c; margin-bottom: 15px; text-align: center; background: #fadbd8; padding: 5px 15px; border-radius: 5px; border: 2px solid #e74c3c; }
         .cert-papers { width: 100%; margin-bottom: 10px; text-align: left; border-top: 2px solid #ccc; padding-top: 10px; }
-        .cert-paper-item { margin-bottom: 8px; font-size: 13px; line-height: 1.2; }
-        .cert-paper-title { font-weight: bold; }
+        .cert-paper-item { margin-bottom: 12px; font-size: 15px; line-height: 1.3; }
+        .cert-paper-title { font-weight: bold; font-size: 16px; }
         .cert-paper-journal { font-style: italic; color: #555; }
-        .cert-footer { width: 100%; font-size: 12px; color: #7f8c8d; text-align: center; border-top: 1px solid #ccc; padding-top: 10px; }
+        .cert-footer { width: 100%; font-size: 14px; color: #7f8c8d; text-align: center; border-top: 1px solid #ccc; padding-top: 10px; }
 
-        .social-btn { display: inline-block; padding: 8px 12px; margin: 3px; border-radius: 5px; color: white; text-decoration: none; font-size: 16px; text-shadow: none; box-shadow: 2px 2px 0 #000; border: 2px solid #000; }
+        .social-btn { display: inline-block; padding: 8px 12px; margin: 3px; border-radius: 5px; color: white; text-decoration: none; font-size: 18px; text-shadow: none; box-shadow: 2px 2px 0 #000; border: 2px solid #000; }
         .bg-bsky { background: #0085ff; } .bg-x { background: #333; } .bg-masto { background: #2b90d9; }
     </style>
 </head>
@@ -138,7 +143,7 @@
         <h2 id="tut-greeting" style="color: var(--neon-yellow); line-height: 1.2;"></h2>
         <p style="margin-top: 10px;">Goal: Publish 3 papers to graduate.</p>
         <p>👉 <b>Drag & Drop:</b> Drag your manuscript onto one of the 3 journal options.</p>
-        <p>⏰ <b>Time limits:</b> 20 real seconds = 1 PhD Year. Max 6 years. Over 3 years = Stress!</p>
+        <p>⏰ <b>Time limits:</b> 40 real seconds = 1 PhD Year. Max 6 years. Over 3 years = Stress!</p>
         <p>🔄 <b>Cascades:</b> If rejected by a big publisher, they might offer a fast transfer to a lower-tier journal.</p>
         <p style="color: var(--neon-pink);">⚠️ <b>Predatory Journals:</b> Fast review & 100% acceptance, but they <b>DO NOT COUNT</b> towards your papers!</p>
         <button id="btn-tut-start" class="action-btn btn-cyan" style="margin-top: auto;">Start Publishing</button>
@@ -172,17 +177,19 @@
                 <div class="time-bar-fill" id="time-bar"></div>
                 <div class="time-marker-3yr"></div>
             </div>
-            <div style="font-size: 14px; color: #aaa; margin-top: 5px;" id="ui-year-text">Year 0.0</div>
+            <div style="font-size: 18px; color: #aaa; margin-top: 5px;" id="ui-year-text">Year 0.0</div>
         </div>
 
-        <div id="toast-container"></div>
-
+        <!-- Desk Area (Journals) -->
         <div id="desk-area">
             <!-- Journals injected here -->
         </div>
         
-        <button id="btn-refresh-journals" class="action-btn btn-pink" style="width: auto; position: absolute; bottom: 135px; right: 10px; padding: 5px 10px; font-size: 16px;">↻ Skip All (1 Mo.)</button>
+        <button id="btn-refresh-journals">↻ Skip All (1 Mo.)</button>
 
+        <div id="toast-container"></div>
+
+        <!-- Manuscript Drag Area -->
         <div id="manuscript-area">
             <div id="ms-draggable">"Manuscript Title"</div>
         </div>
@@ -191,7 +198,7 @@
         <div id="review-overlay" class="overlay-modal">
             <div class="pixel-spinner"></div>
             <h2 id="review-text" style="color: var(--neon-yellow);">UNDER REVIEW</h2>
-            <p style="font-size: 35px; color: var(--neon-cyan); margin: 10px 0;" id="review-timer">0.0s</p>
+            <p style="font-size: 40px; color: var(--neon-cyan); margin: 10px 0;" id="review-timer">0.0s</p>
         </div>
 
         <!-- Cascade Modal -->
@@ -219,15 +226,15 @@
             <div class="cert-sub">
                 <strong>Dr. <span id="end-name"></span></strong><br>
                 Field: <span id="end-field"></span><br>
-                <span style="font-size: 13px; color: #e74c3c; font-weight:bold;">Profile: <span id="end-profile"></span></span>
+                <span style="font-size: 15px; color: #e74c3c; font-weight:bold;">Profile: <span id="end-profile"></span></span>
             </div>
             <div class="cert-time" id="end-time-display">Time: 0 Yrs, 0 Mos</div>
             <div class="cert-papers" id="end-papers-list"></div>
             <div class="cert-footer" id="end-footer-notes"></div>
         </div>
 
-        <button id="btn-cert" class="action-btn">Download Certificate</button>
-        <button id="btn-replay" class="action-btn btn-cyan">Play Again</button>
+        <button id="btn-cert" class="action-btn" style="margin-bottom: 10px;">Download Certificate</button>
+        <button id="btn-replay" class="action-btn btn-cyan" style="margin-bottom: 10px;">Play Again</button>
         <button id="btn-end-about" class="action-btn btn-pink" style="margin-bottom: 5px;">About This Reality</button>
         
         <div style="text-align: center; margin-top: 10px;" id="share-container">
@@ -238,8 +245,7 @@
     </div>
 </div>
 
-<!-- Hidden Canvases -->
-<canvas id="logo-canvas" width="8" height="8" style="display:none;"></canvas>
+<!-- Hidden Canvas for Certificate Generation -->
 <canvas id="cert-canvas" width="800" height="800" style="display:none;"></canvas>
 
 <script>
@@ -270,7 +276,7 @@
     let playerStatus = "";
     let playerAPCExp = "";
     
-    const TICKS_PER_YEAR = 200; 
+    const TICKS_PER_YEAR = 400; // 40s = 1 Year (double time)
     const MAX_YEARS = 6;
     const WARNING_YEAR = 3;
 
@@ -299,7 +305,7 @@
     function getNextManuscript() {
         if(availableMs.length === 0) availableMs = [...msTemplates].sort(() => Math.random() - 0.5);
         currentMsTitle = availableMs.pop().replace(/{field}/g, playerField);
-        document.getElementById('ms-draggable').innerText = `"${currentMsTitle}"`;
+        document.getElementById('ms-draggable').innerText = currentMsTitle;
         return currentMsTitle;
     }
 
@@ -311,10 +317,10 @@
     ];
 
     const rejectCommentsPool = [
-        "I tried to like it but I couldn't.", "This was obviously written by a first-year PhD student.", "The authors failed to cite my 2012 paper.",
+        "I tried to like it but I couldn't.", "Obviously written by a first-year PhD student.", "Failed to cite my 2012 paper.",
         "Fundamentally flawed methodology.", "Not novel enough.", "Reviewer #2 simply said: 'No.'",
         "The sample size is laughably small.", "I fell asleep reading the abstract.", "This has already been done in 1985.",
-        "The figures look like they were made in MS Paint.", "A waste of my time.", "Methodological disaster."
+        "The figures look like MS Paint.", "A waste of my time.", "Methodological disaster."
     ];
 
     function getComment(type) {
@@ -331,12 +337,11 @@
     let musicTimeout = null;
     let seqStep = 0;
     
-    // Cheerful, bouncy chords (Cmaj7, Am7, Fmaj7, G7)
+    // Cheerful, bouncy chords
     const Cmaj7 = [130.81, 261.63, 329.63, 392.00];
     const Am7   = [110.00, 220.00, 261.63, 329.63];
     const Fmaj7 = [87.31,  174.61, 261.63, 329.63];
     const G7    = [98.00,  196.00, 246.94, 349.23];
-    
     const chordsA = [Cmaj7, Am7, Fmaj7, G7];
 
     function initAudio() {
@@ -382,7 +387,7 @@
             osc.connect(gain); gain.connect(audioCtx.destination);
             gain.gain.setValueAtTime(0, audioCtx.currentTime);
             gain.gain.linearRampToValueAtTime(i === 0 ? 0.05 : 0.02, audioCtx.currentTime + 0.05);
-            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4); // Staccato
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4); 
             osc.start(); osc.stop(audioCtx.currentTime + 0.4);
         });
     }
@@ -421,25 +426,21 @@
     function musicLoop() {
         if(isMuted || state === 'MENU' || state === 'END') { musicTimeout = setTimeout(musicLoop, 200); return; }
 
-        let stepDuration = 250; // Chill 120bpm feel
-        if (ticks > 400) { stepDuration = Math.max(120, 250 - (ticks - 400) * 0.2); } // Speed up over time
+        let stepDuration = 250; 
+        if (ticks > 1200) { stepDuration = Math.max(150, 250 - (ticks - 1200) * 0.1); } // Speed up later (since max is 2400)
         
         let subStep = seqStep % 16;
         let measure = Math.floor(seqStep / 16) % 4; 
         let currentChord = chordsA[measure];
 
-        // Bouncy Drums
         if (subStep === 0 || subStep === 10) playKick();
         if (subStep % 2 === 0) playHat();
         
-        // Syncopated Bass (Root & Fifth)
         if (subStep === 0 || subStep === 8) playTone(currentChord[0] / 2, 'triangle', 0.2, 0.15);
         if (subStep === 4 || subStep === 12) playTone(currentChord[0] * 0.75, 'triangle', 0.2, 0.1);
 
-        // Off-beat Chord Stabs
         if (subStep === 4 || subStep === 10) playStab(currentChord);
 
-        // Bouncy Melody (Mario-esque Arpeggios)
         if (subStep % 2 === 0 && Math.random() > 0.4) {
             let notes = [currentChord[1]*2, currentChord[2]*2, currentChord[3]*2];
             let note = notes[Math.floor(Math.random() * notes.length)];
@@ -457,12 +458,14 @@
 
     function playWinFanfare() {
         if(isMuted || !audioCtx) return;
+        clearTimeout(musicTimeout);
         const notes = [261.63, 329.63, 392.00, 493.88, 523.25]; 
         notes.forEach((freq, i) => { setTimeout(() => { playTone(freq, 'sine', i===4 ? 2.0 : 0.3, 0.15); }, i * 120); });
     }
 
     function playLoseFanfare() {
         if(isMuted || !audioCtx) return;
+        clearTimeout(musicTimeout);
         const notes = [261.63, 233.08, 207.65, 185.00, 130.81]; 
         notes.forEach((freq, i) => { setTimeout(() => playTone(freq, 'sawtooth', i===4 ? 2.0 : 0.4, 0.05), i * 180); });
     }
@@ -501,7 +504,7 @@
         document.getElementById('btn-refresh-journals').addEventListener('click', () => {
             if(state !== 'PLAYING') return;
             playSfx('btn');
-            ticks += 16; // Cost ~1.5 months to reroll
+            ticks += 10; // Cost ~1 month to reroll
             updateHeader();
             populateJournals();
         });
@@ -517,7 +520,7 @@
             playSfx('btn');
             document.getElementById('cascade-overlay').style.display = 'none';
             state = 'PLAYING';
-            populateJournals(); // Start over with new journals, same manuscript
+            populateJournals(); 
         });
 
         setupDragAndDrop();
@@ -534,13 +537,25 @@
         toast.className = 'toast'; toast.innerHTML = msg; 
         toast.style.borderColor = isError ? 'var(--neon-pink)' : 'var(--neon-green)';
         toast.style.color = isError ? 'var(--neon-pink)' : 'var(--neon-green)';
+        
+        // Click to close early
+        toast.addEventListener('click', () => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 200);
+        });
+
         container.appendChild(toast);
         setTimeout(() => toast.classList.add('show'), 10);
-        setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 300); }, 3500); 
+        setTimeout(() => { 
+            if(toast.parentElement) {
+                toast.classList.remove('show'); 
+                setTimeout(() => toast.remove(), 200); 
+            }
+        }, 4000); 
     }
 
     /* =========================================
-       DATA GENERATION (Journals)
+       DATA GENERATION (Journals & Creative SVGs)
        ========================================= */
     const journalTemplates = [
         "Journal of {field}", "Advances in {field}", "Perspectives on {field}", "{field} Research", "Proceedings in {field}", 
@@ -553,23 +568,24 @@
         return activeTemplates.pop().replace(/{field}/g, playerField);
     }
 
-    const publisherArchetypes = [
-        { type: 'Elsevillain', oa: 'closed', color: '#555555', isLegit: true, grid: [0,0,1,1,1,1,0,0, 0,1,1,1,1,1,1,0, 1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1, 0,1,1,1,1,1,1,0, 0,0,0,1,1,0,0,0, 0,0,0,1,1,0,0,0, 0,0,1,1,1,1,0,0]}, 
-        { type: 'Sprinter', oa: 'gold', color: '#ff007f', isLegit: true, grid: [0,0,0,1,1,1,0,0, 0,0,1,1,1,1,1,0, 0,1,1,1,0,0,0,0, 1,1,1,1,1,1,0,0, 0,1,1,1,1,1,1,0, 0,0,1,1,0,1,1,0, 0,1,1,0,0,0,1,1, 1,1,0,0,0,0,0,1]}, 
-        { type: 'Wile E.', oa: 'gold', color: '#ffff00', isLegit: true, grid: [1,0,0,0,0,0,0,1, 1,1,0,0,0,0,1,1, 0,1,1,0,0,1,1,0, 0,0,1,1,1,1,0,0, 0,0,0,1,1,0,0,0, 0,0,1,1,1,1,0,0, 0,1,1,0,0,1,1,0, 1,1,0,0,0,0,1,1]}, 
-        { type: 'Tailor & Frances', oa: 'closed', color: '#00ffff', isLegit: true, grid: [1,1,0,0,0,0,1,1, 1,1,0,0,0,0,1,1, 0,0,1,0,0,1,0,0, 0,0,0,1,1,0,0,0, 0,0,0,1,1,0,0,0, 0,0,1,0,0,1,0,0, 1,1,0,0,0,0,1,1, 1,1,0,0,0,0,1,1]}, 
-        { type: 'Community', oa: 'diamond', color: '#39ff14', isLegit: false, grid: [0,1,1,0,0,1,1,0, 0,1,1,0,0,1,1,0, 0,0,0,0,0,0,0,0, 1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1, 0,1,1,0,0,1,1,0, 0,1,1,0,0,1,1,0]}, 
-        { type: 'Predatory', oa: 'predatory', color: '#ff0000', isLegit: false, grid: [0,0,0,1,1,0,0,0, 0,0,1,1,1,1,0,0, 0,1,1,0,0,0,0,0, 0,0,1,1,1,0,0,0, 0,0,0,0,1,1,0,0, 0,0,0,0,0,1,1,0, 0,1,1,1,1,1,0,0, 0,0,0,1,1,0,0,0]}  
-    ];
+    // Creative SVGs as Data URIs
+    const svgLogos = {
+        elsevillain: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50,90 Q45,50 20,20 M50,90 Q55,50 80,20 M50,90 L50,40" stroke="%23555" stroke-width="8" stroke-linecap="round" fill="none"/></svg>`,
+        sprinter: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M15,20 L85,50 L15,80 Z" fill="%23ff007f"/></svg>`,
+        wile: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M20,40 L80,40 L70,80 L30,80 Z" fill="%23ffff00"/><rect x="40" y="20" width="20" height="20" fill="%23ffff00"/></svg>`,
+        tailor: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="30" cy="75" r="15" fill="none" stroke="%2300ffff" stroke-width="8"/><circle cx="70" cy="75" r="15" fill="none" stroke="%2300ffff" stroke-width="8"/><line x1="35" y1="60" x2="80" y2="10" stroke="%2300ffff" stroke-width="8" stroke-linecap="round"/><line x1="65" y1="60" x2="20" y2="10" stroke="%2300ffff" stroke-width="8" stroke-linecap="round"/></svg>`,
+        community: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="30" r="15" fill="%2339ff14"/><circle cx="25" cy="70" r="15" fill="%2339ff14"/><circle cx="75" cy="70" r="15" fill="%2339ff14"/><line x1="50" y1="45" x2="35" y2="60" stroke="%2339ff14" stroke-width="6"/><line x1="50" y1="45" x2="65" y2="60" stroke="%2339ff14" stroke-width="6"/></svg>`,
+        predatory: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M10,90 Q50,20 90,90 Z" fill="%23ff0000"/></svg>` // Shark Fin
+    };
 
-    function getLogoDataURL(archetype) {
-        const canvas = document.getElementById('logo-canvas');
-        const ctx = canvas.getContext('2d');
-        ctx.clearRect(0,0,8,8);
-        ctx.fillStyle = archetype.color;
-        for(let i=0; i<64; i++) { if(archetype.grid[i] === 1) ctx.fillRect(i%8, Math.floor(i/8), 1, 1); }
-        return canvas.toDataURL('image/png'); 
-    }
+    const publisherArchetypes = [
+        { type: 'Elsevillain', oa: 'closed', color: '#555555', isLegit: true, logo: svgLogos.elsevillain }, 
+        { type: 'Sprinter', oa: 'gold', color: '#ff007f', isLegit: true, logo: svgLogos.sprinter }, 
+        { type: 'Wile E.', oa: 'gold', color: '#ffff00', isLegit: true, logo: svgLogos.wile }, 
+        { type: 'Tailor & Frances', oa: 'closed', color: '#00ffff', isLegit: true, logo: svgLogos.tailor }, 
+        { type: 'Community', oa: 'diamond', color: '#39ff14', isLegit: true, logo: svgLogos.community }, 
+        { type: 'Predatory', oa: 'predatory', color: '#ff0000', isLegit: false, logo: svgLogos.predatory }  
+    ];
 
     function generateJournal() {
         const arch = publisherArchetypes[Math.floor(Math.random() * publisherArchetypes.length)];
@@ -583,7 +599,7 @@
             IF = parseFloat((Math.random() * 10 + 15).toFixed(1)); 
             APC = [800, 950, 1000, 1250][Math.floor(Math.random() * 4)];
             reviewMonths = 0.5; displayTime = "0.5 Mo.";
-            accRate = 100; displayAccRate = "100%"; 
+            accRate = 100; displayAccRate = "All"; 
         } else {
             if(arch.oa === 'closed' || arch.oa === 'diamond') APC = 0;
             else {
@@ -602,7 +618,7 @@
         }
 
         return { 
-            name: getJournalName(), archetype: arch, logo: getLogoDataURL(arch), 
+            name: getJournalName(), archetype: arch, logo: arch.logo, 
             IF, APC, accRate, displayAccRate, reviewMonths, reviewTimeMs: reviewMonths * 1000, displayTime, id: Math.random().toString(36).substr(2, 9)
         };
     }
@@ -624,13 +640,13 @@
             div.className = 'journal-slot';
             div.id = `j-${j.id}`;
             div.innerHTML = `
-                <img src="${j.logo}" class="j-logo" style="border-color:${j.archetype.color}">
+                <div class="j-logo" style="border-color:${j.archetype.color}"><img src="${j.logo}" style="width:100%; height:100%;"></div>
                 <div class="j-info">
                     <div class="j-pub" style="color:${j.archetype.color}">${j.archetype.type} <span style="color:${oaColor}; border:1px solid; padding:1px 4px; border-radius:3px; font-size:10px;">${oaText}</span></div>
                     <div class="j-title">${j.name}</div>
                     <div class="j-stats">
                         <span class="j-stat-item">IF: ${j.IF}</span>
-                        <span class="j-stat-item" style="color:${j.displayAccRate==='100%'?'var(--neon-pink)':'var(--neon-cyan)'}">Acc: ${j.displayAccRate}</span>
+                        <span class="j-stat-item" style="color:${j.displayAccRate==='All'?'var(--neon-pink)':'var(--neon-cyan)'}">Acc: ${j.displayAccRate}</span>
                         <span class="j-stat-item">APC: $${j.APC}</span>
                         <span class="j-stat-item">⏱ ${j.displayTime}</span>
                     </div>
@@ -654,31 +670,29 @@
             let clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
             let clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
             
-            // Get current absolute position
             const rect = ms.getBoundingClientRect();
             initX = rect.left;
             initY = rect.top;
             startX = clientX;
             startY = clientY;
             
-            // Switch to fixed to drag freely over the screen
             ms.style.position = 'fixed';
             ms.style.left = initX + 'px';
             ms.style.top = initY + 'px';
+            ms.style.width = rect.width + 'px'; // Lock width during drag
         };
 
         const dragMove = (e) => {
             if(!isDragging || state !== 'PLAYING') return;
-            e.preventDefault(); // Stop scrolling
+            e.preventDefault(); 
             let clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
             let clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
             
             let dx = clientX - startX;
             let dy = clientY - startY;
             
-            ms.style.transform = `translate(${dx}px, ${dy}px) scale(1.05) rotate(${dx*0.05}deg)`;
+            ms.style.transform = `translate(${dx}px, ${dy}px) scale(1.05) rotate(${dx*0.02}deg)`;
             
-            // Highlight overlaps
             const msRect = ms.getBoundingClientRect();
             currentJournals.forEach(j => {
                 const el = document.getElementById(`j-${j.id}`);
@@ -703,10 +717,10 @@
                 if(isColliding(msRect, jRect)) droppedJournal = j;
             });
 
-            // Reset MS position visually
             ms.style.position = 'absolute';
             ms.style.left = '';
             ms.style.top = '';
+            ms.style.width = '95%'; // Restore responsive width
             ms.style.transform = 'none';
 
             if(droppedJournal) {
@@ -723,7 +737,10 @@
     }
 
     function isColliding(r1, r2) {
-        return !(r1.right < r2.left || r1.left > r2.right || r1.bottom < r2.top || r1.top > r2.bottom);
+        // More forgiving collision (centers intersect)
+        const r1cx = r1.left + r1.width/2;
+        const r1cy = r1.top + r1.height/2;
+        return (r1cx > r2.left && r1cx < r2.right && r1cy > r2.top && r1cy < r2.bottom);
     }
 
     /* =========================================
@@ -802,7 +819,7 @@
                 document.getElementById('review-overlay').style.display = 'none';
                 
                 if (isDeskReject) {
-                    showToast(`DESK REJECTED!<br><span style="font-size:16px; color:#aaa;">"${getComment('desk')}"</span>`, true);
+                    showToast(`DESK REJECTED!<br><span style="font-size:18px; color:#aaa;">"${getComment('desk')}"</span>`, true);
                     playSfx('reject');
                     if (papers < 3) { state = 'PLAYING'; populateJournals(); } 
                 } else {
@@ -823,13 +840,13 @@
             totalApc += activeJournal.APC;
             
             if (activeJournal.archetype.type === 'Predatory') {
-                showToast(`ACCEPTED!<br><span style="font-size:16px; color:#aaa;">But it's Predatory... DOES NOT COUNT!</span>`, true);
+                showToast(`ACCEPTED!<br><span style="font-size:18px; color:#aaa;">But it's Predatory... DOES NOT COUNT!</span>`, true);
                 playSfx('reject'); 
                 getNextManuscript(); 
             } else {
                 papers++;
                 document.getElementById(`pb-${papers}`).classList.add('filled');
-                showToast(`PAPER ACCEPTED!<br><span style="font-size:16px; color:#fff;">"${getComment('accept')}"</span>`, false);
+                showToast(`PAPER ACCEPTED!<br><span style="font-size:18px; color:#fff;">"${getComment('accept')}"</span>`, false);
                 playSfx('accept');
                 getNextManuscript(); 
             }
@@ -846,10 +863,9 @@
             playSfx('reject');
             
             // Check for Cascade
-            if(activeJournal.archetype.isLegit && Math.random() < 0.5) {
+            if(activeJournal.archetype.isLegit && activeJournal.archetype.oa !== 'diamond' && Math.random() < 0.5) {
                 state = 'CASCADE';
                 
-                // Generate Cascade Journal
                 cascadeOffer = { ...activeJournal };
                 cascadeOffer.name = activeJournal.archetype.type + " Reports/Open";
                 cascadeOffer.IF = parseFloat((activeJournal.IF * 0.4).toFixed(1));
@@ -864,12 +880,12 @@
                     Est. Time: ${cascadeOffer.reviewMonths} Mo.
                 `;
                 
-                setTimeout(() => document.getElementById('cascade-overlay').style.display = 'flex', 500); // slight delay after reject toast
-                showToast(`REJECTED!<br><span style="font-size:16px; color:#aaa;">"${getComment('reject')}"</span>`, true);
+                setTimeout(() => document.getElementById('cascade-overlay').style.display = 'flex', 500); 
+                showToast(`REJECTED!<br><span style="font-size:18px; color:#aaa;">"${getComment('reject')}"</span>`, true);
             } else {
-                showToast(`REJECTED BY REVIEWER #2!<br><span style="font-size:16px; color:#aaa;">"${getComment('reject')}"</span>`, true);
+                showToast(`REJECTED BY REVIEWER #2!<br><span style="font-size:18px; color:#aaa;">"${getComment('reject')}"</span>`, true);
                 state = 'PLAYING';
-                populateJournals(); // Start over
+                populateJournals(); 
             }
         }
     }
@@ -952,7 +968,7 @@
         let papersListHTML = "";
         let validPapers = paperData.filter(p => p.archetype.type !== 'Predatory');
         validPapers.forEach((p, index) => {
-            papersListHTML += `<div class="cert-paper-item"><span class="cert-paper-title">${index+1}. "${p.msTitle}"</span><br><span class="cert-paper-journal">Published in: ${p.name} (IF: ${p.IF})</span></div>`;
+            papersListHTML += `<div class="cert-paper-item" style="font-family:var(--sans);"><span class="cert-paper-title">${index+1}. "${p.msTitle}"</span><br><span class="cert-paper-journal">Published in: ${p.name} (IF: ${p.IF})</span></div>`;
         });
         document.getElementById('end-papers-list').innerHTML = papersListHTML;
 
